@@ -1,0 +1,188 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Agency Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      AOS.init({
+        duration: 1000, // Animation duration in ms
+        once: true,     // Run animation only once
+      });
+    });
+  </script>
+
+  <!-- Custom styles for hover and animations -->
+  <style>
+    /* Hover effect for input fields */
+    input:focus, textarea:focus {
+      border-color: #4A90E2;
+      box-shadow: 0 0 5px rgba(72, 144, 226, 0.7);
+    }
+
+    /* Button hover effect */
+    button {
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #3B82F6;
+      transform: scale(1.05);
+    }
+
+    /* Success message styling */
+    .success-message {
+      color: green;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    /* Error message styling */
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    /* Floating label effect */
+    input:focus + label,
+    textarea:focus + label {
+      font-size: 12px;
+      color: #3B82F6;
+      top: -8px;
+    }
+
+    label {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Navbar -->
+  <nav class="bg-blue-600 text-white py-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="#" class="text-2xl font-bold">Your Agency</a>
+      <ul class="hidden md:flex space-x-8">
+        <li><a href="#home" class="hover:text-blue-200">Home</a></li>
+        <li><a href="#services" class="hover:text-blue-200">Services</a></li>
+        <li><a href="#portfolio" class="hover:text-blue-200">Portfolio</a></li>
+        <li><a href="#contact" class="hover:text-blue-200">Contact</a></li>
+      </ul>
+      <div class="md:hidden">
+        <button id="hamburger" class="text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden hidden bg-blue-600 text-white py-4">
+    <ul class="space-y-4 text-center">
+      <li><a href="#home" class="hover:text-blue-200">Home</a></li>
+      <li><a href="#services" class="hover:text-blue-200">Services</a></li>
+      <li><a href="#portfolio" class="hover:text-blue-200">Portfolio</a></li>
+      <li><a href="#contact" class="hover:text-blue-200">Contact</a></li>
+    </ul>
+  </div>
+
+  <script>
+    document.getElementById("hamburger").addEventListener("click", function() {
+      document.getElementById("mobile-menu").classList.toggle("hidden");
+    });
+  </script>
+
+  <!-- Header -->
+  <header id="home" class="bg-gradient-to-r from-teal-600 to-blue-700 text-white py-12">
+    <div class="container mx-auto text-center" data-aos="fade-down">
+      <h1 class="text-4xl font-bold mb-4">Contact Us</h1>
+      <p class="text-lg">We'd love to hear from you. Get in touch today!</p>
+    </div>
+  </header>
+
+  <!-- Contact Form Section -->
+  <section id="contact" class="py-12">
+    <form
+      action="https://formspree.io/f/xdkovpvb"
+      method="POST"
+      id="contactForm"
+      class="max-w-xl mx-auto bg-gray-100 p-6 rounded-lg shadow-lg"
+      data-aos="fade-up"
+    >
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-bold mb-2">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your Name" class="w-full p-3 border rounded-lg" required>
+        <p id="nameError" class="error-message hidden">Name is required.</p>
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-bold mb-2">Email</label>
+        <input type="email" id="email" name="email" placeholder="Your Email" class="w-full p-3 border rounded-lg" required>
+        <p id="emailError" class="error-message hidden">Enter a valid email address.</p>
+      </div>
+
+      <div class="mb-4">
+        <label for="message" class="block text-sm font-bold mb-2">Message</label>
+        <textarea id="message" name="message" rows="5" placeholder="Your Message" class="w-full p-3 border rounded-lg" required></textarea>
+        <p id="messageError" class="error-message hidden">Message cannot be empty.</p>
+      </div>
+
+      <div id="formMessage" class="success-message hidden">Your message has been sent successfully!</div>
+
+      <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+        Send Message
+      </button>
+    </form>
+  </section>
+
+  <!-- Contact Details Section -->
+  <section class="py-12 bg-gray-50">
+    <div class="container mx-auto text-center" data-aos="fade-up">
+      <h2 class="text-3xl font-bold mb-6">Get in Touch</h2>
+      <p class="text-lg mb-6">Feel free to reach us through the following channels:</p>
+      <div class="flex flex-col items-center space-y-4">
+        <p><strong>Phone:</strong> +918890320610</p>
+        <p><strong>Email:</strong> contact@youragency.com</p>
+        <p><strong>Address:</strong> 123 Business Street, City, Country</p>
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.6964786928415!2d75.8254320150393!3d26.923936683117558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db3c57ae2cde3%3A0x5e560ea8b3e6b9ad!2sHawa%20Mahal!5e0!3m2!1sen!2sin!4v1686016788212!5m2!1sen!2sin"
+          class="w-full h-64 rounded-lg border"
+          allowfullscreen=""
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto text-center" data-aos="fade-up">
+      <p>&copy; 2024 Your Agency. All rights reserved.</p>
+      <div class="mt-4">
+        <a href="#" class="mx-2 text-gray-400 hover:text-white">Facebook</a>
+        <a href="#" class="mx-2 text-gray-400 hover:text-white">Twitter</a>
+        <a href="#" class="mx-2 text-gray-400 hover:text-white">Instagram</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Widget -->
+  <a href="https://wa.me/<+918890320610>?text=Hello, I am interested in your services!" 
+     class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition duration-300" 
+     target="_blank" 
+     aria-label="Contact us on WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6" viewBox="0 0 24 24">
+      <path d="M20.52 3.48A11.943 11.943 0 0012 0C5.373 0 0 5.373 0 12c0 2.053.525 4.037 1.522 5.793L0 24l6.29-1.51A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12 0-3.193-1.245-6.187-3.48-8.52zM12 22c-1.85 0-3.618-.504-5.175-1.462L5.42 20.1l.446-1.756A10.038 10.038 0 012 12c0-5.523 4.477-10 10-10 2.673 0 5.191 1.045 7.071 2.929C20.955 6.81 22 9.328 22 12c0 5.523-4.477 10-10 10zm5.17-6.83c-.268-.134-.448-.09-.573-.048l-1.376.657c-.176.084-.32.127-.443.127-.208 0-.388-.07-.54-.208-.257-.241-.52-.496-.79-.766-.228-.226-.447-.464-.655-.713-.192-.23-.378-.485-.56-.764-.15-.257-.252-.46-.302-.6-.064-.163-.064-.297 0-.403l.6-.922c.068-.116.083-.205.046-.27a5.453 5.453 0 00-.518-.527l-.2-.2c-.144-.145-.278-.217-.4-.217-.045 0-.093.004-.144.015l-.226.05c-.15.036-.33.093-.54.173-.21.08-.38.145-.51.195-.234.097-.372.173-.413.227-.205.27-.4.543-.583.82-.233.345-.403.65-.51.917-.097.24-.064.428.1.563l.733.733c.283.28.584.526.901.742.078.059.137.1.193.1s.099-.013.16-.058c.145-.122.246-.328.28-.572.081-.337.16-.71.243-1.06.09-.389.197-.788.342-1.126z" />
+    </svg>
+  </a>
+
+</body>
+</html>

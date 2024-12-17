@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Agency Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      AOS.init({
+        duration: 1000, // Animation duration in ms
+        once: true,     // Run animation only once
+      });
+    });
+  </script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <!-- Navbar -->
+  <nav class="bg-gradient-to-r from-purple-600 to-pink-700 text-white p-4 fixed top-0 left-0 right-0 z-50 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="#" class="text-2xl font-bold">Your Agency</a>
+      <!-- Mobile menu button -->
+      <div class="lg:hidden">
+        <button id="hamburger" class="text-white focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+      <!-- Desktop Menu -->
+      <ul class="hidden lg:flex space-x-6">
+        <li><a href="#home" class="hover:text-gray-200">Home</a></li>
+        <li><a href="#portfolio" class="hover:text-gray-200">Portfolio</a></li>
+        <li><a href="#contact" class="hover:text-gray-200">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="lg:hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-40 hidden">
+    <div class="flex justify-end p-6">
+      <button id="close-menu" class="text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="flex flex-col items-center">
+      <a href="#index" class="text-white text-xl py-4">Home</a>
+      <a href="#portfolio" class="text-white text-xl py-4">Portfolio</a>
+      <a href="#contact" class="text-white text-xl py-4">Contact</a>
+    </div>
+  </div>
+
+  <!-- Header Section -->
+  <header class="bg-gradient-to-r from-purple-600 to-pink-700 text-white py-24 mt-16">
+    <div class="container mx-auto text-center" data-aos="fade-down">
+      <h1 class="text-4xl font-bold mb-4">Our Work</h1>
+      <p class="text-lg">Explore some of our recent projects and success stories.</p>
+    </div>
+  </header>
+
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="py-12 bg-white">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-6" data-aos="fade-up">Featured Projects</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <!-- Project 1 -->
+        <div data-aos="fade-right" class="group relative bg-gray-300 rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="openModal('modal1')">
+          <img src="https://images.pexels.com/photos/29709964/pexels-photo-29709964/free-photo-of-vibrant-display-of-assorted-lip-products-in-store.jpeg" alt="Project 1" class="w-full h-48 object-cover">
+          <div class="absolute inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+            <div class="text-center text-white px-4">
+              <h3 class="text-xl font-bold mb-2">Website Redesign</h3>
+              <p class="text-sm">Revamped the online presence of a major retail brand.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Project 2 -->
+        <div data-aos="zoom-in" class="group relative bg-gray-300 rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="openModal('modal2')">
+          <img src="https://images.pexels.com/photos/5716042/pexels-photo-5716042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Project 2" class="w-full h-48 object-cover">
+          <div class="absolute inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+            <div class="text-center text-white px-4">
+              <h3 class="text-xl font-bold mb-2">Social Media Campaign</h3>
+              <p class="text-sm">Achieved 10x engagement with innovative ad strategies.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Project 3 -->
+        <div data-aos="fade-left" class="group relative bg-gray-300 rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="openModal('modal3')">
+          <img src="https://images.pexels.com/photos/3314294/pexels-photo-3314294.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Project 3" class="w-full h-48 object-cover">
+          <div class="absolute inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+            <div class="text-center text-white px-4">
+              <h3 class="text-xl font-bold mb-2">Creative Video Editing</h3>
+              <p class="text-sm">Crafted engaging video content for a global brand.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Project 4 -->
+        <div data-aos="zoom-in-up" class="group relative bg-gray-300 rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="openModal('modal4')">
+          <img src="https://images.pexels.com/photos/7682204/pexels-photo-7682204.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Project 4" class="w-full h-48 object-cover">
+          <div class="absolute inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+            <div class="text-center text-white px-4">
+              <h3 class="text-xl font-bold mb-2">Email & Chat Support</h3>
+              <p class="text-sm">Dedicated support team for seamless communication.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto text-center" data-aos="fade-up">
+      <p>&copy; 2024 Your Agency. All rights reserved.</p>
+      <div class="mt-4">
+        <a href="#" class="mx-2 text-gray-400 hover:text-white">Facebook</a>
+        <a href="#" class="mx-2 text-gray-400 hover:text-white">Twitter</a>
+        <a href="#" class="mx-2 text-gray-400 hover:text-white">Instagram</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modals Script -->
+  <script>
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.remove('hidden');
+    }
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.add('hidden');
+    }
+
+    // Toggle mobile menu
+    document.getElementById("hamburger").addEventListener("click", function() {
+      document.getElementById("mobile-menu").classList.toggle("hidden");
+    });
+
+    document.getElementById("close-menu").addEventListener("click", function() {
+      document.getElementById("mobile-menu").classList.add("hidden");
+    });
+  </script>
+
+  <!-- WhatsApp Widget -->
+  <a href="https://wa.me/<+918890320610>?text=Hello, I am interested in your services!" 
+     class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition duration-300" 
+     target="_blank" 
+     aria-label="Contact us on WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6" viewBox="0 0 24 24">
+      <path d="M20.52 3.48A11.943 11.943 0 0012 0C5.373 0 0 5.373 0 12c0 2.053.525 4.037 1.522 5.793L0 24l6.29-1.51A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12 0-3.193-1.245-6.187-3.48-8.52zM12 22c-1.85 0-3.618-.504-5.175-1.462L5.42 20.1l.446-1.756A10.038 10.038 0 012 12c0-5.523 4.477-10 10-10 2.673 0 5.191 1.045 7.071 2.929C20.955 6.81 22 9.328 22 12c0 5.523-4.477 10-10 10zm5.17-6.83c-.268-.134-.448-.09-.573-.048l-1.376.657c-.176.084-.32.127-.443.127-.208 0-.388-.07-.54-.208-.257-.241-.52-.496-.79-.766-.228-.226-.447-.464-.655-.713-.192-.23-.378-.485-.56-.764-.15-.257-.252-.46-.302-.6-.064-.163-.064-.297 0-.403l.6-.922c.068-.116.083-.205.046-.27a5.453 5.453 0 00-.518-.527l-.2-.2c-.144-.145-.278-.217-.4-.217-.045 0-.093.004-.144.015l-.226.05c-.15.036-.33.093-.54.173-.21.08-.38.145-.51.195-.234.097-.372.173-.413.227-.205.27-.4.543-.583.82-.233.345-.403.65-.51.917-.097.24-.064.428.1.563l.733.64c.048.05.122.13.22.237l.3.297.305.292c.073.078.156.163.247.257.21.225.4.408.57.548.215.182.445.375.69.578.247.2.495.407.745.62.177.163.358.332.54.508.14.15.258.273.355.372.242.247.442.443.6.588.192.175.348.318.466.43.146.137.29.227.43.27.173.054.33.035.47-.058l1.164-.73c.185-.116.293-.213.325-.292.042-.086.062-.17.062-.252-.004-.19-.036-.42-.1-.692-.067-.27-.1-.463-.1-.577 0-.122-.062-.24-.185-.353-.092-.084-.245-.22-.458-.41z"/>
+    </svg>
+  </a>
+</body>
+</html>
