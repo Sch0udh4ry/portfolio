@@ -558,7 +558,42 @@ document.addEventListener("DOMContentLoaded", () => {
     updateYear();
 });
 </script>
-    <script>
+   <section id="gallery">
+  <div class="container">
+    <h2>My Hobbies</h2>
+    <p>Take a glimpse into my hobbies and personal interests:</p>
+    <div class="gallery-container" style="position: relative; overflow: hidden;">
+      <button class="prev-button" onclick="scrollGallery(-1)" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 10;">&#10094;</button>
+      <div class="gallery-grid" style="display: flex; overflow-x: hidden; scroll-behavior: smooth; gap: 1rem; padding: 1rem;">
+        <!-- Gallery items -->
+        <div class="gallery-item" style="flex: 0 0 calc(33.33% - 1rem); box-sizing: border-box;">
+          <img src="manali pose 2.jpg" alt="Traveling" style="width: 100%; height: auto; border-radius: 8px;"/>
+          <p>Exploring new destinations and cultures.</p>
+        </div>
+        <div class="gallery-item" style="flex: 0 0 calc(33.33% - 1rem); box-sizing: border-box;">
+          <img src="bullet edited.jpg" alt="Photography" style="width: 100%; height: auto; border-radius: 8px;"/>
+          <p>I don't feel so good - playing with PS</p>
+        </div>
+        <div class="gallery-item" style="flex: 0 0 calc(33.33% - 1rem); box-sizing: border-box;">
+          <img src="books.jpg" alt="Reading" style="width: 100%; height: auto; border-radius: 8px;"/>
+          <p>Immersing myself in literature and knowledge.</p>
+        </div>
+        <div class="gallery-item" style="flex: 0 0 calc(33.33% - 1rem); box-sizing: border-box;">
+          <img src="music pose (2).jpg" alt="Playing Guitar (or Trying to)" style="width: 100%; height: auto; border-radius: 8px;"/>
+          <p>Guitar after noodles at friend's.</p>
+        </div>
+        <div class="gallery-item" style="flex: 0 0 calc(33.33% - 1rem); box-sizing: border-box;">
+          <img src="white pressional (1).jpg" alt="Hobby 5" style="width: 100%; height: auto; border-radius: 8px;"/>
+          <p>Black & White are like an addiction</p>
+        </div>
+        <!-- Add more gallery items as needed -->
+      </div>
+      <button class="next-button" onclick="scrollGallery(1)" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); z-index: 10;">&#10095;</button>
+    </div>
+  </div>
+</section>
+
+<script>
   let autoScrollInterval;
   const gallery = document.querySelector('.gallery-grid');
   const scrollAmount = gallery.clientWidth / 3; // Scroll by one-third the width of the container
@@ -584,6 +619,7 @@ document.addEventListener("DOMContentLoaded", () => {
   gallery.addEventListener('mouseover', () => clearInterval(autoScrollInterval));
   gallery.addEventListener('mouseout', resetAutoScroll);
 </script>
+
 
 </body>
 </html>
