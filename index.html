@@ -137,15 +137,23 @@ nav ul li a:hover {
 }
 .gallery-grid {
     display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center;
+    overflow-x: hidden; /* Ensure horizontal scrolling */
+    white-space: nowrap; /* Prevent line breaks */
+    gap: 1rem; /* Adjust gap between items */
+    padding: 1rem;
+}
+.gallery-item {
+    display: inline-block; /* Prevent items from wrapping */
+    flex: 0 0 calc(33.33% - 1rem); /* Adjust for three items visible */
+    box-sizing: border-box;
 }
 .gallery-item img {
-    max-width: 300px;
+    width: 100%; /* Ensure images fill their container */
+    height: auto;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
   /* Blog Section */
 #blog {
     background-color: #fff;
@@ -241,26 +249,26 @@ footer {
     <p>Take a glimpse into my hobbies and personal interests:</p>
     <div class="gallery-container" style="position: relative; overflow: hidden;">
       <button class="prev-button" onclick="scrollGallery(-1)" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 10;">&#10094;</button>
-      <div class="gallery-grid" style="display: flex; overflow-x: hidden; scroll-behavior: smooth; gap: 1rem; padding: 1rem; white-space: nowrap;">
+      <div class="gallery-grid">
         <!-- Gallery items -->
-        <div class="gallery-item" style="flex: 0 0 calc(33.33% - 1rem); box-sizing: border-box;">
-          <img src="manali pose 2.jpg" alt="Traveling" style="width: 100%; height: auto; border-radius: 8px;"/>
+        <div class="gallery-item">
+          <img src="manali pose 2.jpg" alt="Traveling"/>
           <p>Exploring new destinations and cultures.</p>
         </div>
-        <div class="gallery-item" style="flex: 0 0 calc(33.33% - 1rem); box-sizing: border-box;">
-          <img src="bullet edited.jpg" alt="Photography" style="width: 100%; height: auto; border-radius: 8px;"/>
+        <div class="gallery-item">
+          <img src="bullet edited.jpg" alt="Photography"/>
           <p>I don't feel so good - playing with PS</p>
         </div>
-        <div class="gallery-item" style="flex: 0 0 calc(33.33% - 1rem); box-sizing: border-box;">
-          <img src="books.jpg" alt="Reading" style="width: 100%; height: auto; border-radius: 8px;"/>
+        <div class="gallery-item">
+          <img src="books.jpg" alt="Reading"/>
           <p>Immersing myself in literature and knowledge.</p>
         </div>
-        <div class="gallery-item" style="flex: 0 0 calc(33.33% - 1rem); box-sizing: border-box;">
-          <img src="music pose (2).jpg" alt="Playing Guitar (or Trying to)" style="width: 100%; height: auto; border-radius: 8px;"/>
+        <div class="gallery-item">
+          <img src="music pose (2).jpg" alt="Playing Guitar (or Trying to)"/>
           <p>Guitar after noodles at friend's.</p>
         </div>
-        <div class="gallery-item" style="flex: 0 0 calc(33.33% - 1rem); box-sizing: border-box;">
-          <img src="white pressional (1).jpg" alt="Hobby 5" style="width: 100%; height: auto; border-radius: 8px;"/>
+        <div class="gallery-item">
+          <img src="white pressional (1).jpg" alt="Hobby 5"/>
           <p>Black & White are like an addiction</p>
         </div>
         <!-- Add more gallery items as needed -->
@@ -619,7 +627,5 @@ document.addEventListener("DOMContentLoaded", () => {
   gallery.addEventListener('mouseover', () => clearInterval(autoScrollInterval));
   gallery.addEventListener('mouseout', resetAutoScroll);
 </script>
-
-
 </body>
 </html>
