@@ -93,8 +93,14 @@ nav ul li a:hover {
     gap: 2rem;
     justify-content: center;
 }
+.portfolio-item {
+    flex: 1 1 calc(33% - 2rem); /* Adjust for three columns layout with gaps */
+    box-sizing: border-box;
+}
 .portfolio-item img {
     max-width: 100%;
+    width: 100%; /* Ensure images fill the container without stretching */
+    height: auto; /* Maintain aspect ratio */
     border-radius: 8px;
 }
 .portfolio-item h3 {
@@ -102,6 +108,7 @@ nav ul li a:hover {
     font-size: 1.5rem;
     font-family: 'Billabong', cursive;
 }
+
   
     
 /* Contact Section */
