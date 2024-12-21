@@ -59,3 +59,14 @@ resetAutoScroll();
 // Reset the auto-scroll timer when user interacts
 gallery.addEventListener('mouseover', () => clearInterval(autoScrollInterval));
 gallery.addEventListener('mouseout', resetAutoScroll);
+document.addEventListener("DOMContentLoaded", function () {
+  AOS.init({
+    duration: 1000, // Animation duration in ms
+    once: true,     // Run animation only once
+  });
+});
+
+document.getElementById("hamburger").addEventListener("click", function() {
+  document.getElementById("mobile-menu").classList.toggle("hidden");
+});
+
