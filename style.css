@@ -46,7 +46,7 @@ nav ul li a:hover {
   background-image: url('IMG_20220920_191445.jpg');
   background-size: cover;
   background-position: center;
-  height: 200px;
+  height: 100%;
   width: 100%; /* Ensure it spans the entire width */
   position: relative;
 }
