@@ -39,14 +39,15 @@ nav ul li a:hover {
 #home {
   position: relative;
   text-align: center;
-  padding-top: 100px; /* Adjust this to position the content correctly */
+  padding-top: 250px; /* Adjust this to position the content correctly */
 }
 
 .profile-cover {
-  background-image: url('cover-photo.jpg');
+  background-image: url('IMG_20220920_191445.jpg');
   background-size: cover;
   background-position: center;
   height: 200px;
+  width: 100%; /* Ensure it spans the entire width */
   position: relative;
 }
 
@@ -77,6 +78,8 @@ nav ul li a:hover {
 
 #home p {
   margin: 10px 0;
+}
+
 }
 
 /* About Section */
