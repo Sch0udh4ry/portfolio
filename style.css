@@ -36,15 +36,29 @@ nav ul li a:hover {
     color: #ffcc00;
 }
 /* Home Section Styling */
+#home {
+  position: relative;
+  text-align: center;
+  padding: 100px 20px; /* Adjust padding as needed */
+  background-image: url('IMG_20220920_191445.jpg'); /* Replace with your image path */
+  background-size: cover; /* Ensures the background image covers the entire section */
+  background-position: center; /* Centers the background image */
+  background-attachment: fixed; /* Optional: for a parallax effect */
+  color: yellow; /* Adjust text color for better readability over the background image */
+}
 
-#home h2 {
-  margin: 0;
+#home h1 {
+  margin: 0 0 20px;
+  font-size: 2.5rem;
 }
 
 #home p {
   margin: 10px 0;
+  font-size: 1.2rem;
 }
 
+#home h2 {
+  margin: 0;
 }
 
 /* About Section */
