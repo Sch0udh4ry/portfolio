@@ -36,41 +36,6 @@ nav ul li a:hover {
     color: #ffcc00;
 }
 /* Home Section Styling */
-#home {
-  position: relative;
-  text-align: center;
-  padding-top: 250px; /* Adjust this to position the content correctly */
-}
-
-.profile-cover {
-  background-image: url('IMG_20220920_191445.jpg');
-  background-size: cover;
-  background-position: center;
-  height: 100%;
-  width: 100%; /* Ensure it spans the entire width */
-  position: relative;
-}
-
-.profile-info {
-  position: absolute;
-  bottom: -50px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  background: white;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.profile-picture {
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  margin-right: 10px;
-  border: 3px solid white;
-}
 
 #home h2 {
   margin: 0;
