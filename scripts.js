@@ -65,5 +65,10 @@ document.addEventListener("DOMContentLoaded", function () {
     once: true,     // Run animation only once
   });
 });
+// Example script
+document.addEventListener('DOMContentLoaded', () => {
+  console.log("External JavaScript is working!");
+  document.body.style.backgroundColor = '#f0f8ff'; // Light blue background
+});
 
 
