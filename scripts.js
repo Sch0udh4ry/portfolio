@@ -66,13 +66,5 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize AOS
-  AOS.init();
-  console.log("AOS initialized!");
 
-  // Any additional JavaScript code
-  console.log("External JavaScript is working!");
-  document.body.style.backgroundColor = '#f0f8ff'; // Example: Light blue background
-});
 
