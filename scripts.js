@@ -65,10 +65,14 @@ document.addEventListener("DOMContentLoaded", function () {
     once: true,     // Run animation only once
   });
 });
-// Example script
-document.addEventListener('DOMContentLoaded', () => {
-  console.log("External JavaScript is working!");
-  document.body.style.backgroundColor = '#f0f8ff'; // Light blue background
-});
 
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize AOS
+  AOS.init();
+  console.log("AOS initialized!");
+
+  // Any additional JavaScript code
+  console.log("External JavaScript is working!");
+  document.body.style.backgroundColor = '#f0f8ff'; // Example: Light blue background
+});
 
