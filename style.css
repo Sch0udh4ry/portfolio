@@ -3,6 +3,22 @@ body, ul {
     margin: 0;
     padding: 0;
 }
+/* Add fade-in animation to the entire body */
+body {
+  opacity: 0; /* Start hidden */
+  animation: fadeIn 2s ease-in forwards; /* 2 seconds fade-in effect */
+}
+
+/* Keyframes for fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0; /* Start transparent */
+  }
+  to {
+    opacity: 1; /* End fully visible */
+  }
+}
+
 header {
     background-color: #333;
     color: white;
