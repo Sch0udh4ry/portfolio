@@ -59,17 +59,20 @@ nav ul li a:hover {
     border: 1px solid #007BFF;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
-/* Animation styles */
+/* Liquid Drop Animation */
 .fade-in {
   opacity: 0;
-  transform: translateY(20px); /* Starts slightly below */
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  transform: scale(0.8); /* Start slightly smaller */
+  filter: blur(10px); /* Start blurred */
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out, filter 0.8s ease-out;
 }
 
 .fade-in.visible {
-  opacity: 1;
-  transform: translateY(0); /* Returns to original position */
+  opacity: 1; /* Fully visible */
+  transform: scale(1); /* Original size */
+  filter: blur(0); /* No blur */
 }
+
 /* About Section */
 #about {
     background-color: #f4f4f4;
