@@ -64,7 +64,7 @@ nav ul li a:hover {
   opacity: 0;
   transform: scale(0.8); /* Start slightly smaller */
   filter: blur(10px); /* Start blurred */
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out, filter 0.8s ease-out;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out, filter 0.2s ease-out;
 }
 
 .fade-in.visible {
