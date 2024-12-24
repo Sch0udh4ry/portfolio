@@ -80,4 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// Select the hamburger menu and the navbar
+const hamburger = document.getElementById('hamburger');
+const navbar = document.querySelector('nav');
+
+// Add a click event listener to toggle the 'active' class
+hamburger.addEventListener('click', () => {
+    navbar.classList.toggle('active');
+});
 
