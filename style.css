@@ -156,6 +156,18 @@ nav ul li a:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 /* Blog Section */
+/* Exclude Blog section from the floating label effect */
+#blog input:focus + label,
+#blog textarea:focus + label {
+  font-size: initial;
+  color: initial;
+  top: initial;
+}
+
+#blog label {
+  position: initial;
+  transition: none;
+}
 #blog {
     background-color: #fff;
     padding: 3rem 1rem;
