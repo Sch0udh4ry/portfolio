@@ -60,19 +60,6 @@ nav ul li a:hover {
     border: 1px solid #007BFF;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
-/* Liquid Drop Animation */
-.fade-in {
-  opacity: 0;
-  transform: scale(0.8); /* Start slightly smaller */
-  filter: blur(10px); /* Start blurred */
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out, filter 0.2s ease-out;
-}
-
-.fade-in.visible {
-  opacity: 1; /* Fully visible */
-  transform: scale(1); /* Original size */
-  filter: blur(0); /* No blur */
-}
 
 /* About Section */
 #about {
@@ -156,18 +143,6 @@ nav ul li a:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 /* Blog Section */
-/* Exclude Blog section from the floating label effect */
-#blog input:focus + label,
-#blog textarea:focus + label {
-  font-size: initial;
-  color: initial;
-  top: initial;
-}
-
-#blog label {
-  position: initial;
-  transition: none;
-}
 #blog {
     background-color: #fff;
     padding: 3rem 1rem;
@@ -226,17 +201,4 @@ button:hover {
   color: red;
   font-size: 14px;
   margin-top: 10px;
-}
-
-/* Floating label effect */
-input:focus + label,
-textarea:focus + label {
-  font-size: 12px;
-  color: #3B82F6;
-  top: -8px;
-}
-
-label {
-  position: relative;
-  transition: all 0.3s ease;
 }
