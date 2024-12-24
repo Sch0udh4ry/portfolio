@@ -11,31 +11,88 @@ header {
     padding: 1rem;
     margin-top: 50px; 
 }
-/* Navigation Bar Styling */
-nav {
-    background-color: #333;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 10px 0;
+/* Reset default browser styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Hamburger menu icon styling */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
     z-index: 1000;
 }
-nav ul {
+
+.hamburger .line {
+    background-color: #333;
+    height: 5px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+/* Navbar styling */
+nav {
+    background-color: #333;
+    padding: 10px 0;
+}
+
+ul {
     list-style: none;
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
-nav ul li a {
-    text-decoration: none;
+
+ul li {
+    padding: 15px 20px;
+}
+
+ul li a {
     color: white;
-    font-size: 1rem;
-    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.2rem;
 }
-nav ul li a:hover {
-    color: #ffcc00;
+
+/* Mobile view: Hide the navigation by default */
+@media screen and (max-width: 768px) {
+    .hamburger {
+        display: flex; /* Show hamburger on mobile */
+    }
+
+    ul {
+        display: none; /* Hide the menu by default on mobile */
+        flex-direction: column;
+        align-items: center;
+        background-color: #333;
+        width: 100%;
+        padding: 10px 0;
+        position: absolute;
+        top: 60px; /* Adjust for position below the header */
+        left: 0;
+    }
+
+    ul li {
+        padding: 20px;
+        text-align: center;
+    }
+
+    ul li a {
+        font-size: 1.5rem;
+    }
+
+    /* Show the menu when the hamburger is clicked */
+    nav.active ul {
+        display: flex;
+    }
+}
+
 }
 /* Home Section */
 #home {
