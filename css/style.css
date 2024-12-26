@@ -1525,25 +1525,26 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 0.01s ease-in;
+  animation: fadeIn 0.3s ease-in;
 }
 
 .modal-content {
   background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 90%;
-  width: 400px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
+  text-align: left;
 }
 
 .close {
   position: absolute;
-  top: 10px;
-  right: 20px;
+  top: 15px;
+  right: 15px;
   color: #000;
-  font-size: 20px;
+  font-size: 24px;
   cursor: pointer;
 }
 
@@ -1563,26 +1564,60 @@ form {
   flex-direction: column;
 }
 
+form h2 {
+  margin-bottom: 15px;
+  font-size: 24px;
+  color: #333;
+}
+
+form p {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
 form label {
   margin: 10px 0 5px;
   font-size: 14px;
+  color: #333;
 }
 
 form input, form select, form textarea, form button {
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 15px;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  width: 100%;
+}
+
+form input, form select, form textarea {
+  background-color: #f0f0f0;
+}
+
+form select {
+  color: #333;
 }
 
 form button {
-  background-color: #4CAF50;
+  background-color: #007BFF;
   color: white;
   border: none;
   cursor: pointer;
+  font-size: 16px;
+  padding: 12px;
+  transition: background-color 0.3s ease;
 }
 
 form button:hover {
-  background-color: #45a049;
+  background-color: #0056b3;
+}
+
+/* Improving the color contrast for better readability */
+form input::placeholder, form textarea::placeholder {
+  color: #888;
+}
+
+option {
+  color: #333;
 }
