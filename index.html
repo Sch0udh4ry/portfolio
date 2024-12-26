@@ -93,10 +93,47 @@
   <br> Crafted with love in India ❤️
 </h2>
 
-							<div class="call-to-action">
-								<a href="#" class="demo to-animate"><i class="icon-power"></i>Request Demo </a>
-								<a href="#" class="download to-animate"><i class="icon-download"></i>Schedule a Meeting </a>
-							</div>
+<div class="call-to-action">
+    <a href="#" class="demo to-animate" onclick="openDemoForm(event)"><i class="icon-power"></i>Request Demo</a>
+    <a href="https://calendly.com/yourname" class="download to-animate" target="_blank"><i class="icon-download"></i>Schedule a Meeting</a>
+  </div>
+
+  <!-- Modal for Demo Form -->
+  <div id="demoFormModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeDemoForm()">&times;</span>
+      <form action="https://formspree.io/f/xgvvoldo" method="post">
+        <h2>Request a Demo</h2>
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required placeholder="Enter your name">
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email">
+
+        <label for="phone">WhatsApp/Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required placeholder="+91 1234567890">
+        
+        <label for="service">Which service are you interested in?</label>
+        <select id="service" name="service" required onchange="toggleCustomMessage(this.value)">
+          <option value="" disabled selected>Select a service</option>
+          <option value="Website Creation">Website Creation</option>
+          <option value="Social Media Page Management">Social Media Page Management</option>
+          <option value="Ads, Posts, and Short Videos">Ads, Posts, and Short Videos</option>
+          <option value="Website/Page Management">Website/Page Management</option>
+          <option value="Dedicated Chat & Email Support">Dedicated Chat & Email Support</option>
+          <option value="Custom">Custom (Specify Below)</option>
+        </select>
+
+        <div id="customMessageContainer" style="display: none;">
+          <label for="customMessage">Your Custom Message:</label>
+          <textarea id="customMessage" name="customMessage" rows="4" placeholder="Describe your custom request"></textarea>
+        </div>
+
+        <button type="submit">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
 						</div>
 					</div>
 				</div>
