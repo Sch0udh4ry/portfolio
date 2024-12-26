@@ -654,3 +654,21 @@
 
 
 }());
+// Open the modal
+function openDemoForm(event) {
+  event.preventDefault(); // Prevent link navigation
+  const modal = document.getElementById("demoFormModal");
+  modal.style.display = "flex"; // Flexbox ensures centering
+}
+
+// Close the modal
+function closeDemoForm() {
+  const modal = document.getElementById("demoFormModal");
+  modal.style.display = "none";
+}
+
+// Toggle custom message field
+function toggleCustomMessage(value) {
+  const customMessageContainer = document.getElementById("customMessageContainer");
+  customMessageContainer.style.display = value === "Custom" ? "block" : "none";
+}
