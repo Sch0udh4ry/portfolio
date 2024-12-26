@@ -355,6 +355,16 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   background-color: #e6e6e6;
   color: #fff;
+  background-position: center; /* Ensures the image is centered on larger screens */
+}
+
+/* For mobile devices */
+@media (max-width: 767px) {
+  #fh5co-home {
+    background-attachment: scroll; /* Prevents the fixed attachment issue on mobile */
+    background-size: cover; /* Ensures the image covers the entire section */
+    background-position: center center; /* Centers the image on both axes */
+  }
 }
 #fh5co-home a {
   color: rgba(255, 255, 255, 0.8) !important;
