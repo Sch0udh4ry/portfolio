@@ -1607,7 +1607,7 @@ form input, form select, form textarea {
 
 form select {
   color: #333;
-}
+
 
 form button {
   background-color: #007BFF;
@@ -1631,3 +1631,22 @@ form input::placeholder, form textarea::placeholder {
 option {
   color: #333;
 }
+
+/* New year */
+  <h2>Happy New Year</h2>
+<div class="glowing">
+  <span style="--i: 1"></span>
+  <span style="--i: 2"></span>
+  <span style="--i: 3"></span>
+</div>
+<div class="glowing">
+  <span style="--i: 1"></span>
+  <span style="--i: 2"></span>
+  <span style="--i: 3"></span>
+</div>
+<div class="glowing">
+  <span style="--i: 1"></span>
+  <span style="--i: 2"></span>
+  <span style="--i: 3"></span>
+</div>
+  
