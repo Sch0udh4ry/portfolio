@@ -25,3 +25,24 @@ nav a.nav-link {
 nav a.nav-link.active {
     font-weight: bold;
 }
+.skill-card {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    margin-bottom: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.skill-card .card-body {
+    padding: 20px;
+}
+.skill-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+.skill-card .card-text {
+    display: none;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+.skill-card:hover .card-text {
+    display: block;
+}
