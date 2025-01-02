@@ -48,7 +48,10 @@ nav a.nav-link.active {
 .hero-section h1 { font-size: 3rem; margin-bottom: 20px; }
 .hero-section p { font-size: 1.25rem; max-width: 700px; margin: 0 auto; }
 
-/* Rest of your styles remain the same */ .certificate-card { background: linear-gradient(135deg, #FFDC00 0%, #FFD700 100%);
-                                                             color: #78350F; 
-                                                             /* Royal color */
-                                                             margin-bottom: 20px; transition: transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden; } .certificate-card .card-body { padding: 20px; } .certificate-card:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+/* Rest of your styles remain the same */ 
+.certificate-card { background: linear-gradient(135deg, #FFDC00 0%, #FFD700 100%);
+color: #78350F; 
+/* Royal color */
+margin-bottom: 20px; transition: transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden; } 
+.certificate-card .card-body { padding: 20px; } 
+.certificate-card:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
