@@ -43,3 +43,7 @@ nav a.nav-link.active {
 .skill-card .card-text {
     position: absolute
 }
+/* Rest of your styles remain the same */ 
+.hero-section { background: linear-gradient(135deg, #34d058 0%, #1A1A1D 80%); padding: 100px 0; text-align: center; color: white; } 
+.hero-section h1 { font-size: 3rem; margin-bottom: 20px; }
+.hero-section p { font-size: 1.25rem; max-width: 700px; margin: 0 auto; }
