@@ -25,19 +25,6 @@ nav a.nav-link {
 nav a.nav-link.active {
     font-weight: bold;
 }
-.hero-section {
-    background: linear-gradient(135deg, #34d058 0%, #252525 100%);
-    padding: 100px 0;
-}
-.hero-section h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-}
-.hero-section p {
-    font-size: 1.25rem;
-    max-width: 700px;
-    margin: 0 auto;
-}
 .skill-card {
     background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
     color: white;
@@ -68,4 +55,18 @@ nav a.nav-link.active {
 .skill-card:hover .card-text {
     opacity: 1;
     visibility: visible;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #34d058 0%, #252525 100%);
+    padding: 100px 0;
+}
+.hero-section h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+.hero-section p {
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto;
 }
