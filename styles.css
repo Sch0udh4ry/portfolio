@@ -59,27 +59,70 @@ margin-bottom: 20px; transition: transform 0.3s, box-shadow 0.3s; position: rela
 .contact-info a { color: #007bff; text-decoration: none; transition: color 0.3s; } 
 .contact-info a:hover { color:#0056b3;
 }
-} /* Experience Section Styling */
-#experience { padding: 40px 20px; background-color: #f4f4f4; } 
-.experience-item { background-color: #ffffff; margin: 20px 0; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-transition: background-color 0.3s ease, transform 0.3s ease; opacity: 0; 
-/* Initially hidden */ transform: translateY(20px); 
-/* Initial state for fade-in effect */ 
-animation: fadeInUp 0.5s ease forwards; } 
-.experience-item:hover { background-color: #e3f2fd; transform: translateY(-5px); /* Slight upward movement on hover */ } 
-/* Unique Background Colors */ #experience-activant { background-color: #ffebee; } 
-#experience-bob { background-color: #e0f7fa; } #experience-additional { background-color: #e8f5e9; } 
-/* Bullet Points Styling */ .experience-item ul { list-style-type: none; /* Remove default bullet points */ 
-padding: 0; } .experience-item ul li { padding-left: 20px; border-left: 3px solid #007BFF; 
-/* Custom bullet point effect */ 
-margin: 10px 0; position: relative; transition: color 0.3s ease; } 
-.experience-item ul li::before { content: "•"; 
-/* Custom bullet character */ 
-font-size: 24px; color: #007BFF; position: absolute; left: -20px; top: 50%; transform: translateY(-50%); } 
-.experience-item ul li:hover { color: #0056b3; border-left-color: #0056b3; }
-/* Fade-in Animation */
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); }
+} 
+/* Experience Section */
+#experience {
+    padding: 40px;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    text-align: center;
 }
+
+#experience h2 {
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.experience-item {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 900px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+.experience-item:hover {
+    transform: scale(1.05);
+}
+
+/* Experience Images */
+.experience-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    margin-right: 20px;
+    object-fit: cover;
+}
+
+/* Experience Content */
+.experience-content {
+    text-align: left;
+    flex: 1;
+}
+
+.experience-content h3 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .experience-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .experience-img {
+        margin: 0 auto 15px;
+        width: 120px;
+        height: 120px;
+    }
+}
+
 
 /* Education Section Styling */
 #education {
