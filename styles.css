@@ -59,3 +59,79 @@ margin-bottom: 20px; transition: transform 0.3s, box-shadow 0.3s; position: rela
 .contact-info a { color: #007bff; text-decoration: none; transition: color 0.3s; } 
 .contact-info a:hover { color:#0056b3;
 }
+/* Experience Section Styling */
+#experience {
+  padding: 40px 20px;
+  background-color: #f4f4f4;
+}
+
+.experience-item {
+  background-color: #ffffff;
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  opacity: 0; /* Initially hidden */
+  transform: translateY(20px); /* Initial state for fade-in effect */
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.experience-item:hover {
+  background-color: #e3f2fd;
+  transform: translateY(-5px); /* Slight upward movement on hover */
+}
+
+/* Unique Background Colors */
+#experience-activant {
+  background-color: #ffebee;
+}
+
+#experience-bob {
+  background-color: #e0f7fa;
+}
+
+#experience-additional {
+  background-color: #e8f5e9;
+}
+
+/* Bullet Points Styling */
+.experience-item ul {
+  list-style-type: none; /* Remove default bullet points */
+  padding: 0;
+}
+
+.experience-item ul li {
+  padding-left: 20px;
+  border-left: 3px solid #007BFF; /* Custom bullet point effect */
+  margin: 10px 0;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.experience-item ul li::before {
+  content: "•"; /* Custom bullet character */
+  font-size: 24px;
+  color: #007BFF;
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.experience-item ul li:hover {
+  color: #0056b3;
+  border-left-color: #0056b3;
+}
+
+/* Fade-in Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
