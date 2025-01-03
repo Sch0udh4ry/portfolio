@@ -45,51 +45,83 @@ nav a.nav-link.active {
     background: rgba(0, 0, 0, 0.4); /* Semi-transparent dark overlay */
 }
 
-/* Hero Content */
-.hero-content {
-    position: relative;
-    max-width: 900px;
-    margin: auto;
-    color: white; /* Contrasting text color */
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); /* Text shadow for better visibility */
+/* Hero Section */
+.hero-section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('background-image.jpg');
+    background-size: cover;
+    color: #ffffff;
 }
 
-/* Hero Text */
+.hero-container {
+    padding: 0 50px;
+}
+
 .hero-text h1 {
-    font-size: 2.5em;
-    margin-bottom: 15px;
+    font-size: 3.5em;
+    font-weight: bold;
+    line-height: 1.2;
+    color: #ff7f50;
+}
+
+.hero-text h1 span {
+    color: #ffffff;
 }
 
 .hero-text p {
     font-size: 1.2em;
-    line-height: 1.6;
+    margin: 20px 0;
+    color: #ffffff;
 }
 
-/* Responsive Design */
+.hero-text .btn {
+    background-color: #ff7f50;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    color: #ffffff;
+    border-radius: 30px;
+    margin-top: 20px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.hero-text .btn:hover {
+    background-color: #ffffff;
+    color: #ff7f50;
+}
+
+.hero-text .hero-email {
+    margin-top: 15px;
+    font-size: 1.1em;
+    color: #ddd;
+}
+
+.hero-image img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
 @media (max-width: 768px) {
+    .hero-section {
+        text-align: center;
+        height: auto;
+        padding: 50px 20px;
+    }
+
     .hero-text h1 {
-        font-size: 2em;
+        font-size: 2.5em;
     }
 
     .hero-text p {
         font-size: 1em;
     }
-}
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .hero-content {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .hero-text {
-        padding-right: 0;
-    }
-    
     .hero-image img {
         margin-top: 20px;
-        width: 200px;
+        width: 70%;
     }
 }
 
