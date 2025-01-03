@@ -25,6 +25,56 @@ nav a.nav-link {
 nav a.nav-link.active {
     font-weight: bold;
 }
+
+/* Hero Section Styling */
+#hero {
+    background: #f3e5ab; /* Vanilla background */
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 900px;
+    margin: auto;
+}
+
+/* Hero Text */
+.hero-text {
+    flex: 1;
+    text-align: left;
+    padding-right: 20px;
+}
+
+/* Hero Image */
+.hero-image img {
+    width: 250px; /* Adjust as needed */
+    height: auto;
+    filter: grayscale(100%); /* Black & white effect */
+    object-fit: cover;
+    border-radius: 10px; /* Optional rounded edges */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .hero-text {
+        padding-right: 0;
+    }
+    
+    .hero-image img {
+        margin-top: 20px;
+        width: 200px;
+    }
+}
+
+
 .skill-card {
     background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
     color: white;
