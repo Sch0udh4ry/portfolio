@@ -30,3 +30,26 @@ window.addEventListener('scroll', () => {
         }
     });
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    let items = document.querySelectorAll("#education li");
+
+    window.addEventListener("scroll", function() {
+        let scrollPosition = window.scrollY + window.innerHeight;
+
+        items.forEach((item) => {
+            let itemPosition = item.offsetTop;
+            if (scrollPosition > itemPosition) {
+                item.style.opacity = 1;
+                item.style.transform = "translateY(0)";
+            }
+        });
+    });
+
+    items.forEach((item) => {
+        item.style.opacity = 0;
+        item.style.transform = "translateY(30px)";
+        item.style.transition = "opacity 0.6s ease-out, transform 0.6s ease-out";
+    });
+});
+
