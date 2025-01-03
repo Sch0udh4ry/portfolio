@@ -73,6 +73,7 @@ margin-bottom: 20px; transition: transform 0.3s, box-shadow 0.3s; position: rela
     margin-bottom: 20px;
 }
 
+/* Experience Item */
 .experience-item {
     display: flex;
     align-items: center;
@@ -85,17 +86,19 @@ margin-bottom: 20px; transition: transform 0.3s, box-shadow 0.3s; position: rela
     transition: transform 0.3s ease-in-out;
 }
 
+/* Hover Effect */
 .experience-item:hover {
     transform: scale(1.05);
 }
 
-/* Experience Images */
+/* Rounded Square Images */
 .experience-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 10px;
+    width: 160px;
+    height: 160px;
+    border-radius: 20px;  /* Makes the square slightly rounded */
     margin-right: 20px;
     object-fit: cover;
+    flex-shrink: 0; /* Ensures image size remains fixed */
 }
 
 /* Experience Content */
@@ -104,6 +107,7 @@ margin-bottom: 20px; transition: transform 0.3s, box-shadow 0.3s; position: rela
     flex: 1;
 }
 
+/* Experience Titles */
 .experience-content h3 {
     color: white;
     margin-bottom: 10px;
@@ -118,10 +122,11 @@ margin-bottom: 20px; transition: transform 0.3s, box-shadow 0.3s; position: rela
 
     .experience-img {
         margin: 0 auto 15px;
-        width: 120px;
-        height: 120px;
+        width: 140px;
+        height: 140px;
     }
 }
+
 
 
 /* Education Section Styling */
