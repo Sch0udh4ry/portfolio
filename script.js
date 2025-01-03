@@ -69,3 +69,16 @@ document.addEventListener("DOMContentLoaded", function () {
     greetingElement.textContent = greeting;
 });
 
+/*hide nav*/
+
+document.addEventListener("click", function (event) {
+  const navbarToggler = document.querySelector(".navbar-toggler");
+  const navbarCollapse = document.querySelector(".navbar-collapse");
+
+  // Check if the click was outside the navbar and the navbar is expanded
+  if (!navbarCollapse.contains(event.target) && !navbarToggler.contains(event.target)) {
+    if (navbarCollapse.classList.contains("show")) {
+      navbarToggler.click(); // Programmatically close the navbar
+    }
+  }
+});
