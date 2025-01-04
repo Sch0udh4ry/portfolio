@@ -83,46 +83,4 @@ document.addEventListener("click", function (event) {
   }
 });
 
-// Typing Test Integration using Typing.com API
 
-const typingTestContainer = document.getElementById('typing-test');
-const resultContainer = document.getElementById('typing-result');
-const achievementContainer = document.getElementById('typing-achievements');
-
-async function loadTypingTest() {
-    try {
-        const response = await fetch('https://api.typing.com/v1/typing-test'); // Placeholder API URL
-        const data = await response.json();
-        displayTest(data);
-    } catch (error) {
-        console.error('Error loading typing test:', error);
-    }
-}
-
-function displayTest(testData) {
-    typingTestContainer.innerHTML = `<p>${testData.text}</p>`;
-    // Additional UI for user input and start button
-}
-
-function calculateWPM(charsTyped, timeElapsed) {
-    return Math.round((charsTyped / 5) / (timeElapsed / 60));
-}
-
-function determineAchievement(wpm) {
-    if (wpm >= 101) return 'Master Typer (101+ WPM)';
-    if (wpm >= 81) return 'Elite Typist (81-100 WPM)';
-    if (wpm >= 61) return 'Advanced Typist (61-80 WPM)';
-    if (wpm >= 46) return 'Proficient Typist (46-60 WPM)';
-    if (wpm >= 36) return 'Intermediate Typist (36-45 WPM)';
-    if (wpm >= 21) return 'Beginner Typist (21-35 WPM)';
-    return 'Novice Typist (1-20 WPM)';
-}
-
-function saveAchievement(wpm) {
-    const achievement = determineAchievement(wpm);
-    localStorage.setItem('typingAchievement', achievement);
-    achievementContainer.innerHTML = `<p>Your achievement: ${achievement}</p>`;
-}
-
-// Load test when the user clicks "Start Test"
-document.getElementById('start-test-btn').addEventListener('click', loadTypingTest);
