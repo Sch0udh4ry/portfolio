@@ -32,9 +32,10 @@ nav a.nav-link.active {
     height: 100vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(135deg, #00c6ff, #0072ff, #ff7f50); /* Vibrant gradient */
+    justify-content: center;
+    background: linear-gradient(135deg, #00c6ff, #0072ff, #ff7f50);
     color: #ffffff;
-    padding-top: 80px; /* Adjusted for navbar height */
+    padding-top: 80px;
     position: relative;
     box-sizing: border-box;
 }
@@ -43,58 +44,54 @@ nav a.nav-link.active {
     padding: 0 50px;
 }
 
+.hero-text {
+    text-align: left;
+}
+
 .hero-text h1 {
     font-size: 3.5em;
     font-weight: bold;
     line-height: 1.2;
-    color: #ffffff; /* Standout text color */
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6); /* Subtle shadow for better visibility */
+    color: #ffffff;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
 }
 
 .hero-text h1 span {
-    color: #ff7f50; /* Highlighted dynamic text color */
+    color: #ff7f50;
 }
 
 .hero-text p {
     font-size: 1.2em;
     margin: 20px 0;
     color: #ffffff;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); /* Text shadow for clarity */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
 }
 
-.hero-text .btn {
-    background-color: #ff7f50;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1.1em;
-    color: #ffffff;
-    border-radius: 30px;
-    margin-top: 20px;
-    text-transform: uppercase;
-    transition: background-color 0.3s ease;
+/* Hero Image */
+.hero-image {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Ensures vertical alignment */
 }
 
-.hero-text .btn:hover {
-    background-color: #ffffff;
-    color: #ff7f50;
-}
-
-.hero-text .hero-email {
-    margin-top: 15px;
-    font-size: 1.1em;
-    color: #ddd;
-}
-
-.hero-image img {
-    max-width: 100%;
+.hero-img {
+    width: 100%;
+    max-width: 450px; /* Adjusts to match text height */
+    height: auto;
+    object-fit: contain; /* Ensures the image scales properly */
     border-radius: 10px;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
     .hero-section {
         text-align: center;
         height: auto;
         padding: 50px 20px;
+    }
+
+    .hero-text {
+        text-align: center;
     }
 
     .hero-text h1 {
@@ -105,8 +102,11 @@ nav a.nav-link.active {
         font-size: 1em;
     }
 
-    .hero-image img {
+    .hero-image {
         margin-top: 20px;
+    }
+
+    .hero-img {
         width: 70%;
     }
 }
