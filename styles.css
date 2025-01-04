@@ -46,12 +46,16 @@ nav a.nav-link.active {
 }
 
 /* Hero Section */
+/* Hero Section */
 .hero-section {
     height: 100vh;
     display: flex;
     align-items: center;
     background: linear-gradient(135deg, #00c6ff, #0072ff, #ff7f50); /* Vibrant gradient */
     color: #ffffff;
+    padding-top: 80px; /* Adjusted for navbar height */
+    position: relative;
+    box-sizing: border-box;
 }
 
 .hero-container {
