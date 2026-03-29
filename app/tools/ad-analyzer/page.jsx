@@ -57,22 +57,49 @@ function InputGroup({ label, icon, children }) {
 
 function Field({ label, value, onChange, placeholder }) {
   const [focused, setFocused] = useState(false);
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-      <label style={{ fontSize: 12, color: "#94a3b8", letterSpacing: "0.05em", fontFamily: "'DM Mono',monospace" }}>{label}</label>
-      <input
-        type="number" min="0" value={value}
-        onChange={e => onChange(e.target.value)} placeholder={placeholder || "0"}
-        onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
+      
+      <label
         style={{
-          background: "rgba(255,255,255,0.04)",
-          border: `1px solid ${focused ? "rgba(249,115,22,0.6)" : "rgba(255,255,255,0.1)"}`,
-          borderRadius: 10, padding: "12px 14px", color: "#f1f5f9",
-          fontSize: 15, fontFamily: "'DM Mono',monospace", outline: "none",
-          transition: "border 0.2s", boxShadow: focused ? "0 0 0 3px rgba(249,115,22,0.1)" : "none",
-          width: "100%", boxSizing: "border-box"
+          fontSize: 12,
+          color: "#64748b",
+          letterSpacing: "0.05em",
+          fontFamily: "'DM Mono',monospace"
+        }}
+      >
+        {label}
+      </label>
+
+      <input
+        type="number"
+        min="0"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder || "0"}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        style={{
+          background: "#ffffff",
+          color: "#2c2f31",
+          border: focused
+            ? "1px solid #2563eb"
+            : "1px solid #e5e7eb",
+          borderRadius: 10,
+          padding: "12px 14px",
+          fontSize: 15,
+          fontFamily: "'DM Mono',monospace",
+          outline: "none",
+          transition: "all 0.2s",
+          boxShadow: focused
+            ? "0 0 0 3px rgba(37,99,235,0.1)"
+            : "none",
+          width: "100%",
+          boxSizing: "border-box"
         }}
       />
+
     </div>
   );
 }
@@ -126,8 +153,18 @@ function DownloadModal({ onClose, onConfirm }) {
     <div
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}
       style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(0,0,0,0.8)", backdropFilter: "blur(10px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
-      <div style={{ background: "linear-gradient(135deg,#1a1f2e 0%,#141824 100%)", border: "1px solid rgba(249,115,22,0.35)", borderRadius: 24, padding: "44px 40px", maxWidth: 440, width: "100%", boxShadow: "0 40px 80px rgba(0,0,0,0.8)", animation: "modalIn 0.28s cubic-bezier(0.34,1.56,0.64,1) forwards" }}>
-
+<div
+  style={{
+    background: "#ffffff",
+    border: "1px solid #e5e7eb",
+    borderRadius: 20,
+    padding: "40px 36px",
+    maxWidth: 440,
+    width: "100%",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+    animation: "modalIn 0.28s cubic-bezier(0.34,1.56,0.64,1) forwards"
+  }}
+>
         {/* Icon */}
         <div style={{ width: 60, height: 60, borderRadius: 18, margin: "0 auto 22px", background: "linear-gradient(135deg,rgba(249,115,22,0.2),rgba(234,88,12,0.12))", border: "1px solid rgba(249,115,22,0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28 }}>📥</div>
 
@@ -167,7 +204,8 @@ function DownloadModal({ onClose, onConfirm }) {
           onClick={handleDownload} disabled={loading}
           style={{
             width: "100%",
-            background: loading ? "rgba(249,115,22,0.35)" : "linear-gradient(135deg,#f97316,#ea580c)",
+            background: loading ? "rgba(249,115,22,0.35)" : "linear-gradient(135deg,#2563eb,  // blue (matches your site)
+#1d4ed8)",
             border: "none", borderRadius: 12, padding: "16px",
             color: "#fff", fontWeight: 700, fontSize: 16,
             cursor: loading ? "wait" : "pointer",
@@ -221,24 +259,29 @@ function ReportCanvas({ report, forwardRef }){
     { label: "Follows", val: report.directFollows, pct: report.views > 0 ? (report.directFollows / report.views) * 100 : 0, color: "#4ade80" },
   ];
 
-  return (
-  <div ref={forwardRef} style={{ 
-    width: 1400, 
-    background: "#0d1117", 
-    fontFamily: "'DM Sans',sans-serif", 
-    padding: "52px 60px", 
-    boxSizing: "border-box", 
-    position: "absolute", 
-    left: 0, 
-    top: 0, 
-    zIndex: -1, 
-    visibility: "hidden" 
-  }}>
+ return (
+  <div
+    ref={forwardRef}
+    style={{
+      width: 1400,
+      background: "#f5f7f9",
+      color: "#2c2f31",
+      fontFamily: "'DM Sans',sans-serif",
+      padding: "52px 60px",
+      boxSizing: "border-box",
+      position: "absolute",
+      left: 0,
+      top: 0,
+      zIndex: -1,
+      visibility: "hidden"
+    }}
+  >
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 44 }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg,#f97316,#ea580c)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>⚡</div>
+            <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg,#2563eb,  // blue (matches your site)
+#1d4ed8)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>⚡</div>
             <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22 }}>
               <span style={{ color: "#f97316" }}>Pure Reach</span>
               <span style={{ color: "#f1f5f9" }}> Innovation</span>
@@ -325,7 +368,8 @@ function ReportCanvas({ report, forwardRef }){
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div style={{ width: 26, height: 26, borderRadius: 7, background: "linear-gradient(135deg,#f97316,#ea580c)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>⚡</div>
+          <div style={{ width: 26, height: 26, borderRadius: 7, background: "linear-gradient(135deg,#2563eb,  // blue (matches your site)
+#1d4ed8)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>⚡</div>
           <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 15 }}>
             <span style={{ color: "#f97316" }}>Pure Reach</span>
             <span style={{ color: "#f1f5f9" }}> Innovation</span>
@@ -465,20 +509,7 @@ export default function App() {
       {/* Modal */}
       {showDownloadModal && <DownloadModal onClose={() => setShowDownloadModal(false)} onConfirm={doDownload} />}
 
-      {/* ── NAV ── */}
-      <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 48px", borderBottom: "1px solid rgba(255,255,255,0.06)", background: "rgba(13,17,23,0.95)", backdropFilter: "blur(20px)", position: "sticky", top: 0, zIndex: 100 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg,#f97316,#ea580c)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, boxShadow: "0 4px 12px rgba(249,115,22,0.4)" }}>⚡</div>
-          <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 18, letterSpacing: "-0.03em" }}>
-            <span style={{ color: "#f97316" }}>Pure Reach</span>
-            <span style={{ color: "#f1f5f9" }}> Innovation</span>
-          </span>
-        </div>
-        <button className="btn-main" onClick={() => inputRef.current?.scrollIntoView({ behavior: "smooth" })}
-          style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", border: "none", borderRadius: 10, padding: "10px 22px", color: "#fff", fontWeight: 600, fontSize: 14, cursor: "pointer", boxShadow: "0 4px 16px rgba(249,115,22,0.3)", fontFamily: "'DM Sans',sans-serif" }}>
-          Start Analysis →
-        </button>
-      </nav>
+      
 
       {/* ── HERO ── */}
       <section style={{ textAlign: "center", padding: "100px 24px 80px", background: "radial-gradient(ellipse 80% 50% at 50% -20%,rgba(249,115,22,0.15) 0%,transparent 60%)", position: "relative", overflow: "hidden" }}>
@@ -491,13 +522,14 @@ export default function App() {
         </div>
         <h1 className="fade-up" style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "clamp(36px,6vw,72px)", lineHeight: 1.05, letterSpacing: "-0.04em", maxWidth: 800, margin: "0 auto 20px", animationDelay: "0.2s", opacity: 0, background: "linear-gradient(135deg,#f1f5f9 30%,#94a3b8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
           Analyze Your Instagram<br />
-          <span style={{ background: "linear-gradient(135deg,#f97316,#fb923c)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Ads Like a Pro</span>
+          <span style={{ background: "linear-gradient(135deg,#2563eb,#fb923c)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Ads Like a Pro</span>
         </h1>
         <p className="fade-up" style={{ fontSize: 18, color: "#94a3b8", maxWidth: 520, margin: "0 auto 40px", lineHeight: 1.7, animationDelay: "0.3s", opacity: 0 }}>
           Get instant insights, conversion rates, and a full performance breakdown. Download a beautiful HD report — completely free.
         </p>
         <button className="btn-main fade-up" onClick={() => inputRef.current?.scrollIntoView({ behavior: "smooth" })}
-          style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", border: "none", borderRadius: 14, padding: "18px 44px", color: "#fff", fontWeight: 700, fontSize: 16, cursor: "pointer", boxShadow: "0 8px 32px rgba(249,115,22,0.35)", fontFamily: "'Syne',sans-serif", letterSpacing: "-0.01em", animationDelay: "0.4s", opacity: 0 }}>
+          style={{ background: "linear-gradient(135deg,#2563eb,  // blue (matches your site)
+#1d4ed8)", border: "none", borderRadius: 14, padding: "18px 44px", color: "#fff", fontWeight: 700, fontSize: 16, cursor: "pointer", boxShadow: "0 8px 32px rgba(249,115,22,0.35)", fontFamily: "'Syne',sans-serif", letterSpacing: "-0.01em", animationDelay: "0.4s", opacity: 0 }}>
           Start Analysis — It's Free
         </button>
         <div className="fade-up" style={{ display: "flex", justifyContent: "center", gap: 48, marginTop: 64, animationDelay: "0.5s", opacity: 0, flexWrap: "wrap" }}>
@@ -540,7 +572,8 @@ export default function App() {
           </InputGroup>
         </div>
         <button className="btn-main" onClick={generate}
-          style={{ width: "100%", marginTop: 32, background: "linear-gradient(135deg,#f97316,#ea580c)", border: "none", borderRadius: 14, padding: 20, color: "#fff", fontWeight: 700, fontSize: 18, cursor: "pointer", boxShadow: "0 8px 32px rgba(249,115,22,0.35)", fontFamily: "'Syne',sans-serif", letterSpacing: "-0.01em", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+          style={{ width: "100%", marginTop: 32, background: "linear-gradient(135deg,#2563eb,  // blue (matches your site)
+#1d4ed8)", border: "none", borderRadius: 14, padding: 20, color: "#fff", fontWeight: 700, fontSize: 18, cursor: "pointer", boxShadow: "0 8px 32px rgba(249,115,22,0.35)", fontFamily: "'Syne',sans-serif", letterSpacing: "-0.01em", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
           <span>⚡</span> Generate My Report
         </button>
       </section>
@@ -562,7 +595,8 @@ export default function App() {
             {/* HD Download Trigger Button */}
             <button className="dl-btn" onClick={() => setShowDownloadModal(true)}
               style={{ display: "flex", alignItems: "center", gap: 12, background: "linear-gradient(135deg,#1a1f2e,#141824)", border: "1px solid rgba(249,115,22,0.4)", borderRadius: 16, padding: "14px 22px", cursor: "pointer", color: "#f1f5f9", fontFamily: "'DM Sans',sans-serif", boxShadow: "0 4px 20px rgba(249,115,22,0.15)", transition: "all 0.2s" }}>
-              <div style={{ width: 38, height: 38, borderRadius: 10, background: "linear-gradient(135deg,#f97316,#ea580c)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, boxShadow: "0 2px 10px rgba(249,115,22,0.4)" }}>⬇</div>
+              <div style={{ width: 38, height: 38, borderRadius: 10, background: "linear-gradient(135deg,#2563eb,  // blue (matches your site)
+#1d4ed8)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, boxShadow: "0 2px 10px rgba(249,115,22,0.4)" }}>⬇</div>
               <div style={{ textAlign: "left" }}>
                 <div style={{ color: "#f97316", fontSize: 14, fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>Download HD Report</div>
                 <div style={{ color: "#64748b", fontSize: 12 }}>High-res PNG · Email required</div>
@@ -682,7 +716,8 @@ export default function App() {
               <p style={{ color: "#64748b", fontSize: 14 }}>Download a beautiful, print-ready report to share with your team or client.</p>
             </div>
             <button className="btn-main dl-btn" onClick={() => setShowDownloadModal(true)}
-              style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", border: "none", borderRadius: 12, padding: "13px 26px", color: "#fff", fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: "'Syne',sans-serif", boxShadow: "0 6px 24px rgba(249,115,22,0.35)", whiteSpace: "nowrap" }}>
+              style={{ background: "linear-gradient(135deg,#2563eb,  // blue (matches your site)
+#1d4ed8)", border: "none", borderRadius: 12, padding: "13px 26px", color: "#fff", fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: "'Syne',sans-serif", boxShadow: "0 6px 24px rgba(249,115,22,0.35)", whiteSpace: "nowrap" }}>
               ⬇ Download HD Report
             </button>
           </div>
@@ -710,7 +745,8 @@ export default function App() {
                   ))}
                 </div>
                 <button className="btn-main" onClick={() => { if (leadForm.name && leadForm.email) setLeadSubmitted(true); }}
-                  style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", border: "none", borderRadius: 12, padding: "16px 40px", color: "#fff", fontWeight: 700, fontSize: 16, cursor: "pointer", boxShadow: "0 8px 32px rgba(249,115,22,0.4)", fontFamily: "'Syne',sans-serif" }}>
+                  style={{ background: "linear-gradient(135deg,#2563eb,  // blue (matches your site)
+#1d4ed8)", border: "none", borderRadius: 12, padding: "16px 40px", color: "#fff", fontWeight: 700, fontSize: 16, cursor: "pointer", boxShadow: "0 8px 32px rgba(249,115,22,0.4)", fontFamily: "'Syne',sans-serif" }}>
                   Get My Free Strategy Call →
                 </button>
                 <p style={{ marginTop: 14, fontSize: 13, color: "#475569" }}>No spam. No commitment. Just value.</p>
@@ -745,7 +781,8 @@ export default function App() {
       {/* Footer */}
       <footer style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "32px 24px", textAlign: "center" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 12 }}>
-          <div style={{ width: 28, height: 28, borderRadius: 8, background: "linear-gradient(135deg,#f97316,#ea580c)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>⚡</div>
+          <div style={{ width: 28, height: 28, borderRadius: 8, background: "linear-gradient(135deg,#2563eb,  // blue (matches your site)
+#1d4ed8)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>⚡</div>
           <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 16 }}>
             <span style={{ color: "#f97316" }}>Pure Reach</span>
             <span style={{ color: "#f1f5f9" }}> Innovation</span>

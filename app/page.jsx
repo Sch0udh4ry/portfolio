@@ -7,7 +7,79 @@ export default function Home() {
     <main className="pt-24 bg-[#f5f7f9] text-[#2c2f31]">
 
       {/* HERO */}
-      <section className="px-6 md:px-16 py-24 max-w-6xl">
+      <section className="px-6 md:px-16 py-28 max-w-6xl relative">
+
+  {/* LIGHT GRADIENT BACKGROUND */}
+  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-50 to-transparent -z-10"></div>
+
+  <h1 className="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
+    Pure Reach{" "}
+    <span className="text-blue-600">Innovation</span>
+  </h1>
+
+  <h2 className="text-3xl md:text-4xl font-semibold mt-6">
+    Scaling E-commerce Brands
+  </h2>
+
+  <p className="text-blue-600 font-semibold uppercase tracking-wide mt-4">
+    PURE REACH INNOVATION
+  </p>
+
+  <p className="mt-6 text-lg text-gray-600 max-w-2xl leading-relaxed">
+    From catalog to conversions — we handle operations, growth, and
+    performance so you can focus on scaling.
+  </p>
+
+  {/* BUTTONS */}
+  <div className="flex gap-8 mt-10 text-lg font-semibold">
+    <Link
+      href="/services/ecommerce"
+      className="text-gray-400 hover:text-black transition"
+    >
+      Explore E-commerce
+    </Link>
+
+    <Link
+      href="/tools/ad-analyzer"
+      className="text-black hover:underline"
+    >
+      Try Free Tool
+    </Link>
+  </div>
+
+  {/* TRUST */}
+  <div className="flex gap-8 mt-10 text-sm text-gray-600 flex-wrap">
+    <span>✔ 200+ Brands</span>
+    <span>✔ ₹10Cr+ Managed</span>
+    <span>✔ Multi-Platform Experts</span>
+  </div>
+
+  {/* IMPROVED CARD */}
+  <div className="mt-14 bg-white rounded-2xl shadow-md p-6 max-w-3xl border border-gray-100">
+    <h3 className="font-semibold text-lg mb-4">
+      Growth Snapshot
+    </h3>
+
+    <div className="space-y-4">
+
+      <div>
+        <p className="text-sm text-gray-500 mb-1">Revenue</p>
+        <div className="h-2 bg-gray-200 rounded">
+          <div className="h-2 bg-blue-600 w-[80%] rounded"></div>
+        </div>
+      </div>
+
+      <div>
+        <p className="text-sm text-gray-500 mb-1">Conversions</p>
+        <div className="h-2 bg-gray-200 rounded">
+          <div className="h-2 bg-blue-600 w-[60%] rounded"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
 
         <h1 className="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
           Pure Reach{" "}
