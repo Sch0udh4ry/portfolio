@@ -5,7 +5,12 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   return (
+<<<<<<< HEAD
     <main className="pt-24 bg-[#f5f7f9] text-[#2c2f31]">
+=======
+    <div className="p-10">
+      <h1 className="text-3xl font-bold">Pure Reach Innovation</h1>
+>>>>>>> e79819d7fdb7cc48b78c0832ce9da05cb3d724a6
 
       {/* HERO */}
       <section className="px-6 md:px-16 py-24 grid lg:grid-cols-2 gap-12 items-center">
