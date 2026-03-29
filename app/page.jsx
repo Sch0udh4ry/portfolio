@@ -187,7 +187,7 @@ function DownloadModal({ onClose, onConfirm }) {
 }
 
 /* ─── Off-screen Report Canvas for PNG export ─── */
-function ReportCanvas({ report, forwardRef })
+function ReportCanvas({ report, forwardRef }){
   const fN = v => (v || v === 0) ? Number(v).toLocaleString("en-IN") : "—";
   const fP = v => (v || v === 0) ? (v * 100).toFixed(2) + "%" : "—";
   const fR = v => (v || v === 0) ? "₹" + Number(v).toLocaleString("en-IN", { maximumFractionDigits: 2 }) : "—";
