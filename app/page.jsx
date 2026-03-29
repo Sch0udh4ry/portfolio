@@ -370,25 +370,39 @@ export default function App() {
     setTimeout(() => dashRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
   };
 
-  const doDownload = async (email) => {
-    if (!window.html2canvas) {
-      await new Promise((res, rej) => {
-        const s = document.createElement("script");
-        s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-        s.onload = res; s.onerror = rej;
-        document.head.appendChild(s);
-      });
+ const doDownload = async (email) => {
+  if (!window.html2canvas) {
+    await new Promise((res, rej) => {
+      const s = document.createElement("script");
+      s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+      s.onload = res; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+  }
+  const el = reportCanvasRef.current;
+  if (!el) return;
+
+  const canvas = await window.html2canvas(el, { 
+    scale: 2, 
+    useCORS: true, 
+    backgroundColor: "#0d1117", 
+    width: 1400, 
+    windowWidth: 1600,
+    logging: false,
+    onclone: (clonedDoc) => {
+      // Find the report element in the clone and make it visible for the capture
+      const clonedEl = clonedDoc.querySelector('[style*="visibility: hidden"]');
+      if (clonedEl) clonedEl.style.visibility = "visible";
     }
-    const el = reportCanvasRef.current;
-    if (!el) return;
-    const canvas = await window.html2canvas(el, { scale: 2, useCORS: true, backgroundColor: "#0d1117", width: 1400, windowWidth: 1600, logging: false });
-    const link = document.createElement("a");
-    link.download = `pure-reach-ad-report-${Date.now()}.png`;
-    link.href = canvas.toDataURL("image/png", 1.0);
-    link.click();
-    setDownloadStatus("success");
-    setShowDownloadModal(false);
-  };
+  });
+
+  const link = document.createElement("a");
+  link.download = `pure-reach-ad-report-${Date.now()}.png`;
+  link.href = canvas.toDataURL("image/png", 1.0);
+  link.click();
+  setDownloadStatus("success");
+  setShowDownloadModal(false);
+};
 
   return (
     <div style={{ fontFamily: "'DM Sans',sans-serif", background: "#0d1117", minHeight: "100vh", color: "#f1f5f9" }}>
