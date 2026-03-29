@@ -215,7 +215,6 @@ function ReportCanvas({ report, forwardRef }){
     { label: "Follows", val: report.directFollows, pct: report.views > 0 ? (report.directFollows / report.views) * 100 : 0, color: "#4ade80" },
   ];
 
-  return (
 return (
   <div ref={forwardRef} style={{ width: 1400, background: "#0d1117", fontFamily: "'DM Sans',sans-serif", padding: "52px 60px", boxSizing: "border-box", position: "absolute", left: 0, top: 0, zIndex: -1, visibility: "hidden" }}>
       {/* Header */}
