@@ -5,12 +5,7 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   return (
-<<<<<<< HEAD
     <main className="pt-24 bg-[#f5f7f9] text-[#2c2f31]">
-=======
-    <div className="p-10">
-      <h1 className="text-3xl font-bold">Pure Reach Innovation</h1>
->>>>>>> e79819d7fdb7cc48b78c0832ce9da05cb3d724a6
 
       {/* HERO */}
       <section className="px-6 md:px-16 py-24 grid lg:grid-cols-2 gap-12 items-center">
@@ -20,8 +15,12 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-6xl font-extrabold leading-tight"
           >
-            We Scale{" "}
-            <span className="text-blue-600">E-commerce Brands</span>
+            Pure Reach{" "}
+<span className="text-blue-600">Innovation</span>
+<br />
+<span className="text-3xl md:text-4xl font-semibold">
+  Scaling E-commerce Brands
+</span>
           </motion.h1>
 
           <p className="mt-6 text-lg text-gray-500 max-w-xl">
@@ -84,19 +83,25 @@ export default function Home() {
 
         <div className="grid md:grid-cols-3 gap-6">
 
-          <Link href="/services/ecommerce" className="p-6 bg-white rounded-xl shadow hover:shadow-lg">
+          <Link
+            href="/services/ecommerce"
+            className="p-6 bg-white rounded-xl shadow hover:shadow-lg"
+          >
             <h3 className="font-bold text-xl">E-commerce Growth</h3>
             <p className="text-gray-500 mt-2">
               Catalog, ads, scaling systems
             </p>
           </Link>
 
-          <div className="p-6 bg-white rounded-xl shadow">
-            <h3 className="font-bold text-xl">Social Media</h3>
+          <Link
+            href="/services/ad-marketing"
+            className="p-6 bg-white rounded-xl shadow hover:shadow-lg"
+          >
+            <h3 className="font-bold text-xl">Ad Marketing</h3>
             <p className="text-gray-500 mt-2">
-              Content & brand building
+              Performance campaigns & scaling
             </p>
-          </div>
+          </Link>
 
           <div className="p-6 bg-white rounded-xl shadow">
             <h3 className="font-bold text-xl">SEO</h3>

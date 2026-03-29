@@ -1,25 +1,45 @@
 "use client";
 
-export default function Sidebar({ reports, onSelect }) {
+import Link from "next/link";
+
+export default function Navbar() {
   return (
-    <div className="w-64 bg-[#0f172a] p-4 border-r border-white/10">
-      <h2 className="text-lg font-bold mb-4">Saved Reports</h2>
+    <nav className="fixed top-0 w-full bg-white/70 backdrop-blur-lg z-50 shadow-sm">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
-      <div className="space-y-2">
-        {reports.length === 0 && (
-          <p className="text-gray-500 text-sm">No reports yet</p>
-        )}
+        {/* LOGO */}
+        <Link href="/" className="font-extrabold text-lg">
+          Pure Reach
+        </Link>
 
-        {reports.map((r, i) => (
-          <div
-            key={i}
-            onClick={() => onSelect(r)}
-            className="p-2 bg-white/5 rounded cursor-pointer hover:bg-white/10"
-          >
-            Report {i + 1}
-          </div>
-        ))}
+        {/* LINKS */}
+        <div className="hidden md:flex gap-8 text-sm font-medium">
+
+          <Link href="/">Home</Link>
+
+          <Link href="/services/ecommerce">
+            E-commerce
+          </Link>
+
+          <Link href="/tools/ad-analyzer">
+            Free Tool
+          </Link>
+
+          <Link href="/contact">
+            Contact
+          </Link>
+
+        </div>
+
+        {/* CTA */}
+        <Link
+          href="/services/ecommerce"
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold"
+        >
+          Get Started
+        </Link>
+
       </div>
-    </div>
+    </nav>
   );
 }
