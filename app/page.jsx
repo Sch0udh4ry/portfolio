@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <div className="p-10">
-      <h1 className="text-3xl font-bold">Serenity Media</h1>
+      <h1 className="text-3xl font-bold">Pure Reach Innovation</h1>
 
       <a
         href="/tools/ad-analyzer"
