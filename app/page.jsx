@@ -21,6 +21,9 @@ export default function Home() {
 <span className="text-3xl md:text-4xl font-semibold">
   Scaling E-commerce Brands
 </span>
+<p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-4">
+  Pure Reach Innovation
+</p>
           </motion.h1>
 
           <p className="mt-6 text-lg text-gray-500 max-w-xl">
