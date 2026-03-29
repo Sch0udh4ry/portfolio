@@ -138,11 +138,17 @@ function DownloadModal({ onClose, onConfirm }) {
           Enter your email to download a high-resolution PNG report. We'll also send you exclusive Instagram ad performance tips.
         </p>
 
-        <label style={{ fontSize: 11, color: "#94a3b8", letterSpacing: "0.08em", fontFamily: "'DM Mono',monospace", display: "block", marginBottom: 8, textTransform: "uppercase" }}>
+        <label htmlFor="email-download" style={{ fontSize: 11, color: "#94a3b8", letterSpacing: "0.08em", fontFamily: "'DM Mono',monospace", display: "block", marginBottom: 8, textTransform: "uppercase" }}>
           Email Address *
         </label>
         <input
-          type="email" placeholder="you@example.com" value={email} autoFocus
+          type="email" 
+          name="email"                // Standard name for autofill
+          id="email-download"         // Matching ID for the label
+          autoComplete="email"        // Explicitly triggers browser email suggestions
+          placeholder="you@example.com" 
+          value={email} 
+          autoFocus
           onChange={e => setEmail(e.target.value)}
           onKeyDown={e => e.key === "Enter" && handleDownload()}
           style={{
