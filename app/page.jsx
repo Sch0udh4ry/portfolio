@@ -216,8 +216,8 @@ function ReportCanvas({ report, forwardRef }){
   ];
 
   return (
-    <div ref={forwardRef} style={{ width: 1400, background: "#0d1117", fontFamily: "'DM Sans',sans-serif", padding: "52px 60px", boxSizing: "border-box", position: "absolute", left: 0, top: 0, zIndex: -1, visibility: "hidden" }}>
-
+return (
+  <div ref={forwardRef} style={{ width: 1400, background: "#0d1117", fontFamily: "'DM Sans',sans-serif", padding: "52px 60px", boxSizing: "border-box", position: "absolute", left: 0, top: 0, zIndex: -1, visibility: "hidden" }}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 44 }}>
         <div>
