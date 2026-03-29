@@ -520,17 +520,29 @@ export default function App() {
             Free Tool · No Signup Required
           </div>
         </div>
-        <h1 className="fade-up" style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "clamp(36px,6vw,72px)", lineHeight: 1.05, letterSpacing: "-0.04em", maxWidth: 800, margin: "0 auto 20px", animationDelay: "0.2s", opacity: 0, background: "linear-gradient(135deg,#f1f5f9 30%,#94a3b8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-          Analyze Your Instagram<br />
-          <span style={{ background: "linear-gradient(135deg,#2563eb,#fb923c)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Ads Like a Pro</span>
-        </h1>
+        <h1
+  style={{
+    fontFamily: "'Syne',sans-serif",
+    fontWeight: 800,
+    fontSize: "clamp(36px,6vw,72px)",
+    lineHeight: 1.05,
+    letterSpacing: "-0.04em",
+    maxWidth: 800,
+    margin: "0 auto 20px",
+    background: "linear-gradient(135deg,#2c2f31 30%,#6b7280 100%)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent"
+  }}
+>
+  Free Ad Performance Audit
+</h1>
         <p className="fade-up" style={{ fontSize: 18, color: "#94a3b8", maxWidth: 520, margin: "0 auto 40px", lineHeight: 1.7, animationDelay: "0.3s", opacity: 0 }}>
-          Get instant insights, conversion rates, and a full performance breakdown. Download a beautiful HD report — completely free.
+          Discover what’s killing your ads — and how to fix it.
         </p>
         <button className="btn-main fade-up" onClick={() => inputRef.current?.scrollIntoView({ behavior: "smooth" })}
           style={{ background: "linear-gradient(135deg,#2563eb,  // blue (matches your site)
 #1d4ed8)", border: "none", borderRadius: 14, padding: "18px 44px", color: "#fff", fontWeight: 700, fontSize: 16, cursor: "pointer", boxShadow: "0 8px 32px rgba(249,115,22,0.35)", fontFamily: "'Syne',sans-serif", letterSpacing: "-0.01em", animationDelay: "0.4s", opacity: 0 }}>
-          Start Analysis — It's Free
+          Analyze My Ads
         </button>
         <div className="fade-up" style={{ display: "flex", justifyContent: "center", gap: 48, marginTop: 64, animationDelay: "0.5s", opacity: 0, flexWrap: "wrap" }}>
           {[["500+", "Campaigns Analyzed"], ["₹2Cr+", "Ad Spend Managed"], ["4.9★", "Client Rating"]].map(([val, lbl]) => (
