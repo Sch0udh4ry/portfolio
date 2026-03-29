@@ -215,8 +215,19 @@ function ReportCanvas({ report, forwardRef }){
     { label: "Follows", val: report.directFollows, pct: report.views > 0 ? (report.directFollows / report.views) * 100 : 0, color: "#4ade80" },
   ];
 
-return (
-  <div ref={forwardRef} style={{ width: 1400, background: "#0d1117", fontFamily: "'DM Sans',sans-serif", padding: "52px 60px", boxSizing: "border-box", position: "absolute", left: 0, top: 0, zIndex: -1, visibility: "hidden" }}>
+  return (
+  <div ref={forwardRef} style={{ 
+    width: 1400, 
+    background: "#0d1117", 
+    fontFamily: "'DM Sans',sans-serif", 
+    padding: "52px 60px", 
+    boxSizing: "border-box", 
+    position: "absolute", 
+    left: 0, 
+    top: 0, 
+    zIndex: -1, 
+    visibility: "hidden" 
+  }}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 44 }}>
         <div>
@@ -370,37 +381,55 @@ export default function App() {
   };
 
  const doDownload = async (email) => {
-  if (!window.html2canvas) {
-    await new Promise((res, rej) => {
-      const s = document.createElement("script");
-      s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-      s.onload = res; s.onerror = rej;
-      document.head.appendChild(s);
-    });
-  }
-  const el = reportCanvasRef.current;
-  if (!el) return;
+  setDownloadStatus("generating");
 
-  const canvas = await window.html2canvas(el, { 
-    scale: 2, 
-    useCORS: true, 
-    backgroundColor: "#0d1117", 
-    width: 1400, 
-    windowWidth: 1600,
-    logging: false,
-    onclone: (clonedDoc) => {
-      // Find the report element in the clone and make it visible for the capture
-      const clonedEl = clonedDoc.querySelector('[style*="visibility: hidden"]');
-      if (clonedEl) clonedEl.style.visibility = "visible";
+  // Give React 500ms to ensure the ReportCanvas has the data
+  setTimeout(async () => {
+    try {
+      if (!window.html2canvas) {
+        await new Promise((res, rej) => {
+          const s = document.createElement("script");
+          s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+          s.onload = res; s.onerror = rej;
+          document.head.appendChild(s);
+        });
+      }
+
+      const el = reportCanvasRef.current;
+      if (!el) {
+        setDownloadStatus("idle");
+        return;
+      }
+
+      const canvas = await window.html2canvas(el, { 
+        scale: 2, 
+        useCORS: true, 
+        backgroundColor: "#0d1117", 
+        width: 1400, 
+        windowWidth: 1600,
+        logging: false,
+        onclone: (clonedDoc) => {
+          // This ensures the element is visible ONLY to the screenshot tool
+          const clonedReport = clonedDoc.querySelector('[style*="visibility: hidden"]');
+          if (clonedReport) {
+            clonedReport.style.visibility = "visible";
+            clonedReport.style.position = "relative";
+          }
+        }
+      });
+
+      const link = document.createElement("a");
+      link.download = `pure-reach-ad-report-${Date.now()}.png`;
+      link.href = canvas.toDataURL("image/png", 1.0);
+      link.click();
+      
+      setDownloadStatus("success");
+      setShowDownloadModal(false);
+    } catch (err) {
+      console.error("Download Error:", err);
+      setDownloadStatus("idle");
     }
-  });
-
-  const link = document.createElement("a");
-  link.download = `pure-reach-ad-report-${Date.now()}.png`;
-  link.href = canvas.toDataURL("image/png", 1.0);
-  link.click();
-  setDownloadStatus("success");
-  setShowDownloadModal(false);
+  }, 500);
 };
 
   return (
