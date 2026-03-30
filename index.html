@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Services | Kinetic Agency</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary": "#00647b",
+              "primary-fixed": "#859aff",
+              "on-tertiary-container": "#004050",
+              "inverse-primary": "#6e88ff",
+              "on-secondary-fixed-variant": "#3b507b",
+              "error-container": "#f74b6d",
+              "on-tertiary-fixed": "#002a35",
+              "primary": "#0043f3",
+              "surface-tint": "#0043f3",
+              "tertiary-container": "#00cffc",
+              "error": "#b41340",
+              "on-secondary-fixed": "#1d335d",
+              "surface-container-lowest": "#ffffff",
+              "surface-dim": "#d0d5d8",
+              "on-primary-fixed": "#000000",
+              "inverse-surface": "#0b0f10",
+              "primary-dim": "#003ad6",
+              "secondary-fixed-dim": "#aec4f6",
+              "on-surface-variant": "#595c5e",
+              "on-surface": "#2c2f31",
+              "on-primary": "#f2f1ff",
+              "surface": "#f5f7f9",
+              "outline": "#747779",
+              "tertiary-dim": "#00576c",
+              "on-background": "#2c2f31",
+              "on-tertiary-fixed-variant": "#004a5c",
+              "secondary": "#465b87",
+              "surface-variant": "#d9dde0",
+              "surface-container": "#e5e9eb",
+              "on-tertiary": "#e2f6ff",
+              "surface-container-low": "#eef1f3",
+              "tertiary-fixed-dim": "#00c0ea",
+              "on-secondary-container": "#314771",
+              "outline-variant": "#abadaf",
+              "surface-container-highest": "#d9dde0",
+              "error-dim": "#a70138",
+              "on-primary-fixed-variant": "#001f7f",
+              "secondary-container": "#bfd1ff",
+              "secondary-dim": "#3a4f7a",
+              "on-primary-container": "#001868",
+              "primary-fixed-dim": "#728bff",
+              "on-error-container": "#510017",
+              "on-error": "#ffefef",
+              "surface-bright": "#f5f7f9",
+              "on-secondary": "#f0f2ff",
+              "secondary-fixed": "#bfd1ff",
+              "tertiary-fixed": "#00cffc",
+              "background": "#f5f7f9",
+              "primary-container": "#859aff",
+              "inverse-on-surface": "#9a9d9f",
+              "surface-container-high": "#dfe3e6"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-[0px_20px_40px_rgba(0,67,243,0.06)]">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
+<div class="text-xl font-extrabold tracking-tighter text-slate-900">Kinetic Agency</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-blue-600 font-bold border-b-2 border-blue-600 pb-1" href="{{DATA:SCREEN:SCREEN_8}}">Services</a>
+<a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="{{DATA:SCREEN:SCREEN_2}}">Work</a>
+<a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="#">Insights</a>
+<a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="{{DATA:SCREEN:SCREEN_5}}">About</a>
+</div>
+<div class="flex items-center space-x-4">
+<button class="px-5 py-2 text-slate-600 font-medium hover:bg-slate-100/50 rounded-lg transition-all duration-300">Login</button>
+<a class="px-6 py-2 bg-primary text-on-primary font-bold rounded-lg hover:scale-95 duration-200 transition-transform inline-block" href="{{DATA:SCREEN:SCREEN_6}}">Get Started</a>
+</div>
+</div>
+</nav>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="px-8 pt-16 pb-24 max-w-7xl mx-auto">
+<div class="max-w-3xl">
+<h1 class="text-[3.5rem] leading-[1.1] font-extrabold tracking-[-0.04em] text-on-surface mb-8">
+                    High-Velocity <span class="text-primary">Digital Growth</span> Through Expert Execution.
+                </h1>
+<p class="text-lg text-on-surface-variant leading-relaxed max-w-2xl">
+                    We don't just provide services; we build kinetic engines that drive authority. From viral social narratives to precision-targeted paid media and organic search dominance.
+                </p>
+</div>
+</section>
+<!-- Social Media Section (Bento Grid) -->
+<section class="bg-surface-container-low py-32">
+<div class="px-8 max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+<div class="max-w-xl">
+<span class="text-xs uppercase tracking-widest font-bold text-primary mb-4 block">Engine 01</span>
+<h2 class="text-4xl font-bold tracking-tight mb-6">Social Media &amp; Creative</h2>
+<p class="text-on-surface-variant text-lg">Harnessing the power of short-form video and high-fidelity design to command attention in the scroll.</p>
+</div>
+<div class="pb-2">
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="brush">brush</span>
+<span class="material-symbols-outlined text-primary" data-icon="movie">movie</span>
+<span class="material-symbols-outlined text-primary" data-icon="trending_up">trending_up</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<div class="md:col-span-8 bg-surface-container-lowest p-10 rounded-xl relative overflow-hidden group">
+<div class="relative z-10 h-full flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-4">
+<h3 class="text-2xl font-bold">The Video First Approach</h3>
+<span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-wider rounded border border-primary/20">Expert Strategist Led</span>
+</div>
+<p class="text-on-surface-variant max-w-md">Our AI-assisted editing workflow handles high-volume generation while our creative directors obsess over the final hook. We produce high-retention Reels, TikToks, and Shorts that align with your brand's core authority.</p>
+</div>
+<div class="mt-12 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="play_circle">play_circle</span>
+</div>
+<span class="font-bold text-sm">4.2M views generated for clients in Q3</span>
+</div>
+</div>
+<div class="absolute right-0 bottom-0 w-1/3 h-full opacity-10 pointer-events-none group-hover:scale-110 transition-transform duration-700">
+<img class="object-cover h-full w-full" data-alt="Close up of digital video editing interface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwTH7NUcJnuhVeWb_6__PXWREXhOsCdi-wENlny0dU2NJ_xK28A0ZdMa06cx8t3ccSMXoT0fG-LxPTFfz5SnGxBMMOcKMpsq1Mz7qLS4sRy7syv0arZz2GejjS10U_5NEJbQw91_pgrgKboj9QlB-Suwi_4MivQI0dGwL1oAKsXN2MID88-P4dej2qzbWifadIW1SQxaSzZa1ycGUWO_Fa_WcvemdtAgY867wAngB40YSb1jAyY3K606tFf2BUESNtgOPtKXSHfJ8"/>
+</div>
+</div>
+<div class="md:col-span-4 bg-primary text-on-primary p-10 rounded-xl flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-4">
+<h3 class="text-2xl font-bold">Visual Language</h3>
+<span class="px-2 py-0.5 bg-white/20 text-white text-[10px] font-extrabold uppercase tracking-wider rounded border border-white/30">Human-Verified Output</span>
+</div>
+<p class="text-on-primary/80 mt-4">Static assets that breathe. We leverage AI for design iteration and then finalize every pixel by hand for high-converting brand grids.</p>
+</div>
+<div class="mt-8 border-t border-on-primary/20 pt-6">
+<ul class="space-y-3 text-sm font-medium">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span> Narrative Brand Identity</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span> Viral Carousel Sets</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span> Dynamic UI/UX Showcase</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Paid Ads (Meta, Insta, Google) -->
+<section class="py-32">
+<div class="px-8 max-w-7xl mx-auto">
+<div class="text-center max-w-2xl mx-auto mb-20">
+<span class="text-xs uppercase tracking-widest font-bold text-primary mb-4 block">Engine 02</span>
+<h2 class="text-4xl font-bold tracking-tight mb-6">Performance Advertising</h2>
+<p class="text-on-surface-variant text-lg">AI-powered data analysis meets veteran media buying strategy. We turn clicks into scalable revenue through hybrid execution.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Meta/Insta -->
+<div class="bg-surface p-1 rounded-xl group">
+<div class="bg-surface-container-low p-8 rounded-lg h-full transition-all duration-300 group-hover:bg-primary-container relative">
+<div class="absolute top-4 right-4">
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant text-[9px] font-extrabold uppercase tracking-wider rounded group-hover:bg-on-primary-container group-hover:text-surface">Expert Managed</span>
+</div>
+<div class="w-12 h-12 bg-surface-container-highest rounded-lg flex items-center justify-center mb-6 group-hover:bg-on-primary-container">
+<span class="material-symbols-outlined group-hover:text-surface" data-icon="diversity_3">diversity_3</span>
+</div>
+<h3 class="text-xl font-bold mb-4 group-hover:text-on-primary-container">Meta &amp; Instagram</h3>
+<p class="text-on-surface-variant group-hover:text-on-primary-container/80 mb-6">Our specialists use AI modeling to predict audience behavior, ensuring mastery of the Advantage+ ecosystem with a human touch.</p>
+<div class="space-y-4">
+<div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[85%]"></div>
+</div>
+<span class="text-[10px] uppercase font-bold tracking-tighter opacity-60">Avg. 4.2x ROAS</span>
+</div>
+</div>
+</div>
+<!-- Google Search -->
+<div class="bg-surface p-1 rounded-xl group">
+<div class="bg-surface-container-low p-8 rounded-lg h-full transition-all duration-300 group-hover:bg-primary-container relative">
+<div class="absolute top-4 right-4">
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant text-[9px] font-extrabold uppercase tracking-wider rounded group-hover:bg-on-primary-container group-hover:text-surface">Expert Managed</span>
+</div>
+<div class="w-12 h-12 bg-surface-container-highest rounded-lg flex items-center justify-center mb-6 group-hover:bg-on-primary-container">
+<span class="material-symbols-outlined group-hover:text-surface" data-icon="search_insights">search_insights</span>
+</div>
+<h3 class="text-xl font-bold mb-4 group-hover:text-on-primary-container">Google Ads</h3>
+<p class="text-on-surface-variant group-hover:text-on-primary-container/80 mb-6">Intent-based scaling. We capture high-value search terms by blending PMax AI optimization with manual tactical refinement.</p>
+<div class="space-y-4">
+<div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[92%]"></div>
+</div>
+<span class="text-[10px] uppercase font-bold tracking-tighter opacity-60">Intent Capture Rate 92%</span>
+</div>
+</div>
+</div>
+<!-- Retargeting -->
+<div class="bg-surface p-1 rounded-xl group">
+<div class="bg-surface-container-low p-8 rounded-lg h-full transition-all duration-300 group-hover:bg-primary-container relative">
+<div class="absolute top-4 right-4">
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant text-[9px] font-extrabold uppercase tracking-wider rounded group-hover:bg-on-primary-container group-hover:text-surface">Expert Managed</span>
+</div>
+<div class="w-12 h-12 bg-surface-container-highest rounded-lg flex items-center justify-center mb-6 group-hover:bg-on-primary-container">
+<span class="material-symbols-outlined group-hover:text-surface" data-icon="sync">sync</span>
+</div>
+<h3 class="text-xl font-bold mb-4 group-hover:text-on-primary-container">Omnichannel</h3>
+<p class="text-on-surface-variant group-hover:text-on-primary-container/80 mb-6">Nobody slips through the cracks. We deploy sequential messaging reviewed by account leads to close the consideration gap.</p>
+<div class="space-y-4">
+<div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[78%]"></div>
+</div>
+<span class="text-[10px] uppercase font-bold tracking-tighter opacity-60">Conversion Lift 78%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SEO Mastery Section -->
+<section class="bg-slate-900 text-white py-32 overflow-hidden relative">
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary rounded-full blur-[120px]"></div>
+<div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-tertiary rounded-full blur-[100px]"></div>
+</div>
+<div class="px-8 max-w-7xl mx-auto relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<div>
+<span class="text-xs uppercase tracking-widest font-bold text-primary-container mb-4 block">Engine 03</span>
+<h2 class="text-5xl font-extrabold tracking-tighter mb-8">SEO Authority <br/>&amp; Content Rank.</h2>
+<div class="space-y-10">
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 border border-white/20 rounded-full flex items-center justify-center font-bold text-primary-container">01</div>
+<div>
+<div class="flex items-center gap-3 mb-2">
+<h4 class="text-xl font-bold">Technical Foundation</h4>
+<span class="px-2 py-0.5 bg-primary-container/20 text-primary-container text-[9px] font-extrabold uppercase tracking-wider rounded border border-primary-container/30">Specialist Verified</span>
+</div>
+<p class="text-slate-400">Our team uses proprietary AI audits for initial analysis, then manually optimizes Core Web Vitals and semantic structure.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 border border-white/20 rounded-full flex items-center justify-center font-bold text-primary-container">02</div>
+<div>
+<div class="flex items-center gap-3 mb-2">
+<h4 class="text-xl font-bold">Authority Building</h4>
+<span class="px-2 py-0.5 bg-primary-container/20 text-primary-container text-[9px] font-extrabold uppercase tracking-wider rounded border border-primary-container/30">Strategist Led</span>
+</div>
+<p class="text-slate-400">Pure human outreach and strategic digital PR. No AI bots—just real relationships that signal expertise to the algorithm.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 border border-white/20 rounded-full flex items-center justify-center font-bold text-primary-container">03</div>
+<div>
+<div class="flex items-center gap-3 mb-2">
+<h4 class="text-xl font-bold">Editorial Content</h4>
+<span class="px-2 py-0.5 bg-primary-container/20 text-primary-container text-[9px] font-extrabold uppercase tracking-wider rounded border border-primary-container/30">Human-Verified</span>
+</div>
+<p class="text-slate-400">AI-informed research meets human storytelling. Long-form narrative content written by experts for future customers.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="relative">
+<div class="bg-slate-800/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl">
+<div class="flex items-center justify-between mb-8">
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+<div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+<div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+</div>
+<span class="text-xs font-mono text-slate-500">organic_growth_metrics.json</span>
+</div>
+<div class="space-y-6">
+<div class="flex justify-between items-end">
+<div class="space-y-2">
+<p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Visibility Score</p>
+<p class="text-4xl font-bold">94.2%</p>
+</div>
+<div class="w-32 h-12 flex items-end gap-1">
+<div class="w-3 h-4 bg-primary-container/20 rounded-t"></div>
+<div class="w-3 h-6 bg-primary-container/40 rounded-t"></div>
+<div class="w-3 h-8 bg-primary-container/60 rounded-t"></div>
+<div class="w-3 h-12 bg-primary-container rounded-t"></div>
+</div>
+</div>
+<div class="p-4 bg-white/5 rounded-lg border border-white/5">
+<p class="text-sm text-slate-300">"Since migrating our SEO strategy to Kinetic, our inbound lead volume has increased by 140% YOY with 0% increase in ad spend."</p>
+<p class="mt-4 text-xs font-bold text-primary-container">— TechFlow Solutions</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-24 px-8 max-w-7xl mx-auto">
+<div class="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-primary to-primary-container p-16 md:p-24 text-center">
+<div class="relative z-10 max-w-3xl mx-auto">
+<h2 class="text-4xl md:text-6xl font-extrabold text-on-primary tracking-tighter mb-8">Ready to initiate your growth engine?</h2>
+<p class="text-on-primary/80 text-lg mb-12">Stop the guesswork. Let's build a systematic approach to your digital authority and scaling goals.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="px-10 py-5 bg-on-primary-fixed text-surface-container-lowest font-bold text-lg rounded-xl hover:scale-105 transition-transform duration-300">Start Project</button>
+<button class="px-10 py-5 bg-white/20 backdrop-blur-md text-white border border-white/30 font-bold text-lg rounded-xl hover:bg-white/30 transition-all">View Our Work</button>
+</div>
+</div>
+<!-- Abstract Texture -->
+<div class="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay">
+<img class="w-full h-full object-cover" data-alt="Abstract blue and purple flowing gradient texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcacMd7y2XtqhaPhFmutiHHBRcfki41i_fzdO1Uk8XepYOMrD2lOPBiYnBO2REmhYGwW4aAH8cUGE7a57usZqKEa0_44xb8MLBKPOYVUgcmqCmcWqsR3Ttrme5Vx8A51FX02qezPwudk57W49IzqT8G70YlJoygviBytqjRGT_a7ogFW7rG86I0Wom5neMoiqPxT8mY_o6Fk4L_HN2UUoNiFuVwASG7wTZGsdZGFTcHvVh9IRMOgN-PX7NYlgZhEUuhkPLA3yUiOY"/>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-100 dark:bg-slate-950 w-full rounded-t-none">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 py-16 max-w-7xl mx-auto">
+<div class="md:col-span-1">
+<span class="text-2xl font-black text-slate-900 dark:text-white mb-4 block">Kinetic Agency</span>
+<p class="text-slate-500 text-sm leading-relaxed mb-6">The digital authority for fast-growing brands seeking kinetic scale.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer transition-colors" data-icon="share">share</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer transition-colors" data-icon="public">public</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer transition-colors" data-icon="alternate_email">alternate_email</span>
+</div>
+</div>
+<div>
+<span class="uppercase tracking-widest text-xs font-bold text-slate-900 mb-6 block">Services</span>
+<ul class="space-y-3">
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block duration-200" href="{{DATA:SCREEN:SCREEN_8}}">Social Media</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block duration-200" href="{{DATA:SCREEN:SCREEN_8}}">Paid Ads</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block duration-200" href="{{DATA:SCREEN:SCREEN_8}}">Web Dev</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block duration-200" href="{{DATA:SCREEN:SCREEN_8}}">SEO</a></li>
+</ul>
+</div>
+<div>
+<span class="uppercase tracking-widest text-xs font-bold text-slate-900 mb-6 block">Company</span>
+<ul class="space-y-3">
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block duration-200" href="{{DATA:SCREEN:SCREEN_2}}">Work</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block duration-200" href="#">Insights</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block duration-200" href="{{DATA:SCREEN:SCREEN_5}}">About</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block duration-200" href="{{DATA:SCREEN:SCREEN_5}}">Support</a></li>
+</ul>
+</div>
+<div>
+<span class="uppercase tracking-widest text-xs font-bold text-slate-900 mb-6 block">Legal</span>
+<ul class="space-y-3">
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block duration-200" href="#">Privacy Policy</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block duration-200" href="#">Terms of Service</a></li>
+</ul>
+<div class="mt-8">
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest">© 2024 Kinetic Authority Digital. All rights reserved.</p>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
