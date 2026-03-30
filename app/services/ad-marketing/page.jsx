@@ -1,135 +1,75 @@
 "use client";
-
-import Link from "next/link";
+import React from 'react';
+import { motion } from 'framer-motion';
+import Sidebar from '@/components/layout/Sidebar';
+import { ArrowUpRight, Target, Zap } from 'lucide-react';
 
 export default function AdMarketingPage() {
   return (
-    <main className="pt-24 bg-[#f5f7f9] text-[#2c2f31]">
-
-      {/* HERO */}
-      <section className="px-6 md:px-16 py-24 max-w-6xl">
-
-        <h1 className="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
-          Ad{" "}
-          <span className="text-blue-600">Marketing</span>
-        </h1>
-
-        <p className="mt-6 text-lg text-gray-600 max-w-2xl leading-relaxed">
-          We build high-performance ad systems that scale profitably across
-          Meta, Google, and marketplaces.
-        </p>
-
-        <div className="flex gap-8 mt-10 text-lg font-semibold">
-          <Link href="/contact" className="text-black hover:underline">
-            Book Strategy Call
-          </Link>
-
-          <Link
-            href="/tools/ad-analyzer"
-            className="text-gray-400 hover:text-black transition"
+    <div className="flex min-h-screen bg-surface">
+      <Sidebar />
+      <main className="flex-1 lg:ml-72 p-8 md:p-12">
+        {/* Header Section */}
+        <header className="mb-16">
+          <motion.span 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-[10px] font-black uppercase tracking-[0.3em] text-primary"
           >
-            Try Free Analyzer
-          </Link>
-        </div>
-
-      </section>
-
-      {/* PROBLEM */}
-      <section className="px-6 md:px-16 py-20 max-w-6xl">
-
-        <h2 className="text-4xl font-bold mb-10">
-          Why Most Ads Don’t Work
-        </h2>
-
-        <div className="space-y-4 text-gray-600 text-lg">
-          <p>❌ No funnel strategy</p>
-          <p>❌ Weak creatives</p>
-          <p>❌ Wrong targeting</p>
-          <p>❌ No data-driven scaling</p>
-        </div>
-
-      </section>
-
-      {/* SOLUTION */}
-      <section className="px-6 md:px-16 py-20 max-w-6xl">
-
-        <h2 className="text-4xl font-bold mb-12">
-          What We Do
-        </h2>
-
-        <div className="space-y-6">
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm">
-            <h3 className="text-xl font-bold">
-              Creative Strategy
-            </h3>
-            <p className="text-gray-500 mt-2">
-              High-converting ad creatives & messaging
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm">
-            <h3 className="text-xl font-bold">
-              Funnel Optimization
-            </h3>
-            <p className="text-gray-500 mt-2">
-              Landing pages and conversion systems
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm">
-            <h3 className="text-xl font-bold">
-              Performance Scaling
-            </h3>
-            <p className="text-gray-500 mt-2">
-              Data-backed scaling for profitability
-            </p>
-          </div>
-
-        </div>
-
-      </section>
-
-      {/* TOOL SECTION (IMPORTANT) */}
-      <section className="px-6 md:px-16 py-24 max-w-6xl">
-
-        <h2 className="text-4xl font-bold mb-6">
-          Analyze Your Ads Instantly
-        </h2>
-
-        <p className="text-gray-600 mb-10">
-          Use our free tool to identify what’s working and what’s killing your performance.
-        </p>
-
-        <div className="bg-white p-8 rounded-2xl shadow-sm text-center">
-
-          <Link
-            href="/tools/ad-analyzer"
-            className="text-black font-semibold hover:underline text-lg"
+            Growth Operations
+          </motion.span>
+          <motion.h1 
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="text-5xl md:text-6xl font-headline font-extrabold tracking-[-0.04em] text-on-surface mt-4"
           >
-            Open Ad Analyzer →
-          </Link>
+            Ad Marketing <br/> <span className="text-primary italic">Intelligence.</span>
+          </motion.h1>
+        </header>
 
+        {/* Analytics Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          {[
+            { label: 'Avg. ROAS', value: '4.8x', icon: Target, color: 'text-blue-600' },
+            { label: 'Attributed Revenue', value: '$1.2M', icon: Zap, color: 'text-amber-500' },
+            { label: 'Conversion Lift', value: '+22%', icon: ArrowUpRight, color: 'text-green-500' },
+          ].map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-white p-8 rounded-3xl shadow-[0px_20px_40px_rgba(0,67,243,0.04)] border border-black/[0.02]"
+            >
+              <stat.icon className={`${stat.color} mb-4`} size={28} />
+              <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">{stat.label}</p>
+              <p className="text-4xl font-headline font-black text-on-surface tracking-tighter">{stat.value}</p>
+            </motion.div>
+          ))}
         </div>
 
-      </section>
-
-      {/* CTA */}
-      <section className="px-6 md:px-16 py-32 text-center">
-
-        <h2 className="text-5xl font-bold text-gray-400">
-          Ready to Scale Profitably?
-        </h2>
-
-        <Link
-          href="/contact"
-          className="block mt-6 text-gray-500 hover:text-black font-semibold"
-        >
-          Book a Strategy Call
-        </Link>
-
-      </section>
-
-    </main>
+        {/* Tactical Performance Board */}
+        <section className="bg-surface-container-low rounded-[2.5rem] p-8 md:p-12 border border-outline-variant/10">
+          <h2 className="text-2xl font-headline font-extrabold mb-8">Live Campaign Momentum</h2>
+          <div className="space-y-6">
+            {[1, 2, 3].map((item) => (
+              <div key={item} className="bg-white p-6 rounded-2xl flex items-center justify-between shadow-sm">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center font-black text-slate-400">#0{item}</div>
+                  <div>
+                    <p className="font-bold text-on-surface">Scale Operation_{item * 102}</p>
+                    <p className="text-xs text-slate-400 font-medium">Active • Meta Ads Manager</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="font-black text-primary tracking-tighter">$4,203.00</p>
+                  <p className="text-[10px] font-bold text-green-500 uppercase tracking-widest">Scaling</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }
