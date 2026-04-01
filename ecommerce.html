@@ -3,174 +3,168 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>E-commerce Solutions | Pure Reach Innovation</title>
+    <title>E-commerce Management | Pure Reach Innovation</title>
+    
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+        <link rel="stylesheet" href="style.css">
     <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#0043f3",
-                        "surface": "#f5f7f9",
-                        "on-surface": "#2c2f31",
-                        "on-primary": "#f2f1ff",
-                        "primary-container": "#859aff",
-                        "secondary-container": "#bfd1ff",
-                        "on-secondary-container": "#314771",
-                        "on-surface-variant": "#595c5e",
-                        "surface-container-low": "#eef1f3",
-                        "surface-container-highest": "#d9dde0",
-                        "surface-container-lowest": "#ffffff",
-                        "on-primary-fixed": "#000000"
-                    },
-                    fontFamily: {
-                        "headline": ["Plus Jakarta Sans"],
-                        "body": ["Manrope"]
-                    }
-                },
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0043f3",
+              "surface": "#f5f7f9",
+              "on-surface": "#2c2f31",
+              "on-primary": "#f2f1ff",
+              "primary-container": "#859aff",
+              "secondary-container": "#bfd1ff",
+              "on-secondary-container": "#314771",
+              "on-surface-variant": "#595c5e",
+              "surface-container-low": "#eef1f3",
+              "surface-container-highest": "#d9dde0",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed": "#000000",
+              "primary-fixed": "#859aff",
+              "primary-fixed-dim": "#728bff"
             },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"]
+            }
+          }
         }
+      }
     </script>
-    <style>
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        body { font-family: 'Manrope', sans-serif; }
-        h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
-
-        /* Inlined Scroll Animations */
-        .reveal {
-            opacity: 0;
-            transition: all 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
-            will-change: transform, opacity;
-        }
-        .reveal-up { transform: translateY(30px); }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
 </head>
 <body class="bg-surface text-on-surface antialiased">
 
-<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm">
-    <div class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
-        <div class="text-xl font-extrabold tracking-tighter text-slate-900">Pure Reach</div>
-        <div class="hidden md:flex items-center gap-8">
-            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="index.html">Home</a>
-            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="services.html">Services</a>
-            <a class="text-blue-600 font-bold border-b-2 border-blue-600 pb-1" href="ecommerce.html">E-commerce</a>
-            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="support.html">Support</a>
-            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="about.html">About</a>
-        </div>
-        <div class="flex items-center gap-4">
-            <button class="hidden md:block text-slate-600 font-medium px-4 py-2 hover:bg-slate-100/50 rounded-lg transition-all">Login</button>
-            <a class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold tracking-tight shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all active:scale-95 inline-block" href="#">Get Started</a>
-        </div>
-    </div>
-</nav>
+    <div id="navbar-placeholder"></div>
 
-<main class="pt-24">
-    <section class="px-8 py-16 md:py-24 max-w-7xl mx-auto reveal reveal-up">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <span class="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase rounded-full mb-6">AI Efficiency, Human Strategy</span>
-                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter text-on-surface leading-tight mb-6">
-                    Scale Your <span class="text-primary">E-commerce</span> Engine.
-                </h1>
-                <p class="text-lg md:text-xl text-on-surface-variant leading-relaxed mb-8 max-w-xl">
-                    High-performance retail management through Pure Reach Innovation. We leverage AI for rapid catalog syncing, while expert managers protect your brand voice.
-                </p>
-                <div class="flex flex-wrap gap-4">
-                    <a class="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:translate-y-[-2px] transition-transform inline-block" href="#">Explore Solutions</a>
+    <main class="pt-24">
+        <section class="px-8 py-16 md:py-24 max-w-7xl mx-auto reveal reveal-up">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase rounded-full mb-6">AI-Powered Efficiency, Human-Directed Strategy</span>
+                    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter text-on-surface leading-tight mb-6">
+                        Scale Your <span class="text-primary">E-commerce</span> Engine.
+                    </h1>
+                    <p class="text-lg md:text-xl text-on-surface-variant leading-relaxed mb-8 max-w-xl">
+                        A specialized management suite designed for high-growth brands. We leverage AI for rapid data processing and catalog synchronization, while our veteran managers oversee brand-sensitive strategy.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a class="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:translate-y-[-2px] transition-transform inline-block" href="#">Explore Solutions</a>
+                        <button class="px-8 py-4 bg-slate-200 text-on-surface font-bold rounded-xl hover:bg-slate-300 transition-colors">View Demo</button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0px_20px_40px_rgba(0,67,243,0.06)] relative z-10 overflow-hidden">
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+                                    <span class="material-symbols-outlined">analytics</span>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-bold text-on-surface-variant uppercase tracking-tighter">Hybrid Intelligence</p>
+                                    <p class="text-lg font-bold text-on-surface">Management Dashboard</p>
+                                </div>
+                            </div>
+                            <div class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">Systems Supervised</div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="h-24 bg-surface-container-low rounded-xl flex items-end p-4 gap-2">
+                                <div class="w-full bg-primary/20 h-1/2 rounded-t-sm"></div>
+                                <div class="w-full bg-primary/40 h-3/4 rounded-t-sm"></div>
+                                <div class="w-full bg-primary h-full rounded-t-sm"></div>
+                                <div class="w-full bg-primary/60 h-2/3 rounded-t-sm"></div>
+                                <div class="w-full bg-primary/80 h-4/5 rounded-t-sm"></div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="p-4 bg-surface-container-low rounded-xl border-l-4 border-primary">
+                                    <p class="text-xs text-on-surface-variant font-medium">AI Catalog Sync</p>
+                                    <p class="text-2xl font-bold">99.8%</p>
+                                </div>
+                                <div class="p-4 bg-surface-container-low rounded-xl border-l-4 border-blue-400">
+                                    <p class="text-xs text-on-surface-variant font-medium">Human Managed</p>
+                                    <p class="text-2xl font-bold">Verified</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="relative reveal reveal-up" style="transition-delay: 0.2s;">
-                <div class="bg-surface-container-lowest rounded-2xl p-6 shadow-xl border border-slate-100 relative z-10 overflow-hidden">
-                    <div class="flex items-center justify-between mb-8">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
-                                <span class="material-symbols-outlined">analytics</span>
-                            </div>
+        </section>
+
+        <section class="px-8 py-24 bg-surface-container-low reveal reveal-up">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                    <div class="max-w-2xl">
+                        <h2 class="text-4xl md:text-5xl font-extrabold tracking-tighter mb-4">Management Modules</h2>
+                        <p class="text-on-surface-variant text-lg leading-relaxed">Precision tools where AI efficiency meets expert human oversight to protect your brand integrity.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="md:col-span-2 bg-surface-container-lowest p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300">
+                        <span class="material-symbols-outlined text-4xl text-primary mb-6">inventory_2</span>
+                        <h3 class="text-2xl font-bold mb-3">AI Catalog Processing</h3>
+                        <p class="text-on-surface-variant leading-relaxed">Our neural engines process thousands of SKUs and metadata points in seconds, ensuring marketplace synchronization while maintaining technical accuracy.</p>
+                    </div>
+                    <div class="bg-primary text-on-primary p-8 rounded-2xl flex flex-col justify-between">
+                        <span class="material-symbols-outlined text-4xl mb-6">stat_0</span>
+                        <h3 class="text-2xl font-bold mb-3">Quantity Pulse</h3>
+                        <p class="text-on-primary/80">Automated inventory leveling powered by predictive analytics to prevent overselling.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="px-8 py-24 max-w-7xl mx-auto reveal reveal-up">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <div class="w-full md:w-1/2 space-y-12">
+                    <h2 class="text-4xl font-extrabold tracking-tighter mb-4 border-l-4 border-primary pl-8">Human-Led Promotions</h2>
+                    <p class="text-on-surface-variant text-lg">Deploy high-impact campaigns where AI handles the delivery mechanics, but human managers craft the messaging and discount logic.</p>
+                    <div class="grid grid-cols-1 gap-6">
+                        <div class="p-6 bg-surface-container-low rounded-2xl flex gap-4">
+                            <span class="material-symbols-outlined text-primary">support_agent</span>
                             <div>
-                                <p class="text-lg font-bold text-on-surface">Kinetic Dashboard</p>
+                                <h4 class="font-bold">High-Touch Relations</h4>
+                                <p class="text-sm text-on-surface-variant">Dedicated managers handling sensitive customer interactions with empathy.</p>
                             </div>
                         </div>
                     </div>
-                    <div class="space-y-4">
-                        <div class="h-24 bg-surface-container-low rounded-xl flex items-end p-4 gap-2">
-                            <div class="w-full bg-primary h-full rounded-t-sm"></div>
-                            <div class="w-full bg-primary/60 h-2/3 rounded-t-sm"></div>
-                            <div class="w-full bg-primary/80 h-4/5 rounded-t-sm"></div>
+                </div>
+                <div class="w-full md:w-1/2">
+                    <div class="bg-slate-900 p-8 rounded-3xl text-white relative overflow-hidden">
+                        <h3 class="text-2xl font-bold mb-6">Growth Intelligence</h3>
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="opacity-70">Campaign Revenue</span>
+                                <span class="font-bold text-primary-fixed">+$124.5k</span>
+                            </div>
+                            <div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary-fixed w-4/5"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="px-8 py-24 bg-surface-container-low">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl font-extrabold tracking-tighter mb-16 reveal reveal-up">Management Modules</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="md:col-span-2 bg-surface-container-lowest p-8 rounded-2xl reveal reveal-up shadow-sm">
-                    <h3 class="text-2xl font-bold mb-3">AI Catalog Processing</h3>
-                    <p class="text-on-surface-variant">Neural engines process thousands of SKUs in seconds for seamless marketplace synchronization.</p>
-                </div>
-                <div class="bg-primary text-on-primary p-8 rounded-2xl reveal reveal-up shadow-lg" style="transition-delay: 0.2s;">
-                    <h3 class="text-2xl font-bold mb-3">Quantity Pulse</h3>
-                    <p class="opacity-80">Automated inventory leveling powered by predictive analytics.</p>
+        <section class="px-8 py-24 reveal reveal-up">
+            <div class="max-w-7xl mx-auto rounded-[2.5rem] bg-primary p-12 md:p-24 text-center text-white relative overflow-hidden shadow-2xl">
+                <div class="relative z-10 max-w-3xl mx-auto">
+                    <h2 class="text-4xl md:text-6xl font-extrabold tracking-tighter mb-8 leading-tight">Ready to operationalize your digital growth?</h2>
+                    <p class="text-xl opacity-90 mb-12 font-medium">Join global brands leveraging Pure Reach Innovation for high-performance retail management.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a class="px-10 py-5 bg-white text-primary font-black rounded-xl hover:scale-105 transition-transform inline-block" href="#">Book a Strategy Call</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
-
-<footer class="bg-slate-100 dark:bg-slate-950 w-full mt-24">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 py-16 max-w-7xl mx-auto">
-        <div class="col-span-1">
-            <span class="text-2xl font-black text-slate-900 dark:text-white mb-4 block">Pure Reach</span>
-            <p class="text-slate-500 text-sm leading-relaxed mb-6">Building digital authority through Pure Reach Innovation. Human intelligence at the core of AI scale.</p>
-        </div>
-        <div>
-            <h4 class="text-xs font-bold uppercase tracking-widest text-slate-900 mb-6">Expert Services</h4>
-            <ul class="space-y-4">
-                <li><a class="text-slate-500 hover:text-primary transition-colors text-sm" href="services.html">Social Authority</a></li>
-                <li><a class="text-slate-500 hover:text-primary transition-colors text-sm" href="ecommerce.html">E-commerce Solutions</a></li>
-            </ul>
-        </div>
-        <div>
-            <h4 class="text-xs font-bold uppercase tracking-widest text-slate-900 mb-6">Company</h4>
-            <ul class="space-y-4">
-                <li><a class="text-slate-500 hover:text-primary transition-colors text-sm" href="about.html">About Us</a></li>
-                <li><a class="text-slate-500 hover:text-primary transition-colors text-sm" href="support.html">Support</a></li>
-            </ul>
-        </div>
-        <div>
-            <h4 class="text-xs font-bold uppercase tracking-widest text-slate-900 mb-6">Legal</h4>
-            <ul class="space-y-4">
-                <li><a class="text-slate-500 hover:text-primary transition-colors text-sm" href="#">Privacy Policy</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="px-8 py-8 border-t border-slate-200 text-center">
-        <p class="text-slate-500 text-xs">© 2026 Pure Reach Innovation. Managed by Sunil Choudhary.</p>
-    </div>
-</footer>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("active");
-                }
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-    });
-</script>
-
+        </section>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="main.js"></script>
 </body>
 </html>

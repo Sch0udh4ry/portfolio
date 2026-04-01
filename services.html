@@ -4,9 +4,11 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Services | Pure Reach Innovation</title>
+        <link rel="stylesheet" href="assets/style.css">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
     <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -24,132 +26,209 @@
               "surface-container-low": "#eef1f3",
               "surface-container-highest": "#d9dde0",
               "surface-container-lowest": "#ffffff",
-              "on-primary-fixed": "#000000"
+              "on-primary-fixed": "#000000",
+              "primary-fixed": "#859aff"
             },
             fontFamily: {
               "headline": ["Plus Jakarta Sans"],
-              "body": ["Manrope"]
-            }
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
           },
         },
       }
     </script>
-    <style>
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        body { font-family: 'Manrope', sans-serif; }
-        h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
-
-        /* Inlined Scroll Animations */
-        .reveal {
-            opacity: 0;
-            transition: all 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
-            will-change: transform, opacity;
-        }
-        .reveal-up { transform: translateY(30px); }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
 </head>
 <body class="bg-surface text-on-surface antialiased">
 
-<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm">
-    <div class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
-        <div class="text-xl font-extrabold tracking-tighter text-slate-900">Pure Reach Innovation</div>
-        <div class="hidden md:flex items-center gap-8">
-            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="index.html">Home</a>
-            <a class="text-blue-600 font-bold border-b-2 border-blue-600 pb-1" href="services.html">Services</a>
-            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="ecommerce.html">E-commerce</a>
-            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="support.html">Support</a>
-            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="about.html">About</a>
-        </div>
-        <div class="flex items-center gap-4">
-            <button class="hidden md:block text-slate-600 font-medium px-4 py-2 hover:bg-slate-100/50 rounded-lg transition-all">Login</button>
-            <a class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold tracking-tight shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all active:scale-95 inline-block" href="#">Get Started</a>
-        </div>
-    </div>
-</nav>
+    <div id="navbar-placeholder"></div>
 
-<main class="pt-24">
-    <section class="px-8 pt-16 pb-24 max-w-7xl mx-auto reveal reveal-up">
-        <div class="max-w-3xl">
-            <h1 class="text-[3.5rem] leading-[1.1] font-extrabold tracking-[-0.04em] text-on-surface mb-8">
-                High-Velocity <span class="text-primary">Digital Growth</span> Through Expert Execution.
-            </h1>
-            <p class="text-lg text-on-surface-variant leading-relaxed max-w-2xl">
-                We don't just provide services; we build Pure Reach engines that drive authority. From viral social narratives to precision-targeted paid media and organic search dominance.
-            </p>
-        </div>
-    </section>
+    <main class="pt-24">
+        <section class="px-8 pt-16 pb-24 max-w-7xl mx-auto reveal reveal-up">
+            <div class="max-w-3xl">
+                <h1 class="text-[3.5rem] leading-[1.1] font-extrabold tracking-[-0.04em] text-on-surface mb-8">
+                    High-Velocity <span class="text-primary">Digital Growth</span> Through Expert Execution.
+                </h1>
+                <p class="text-lg text-on-surface-variant leading-relaxed max-w-2xl">
+                    We don't just provide services; we build kinetic engines that drive authority. From viral social narratives to precision-targeted paid media and organic search dominance.
+                </p>
+            </div>
+        </section>
 
-    <section class="bg-surface-container-low py-32 reveal reveal-up">
-        <div class="px-8 max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-                <div class="max-w-xl">
-                    <span class="text-xs uppercase tracking-widest font-bold text-primary mb-4 block">Engine 01</span>
-                    <h2 class="text-4xl font-bold tracking-tight mb-6">Social Media & Creative</h2>
-                    <p class="text-on-surface-variant text-lg">Harnessing the power of short-form video and high-fidelity design.</p>
+        <section class="bg-surface-container-low py-32 reveal reveal-up">
+            <div class="px-8 max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                    <div class="max-w-xl">
+                        <span class="text-xs uppercase tracking-widest font-bold text-primary mb-4 block">Engine 01</span>
+                        <h2 class="text-4xl font-bold tracking-tight mb-6">Social Media & Creative</h2>
+                        <p class="text-on-surface-variant text-lg">Harnessing the power of short-form video and high-fidelity design to command attention in the scroll.</p>
+                    </div>
+                    <div class="pb-2">
+                        <div class="flex gap-2">
+                            <span class="material-symbols-outlined text-primary">brush</span>
+                            <span class="material-symbols-outlined text-primary">movie</span>
+                            <span class="material-symbols-outlined text-primary">trending_up</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                    <div class="md:col-span-8 bg-surface-container-lowest p-10 rounded-xl relative overflow-hidden group">
+                        <div class="relative z-10 h-full flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <h3 class="text-2xl font-bold">The Video First Approach</h3>
+                                    <span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-wider rounded border border-primary/20">Expert Strategist Led</span>
+                                </div>
+                                <p class="text-on-surface-variant max-w-md">Our AI-assisted editing workflow handles high-volume generation while our creative directors obsess over the final hook. We produce high-retention Reels, TikToks, and Shorts that align with your brand's core authority.</p>
+                            </div>
+                            <div class="mt-12 flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+                                    <span class="material-symbols-outlined">play_circle</span>
+                                </div>
+                                <span class="font-bold text-sm">4.2M views generated for clients in Q3</span>
+                            </div>
+                        </div>
+                        <div class="absolute right-0 bottom-0 w-1/3 h-full opacity-10 pointer-events-none group-hover:scale-110 transition-transform duration-700">
+                            <img class="object-cover h-full w-full" alt="Close up of digital video editing interface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwTH7NUcJnuhVeWb_6__PXWREXhOsCdi-wENlny0dU2NJ_xK28A0ZdMa06cx8t3ccSMXoT0fG-LxPTFfz5SnGxBMMOcKMpsq1Mz7qLS4sRy7syv0arZz2GejjS10U_5NEJbQw91_pgrgKboj9QlB-Suwi_4MivQI0dGwL1oAKsXN2MID88-P4dej2qzbWifadIW1SQxaSzZa1ycGUWO_Fa_WcvemdtAgY867wAngB40YSb1jAyY3K606tFf2BUESNtgOPtKXSHfJ8"/>
+                        </div>
+                    </div>
+                    <div class="md:col-span-4 bg-primary text-on-primary p-10 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-4">
+                                <h3 class="text-2xl font-bold">Visual Language</h3>
+                                <span class="px-2 py-0.5 bg-white/20 text-white text-[10px] font-extrabold uppercase tracking-wider rounded border border-white/30">Human-Verified Output</span>
+                            </div>
+                            <p class="text-on-primary/80 mt-4">Static assets that breathe. We leverage AI for design iteration and then finalize every pixel by hand for high-converting brand grids.</p>
+                        </div>
+                        <div class="mt-8 border-t border-on-primary/20 pt-6">
+                            <ul class="space-y-3 text-sm font-medium">
+                                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">check_circle</span> Narrative Brand Identity</li>
+                                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">check_circle</span> Viral Carousel Sets</li>
+                                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">check_circle</span> Dynamic UI/UX Showcase</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-                <div class="md:col-span-8 bg-surface-container-lowest p-10 rounded-xl reveal reveal-up">
-                    <h3 class="text-2xl font-bold">The Video First Approach</h3>
-                    <p class="text-on-surface-variant mt-4">AI-assisted editing workflow for high-retention Reels, TikToks, and Shorts.</p>
+        </section>
+
+        <section class="py-32 reveal reveal-up">
+            <div class="px-8 max-w-7xl mx-auto">
+                <div class="text-center max-w-2xl mx-auto mb-20">
+                    <span class="text-xs uppercase tracking-widest font-bold text-primary mb-4 block">Engine 02</span>
+                    <h2 class="text-4xl font-bold tracking-tight mb-6">Performance Advertising</h2>
+                    <p class="text-on-surface-variant text-lg">AI-powered data analysis meets veteran media buying strategy. We turn clicks into scalable revenue through hybrid execution.</p>
                 </div>
-                <div class="md:col-span-4 bg-primary text-on-primary p-10 rounded-xl reveal reveal-up" style="transition-delay: 0.2s;">
-                    <h3 class="text-2xl font-bold">Visual Language</h3>
-                    <p class="mt-4">Static assets that breathe. We finalize every pixel by hand for brand excellence.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-surface-container-low p-8 rounded-xl transition-all duration-300 hover:bg-primary-container group relative">
+                        <div class="w-12 h-12 bg-surface-container-highest rounded-lg flex items-center justify-center mb-6 group-hover:bg-on-primary-container">
+                            <span class="material-symbols-outlined group-hover:text-surface">diversity_3</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 group-hover:text-on-primary-container">Meta & Instagram</h3>
+                        <p class="text-on-surface-variant group-hover:text-on-primary-container/80 mb-6">Our specialists use AI modeling to predict audience behavior, ensuring mastery of the Advantage+ ecosystem with a human touch.</p>
+                        <div class="space-y-4">
+                            <div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="h-full bg-primary w-[85%]"></div>
+                            </div>
+                            <span class="text-[10px] uppercase font-bold tracking-tighter opacity-60 group-hover:text-on-primary-container">Avg. 4.2x ROAS</span>
+                        </div>
+                    </div>
+                    <div class="bg-surface-container-low p-8 rounded-xl transition-all duration-300 hover:bg-primary-container group relative">
+                        <div class="w-12 h-12 bg-surface-container-highest rounded-lg flex items-center justify-center mb-6 group-hover:bg-on-primary-container">
+                            <span class="material-symbols-outlined group-hover:text-surface">search_insights</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 group-hover:text-on-primary-container">Google Ads</h3>
+                        <p class="text-on-surface-variant group-hover:text-on-primary-container/80 mb-6">Intent-based scaling. We capture high-value search terms by blending PMax AI optimization with manual tactical refinement.</p>
+                        <div class="space-y-4">
+                            <div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="h-full bg-primary w-[92%]"></div>
+                            </div>
+                            <span class="text-[10px] uppercase font-bold tracking-tighter opacity-60 group-hover:text-on-primary-container">Intent Capture Rate 92%</span>
+                        </div>
+                    </div>
+                    <div class="bg-surface-container-low p-8 rounded-xl transition-all duration-300 hover:bg-primary-container group relative">
+                        <div class="w-12 h-12 bg-surface-container-highest rounded-lg flex items-center justify-center mb-6 group-hover:bg-on-primary-container">
+                            <span class="material-symbols-outlined group-hover:text-surface">sync</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 group-hover:text-on-primary-container">Omnichannel</h3>
+                        <p class="text-on-surface-variant group-hover:text-on-primary-container/80 mb-6">Nobody slips through the cracks. We deploy sequential messaging reviewed by account leads to close the consideration gap.</p>
+                        <div class="space-y-4">
+                            <div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="h-full bg-primary w-[78%]"></div>
+                            </div>
+                            <span class="text-[10px] uppercase font-bold tracking-tighter opacity-60 group-hover:text-on-primary-container">Conversion Lift 78%</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
 
-<footer class="bg-slate-100 dark:bg-slate-950 w-full mt-24">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 py-16 max-w-7xl mx-auto">
-        <div class="col-span-1">
-            <span class="text-2xl font-black text-slate-900 dark:text-white mb-4 block">Pure Reach Innovation</span>
-            <p class="text-slate-500 text-sm leading-relaxed mb-6">Building digital authority through Pure Reach Innovation. Human intelligence at the core of AI scale.</p>
-        </div>
-        <div>
-            <h4 class="text-xs font-bold uppercase tracking-widest text-slate-900 mb-6">Expert Services</h4>
-            <ul class="space-y-4">
-                <li><a class="text-slate-500 hover:text-primary transition-colors text-sm" href="services.html">Social Authority</a></li>
-                <li><a class="text-slate-500 hover:text-primary transition-colors text-sm" href="ecommerce.html">E-commerce Solutions</a></li>
-            </ul>
-        </div>
-        <div>
-            <h4 class="text-xs font-bold uppercase tracking-widest text-slate-900 mb-6">Company</h4>
-            <ul class="space-y-4">
-                <li><a class="text-slate-500 hover:text-primary transition-colors text-sm" href="about.html">About Us</a></li>
-                <li><a class="text-slate-500 hover:text-primary transition-colors text-sm" href="support.html">Support</a></li>
-            </ul>
-        </div>
-        <div>
-            <h4 class="text-xs font-bold uppercase tracking-widest text-slate-900 mb-6">Legal</h4>
-            <ul class="space-y-4">
-                <li><a class="text-slate-500 hover:text-primary transition-colors text-sm" href="#">Privacy Policy</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="px-8 py-8 border-t border-slate-200 text-center">
-        <p class="text-slate-500 text-xs">© 2026 Pure Reach Innovation. Managed by Sunil Choudhary.</p>
-    </div>
-</footer>
+        <section class="bg-slate-900 text-white py-32 overflow-hidden relative reveal reveal-up">
+            <div class="absolute inset-0 opacity-10 pointer-events-none">
+                <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary rounded-full blur-[120px]"></div>
+                <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-primary rounded-full blur-[100px]"></div>
+            </div>
+            <div class="px-8 max-w-7xl mx-auto relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                    <div>
+                        <span class="text-xs uppercase tracking-widest font-bold text-primary-container mb-4 block">Engine 03</span>
+                        <h2 class="text-5xl font-extrabold tracking-tighter mb-8">SEO Authority <br/>& Content Rank.</h2>
+                        <div class="space-y-10">
+                            <div class="flex gap-6">
+                                <div class="flex-shrink-0 w-12 h-12 border border-white/20 rounded-full flex items-center justify-center font-bold text-primary-container">01</div>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">Technical Foundation</h4>
+                                    <p class="text-slate-400">Our team uses proprietary AI audits for initial analysis, then manually optimizes Core Web Vitals and semantic structure.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-6">
+                                <div class="flex-shrink-0 w-12 h-12 border border-white/20 rounded-full flex items-center justify-center font-bold text-primary-container">02</div>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">Authority Building</h4>
+                                    <p class="text-slate-400">Pure human outreach and strategic digital PR. No AI bots—just real relationships that signal expertise to the algorithm.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="bg-slate-800/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl">
+                            <div class="flex items-center justify-between mb-8">
+                                <div class="flex gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-white/5 rounded-lg border border-white/5">
+                                <p class="text-sm text-slate-300">"Since migrating our SEO strategy to Pure Reach, our inbound lead volume has increased by 140% YOY."</p>
+                                <p class="mt-4 text-xs font-bold text-primary-container">— TechFlow Solutions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("active");
-                }
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-    });
-</script>
+        <section class="py-24 px-8 max-w-7xl mx-auto reveal reveal-up">
+            <div class="relative rounded-[2rem] overflow-hidden signature-gradient p-16 md:p-24 text-center">
+                <div class="relative z-10 max-w-3xl mx-auto text-white">
+                    <h2 class="text-4xl md:text-6xl font-extrabold tracking-tighter mb-8 leading-none">Ready to initiate your growth engine?</h2>
+                    <p class="text-white/80 text-lg mb-12">Stop the guesswork. Let's build a systematic approach to your digital authority and scaling goals.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
 
+<a href="contact.html" class="px-10 py-5 bg-white text-primary font-bold text-lg rounded-xl hover:scale-105 transition-transform inline-block text-center">
+    Start Project
+</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="assets/main.js"></script>
 </body>
 </html>

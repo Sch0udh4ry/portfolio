@@ -35,99 +35,98 @@
         },
       }
     </script>
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .signature-gradient {
+            background: linear-gradient(135deg, #0043f3 0%, #859aff 100%) !important;
+        }
+    </style>
 </head>
 <body class="bg-surface font-body text-on-surface selection:bg-primary-container selection:text-on-primary-container">
 
     <div id="navbar-placeholder"></div>
 
     <main class="pt-24">
-        <section class="relative px-8 pt-24 pb-32 overflow-hidden reveal reveal-up">
-            <div class="max-w-7xl mx-auto relative z-10">
-                <div class="flex flex-col lg:flex-row items-center gap-16">
-                    <div class="lg:w-3/5">
-                        <h1 class="font-headline text-6xl md:text-8xl font-extrabold tracking-tighter text-on-surface mb-8 leading-[0.95]">
-                            Let's Scale <br/>
-                            <span class="text-primary italic">Together</span>
+        <section class="px-8 py-16 md:py-24 max-w-7xl mx-auto reveal reveal-up">
+            <div class="flex flex-col lg:flex-row gap-16">
+                
+                <div class="lg:w-2/5 space-y-12">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase rounded-full mb-6">The Minds Behind the Mission</span>
+                        <h1 class="text-5xl md:text-6xl font-headline font-black tracking-tighter mb-8 leading-none">
+                            Human <br/><span class="text-primary italic">Velocity.</span>
                         </h1>
-                        <p class="text-xl md:text-2xl text-on-surface-variant max-w-xl mb-12 leading-relaxed">
-                            Turn your digital roadmap into a high-velocity engine. Managed by Sunil Choudhary, we bring the kinetic energy required to dominate your market.
+                        <p class="text-lg text-on-surface-variant mb-10">
+                            Meet the specialists accelerating your brand's digital footprint. Managed by Sunil Choudhary.
                         </p>
-                        <div class="flex flex-wrap gap-4">
-                            <button class="bg-primary text-on-primary px-10 py-5 rounded-lg font-headline font-bold text-lg hover:shadow-[0px_20px_40px_rgba(0,67,243,0.2)] transition-all scale-100 active:scale-95">
-                                Book a Call
-                            </button>
-                            <a href="https://wa.me/918890320610" class="border-2 border-primary text-primary px-10 py-5 rounded-lg font-headline font-bold text-lg hover:bg-primary/5 transition-all inline-block">
-                                Message Now
-                            </a>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="group relative aspect-square rounded-2xl overflow-hidden bg-surface-container-highest">
+                            <img src="IMAGES/SunilC.jpg" alt="Sunil Choudhary" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white translate-y-2 group-hover:translate-y-0 transition-transform">
+                                <p class="font-bold text-sm">Sunil Choudhary</p>
+                                <p class="text-[10px] uppercase tracking-widest opacity-80">Founder & Lead Designer</p>
+                            </div>
+                        </div>
+
+                        <div class="group relative aspect-square rounded-2xl overflow-hidden bg-surface-container-highest">
+                            <img src="IMAGES\CKMODI.jpg" alt="Product Manager" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white translate-y-2 group-hover:translate-y-0 transition-transform">
+                                <p class="font-bold text-sm">Chanchal K. Modi</p>
+                                <p class="text-[10px] uppercase tracking-widest opacity-80">Operations Lead</p>
+                            </div>
+                        </div>
+
+                        <div class="group relative aspect-square rounded-2xl overflow-hidden bg-surface-container-highest sm:col-span-1">
+                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4A8bzAizFvuIgUes-Btach8vL5gOOEuaTAF4HUKSrXa_5gRPw8-eORzwlU-ZhC6-6d3XUKQQnRyOE9oEVl-5xWg_aHPXvUGr1EQw-ahFo6HdhUHRKChZ-bygw8DmMgji4qhpCDCixFwe5tpRlrc4l54_etECGgkQjq5uhvhrHzTuF5nK6qqQ_yWRH6zBM017jT4q4Sk3yZcQkhGFxCiCNdZhw9mw1peticwHznhxQZrul2Mpp_lPUilspTDofbJrP9Exncb7QTKw8" alt="Trend Setter" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white translate-y-2 group-hover:translate-y-0 transition-transform">
+                                <p class="font-bold text-sm">Pankaj Sain</p>
+                                <p class="text-[10px] uppercase tracking-widest opacity-80">Creative Research</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="lg:w-2/5 relative">
-                        <div class="aspect-[4/5] rounded-xl overflow-hidden shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-700">
-                            <img alt="Modern agency team collaborating" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyUTyK4_yrUsgiNYW7qqzpXRAbY3HVJFK59wrM39wNt55B2ADG575WzV_rws8lZoA6Vs5UZ1SBJoDx5buxEEEGqHEjxcqshx6yw670-BzIPi1BmH4oQpH7zv_nJ0LadP_SJG4AVxmeV4JjJLcxIDFXsZ-4tJCRnTHJ8hkvSqu2LDZvQG0iE5CDQS0wA8E8XmBZ-_YSa8cUlzI46dqlt3kWGD_20xESvIZkslR-OrE5YH00aVD8AXYl_-tmWcr8uJyR2w3_ZnboVks"/>
-                        </div>
-                        <div class="absolute -bottom-10 -left-10 signature-gradient p-8 rounded-xl text-white hidden md:block">
-                            <p class="font-headline font-black text-4xl">24/7</p>
-                            <p class="text-sm font-bold uppercase tracking-widest opacity-80">Support Response</p>
-                        </div>
+
+                    <div class="space-y-4 pt-4 border-t border-slate-200">
+                        <a href="https://wa.me/918890320610" class="flex items-center gap-4 group">
+                            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                                <span class="material-symbols-outlined text-xl">chat</span>
+                            </div>
+                            <span class="font-bold text-sm">+91 88903 20610</span>
+                        </a>
+                        <a href="mailto:hi@sunilchoudhary.in" class="flex items-center gap-4 group">
+                            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                                <span class="material-symbols-outlined text-xl">mail</span>
+                            </div>
+                            <span class="font-bold text-sm">hi@sunilchoudhary.in</span>
+                        </a>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <section class="px-8 py-24 bg-surface-container-low reveal reveal-up">
-            <div class="max-w-7xl mx-auto">
-                <div class="grid md:grid-cols-2 gap-8">
-                    <a class="group relative bg-surface-container-lowest p-12 rounded-xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden" href="https://wa.me/918890320610">
-                        <span class="material-symbols-outlined text-5xl text-primary mb-6">chat_bubble</span>
-                        <h3 class="font-headline text-3xl font-bold mb-4">Instant Chat</h3>
-                        <p class="text-on-surface-variant mb-8 text-lg">Connect with Sunil instantly via WhatsApp at +91 88903 20610.</p>
-                        <div class="inline-flex items-center font-headline font-extrabold text-primary group-hover:gap-4 transition-all gap-2 uppercase">
-                            Connect on WhatsApp <span class="material-symbols-outlined">arrow_forward</span>
-                        </div>
-                    </a>
-                    <a class="group relative bg-surface-container-lowest p-12 rounded-xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden" href="mailto:hi@sunilchoudhary.in">
-                        <span class="material-symbols-outlined text-5xl text-primary mb-6">alternate_email</span>
-                        <h3 class="font-headline text-3xl font-bold mb-4">Email Us</h3>
-                        <p class="text-on-surface-variant mb-8 text-lg">Send your brief to hi@sunilchoudhary.in and get a response within 12 hours.</p>
-                        <div class="inline-flex items-center font-headline font-extrabold text-primary group-hover:gap-4 transition-all gap-2 uppercase">
-                            Send an Email <span class="material-symbols-outlined">arrow_forward</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="px-8 py-32 bg-surface reveal reveal-up">
-            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20">
-                <div class="lg:w-1/3">
-                    <h2 class="font-headline text-5xl font-black mb-8 leading-tight">Start Your <br/>Journey.</h2>
-                    <p class="text-on-surface-variant text-lg mb-12">Complete the form and our leads will analyze your request before our discovery call.</p>
-                </div>
-                <div class="lg:w-2/3 bg-surface-container-highest p-8 md:p-16 rounded-2xl">
+                <div class="lg:w-3/5 bg-surface-container-highest p-8 md:p-16 rounded-3xl shadow-xl">
                     <form class="grid md:grid-cols-2 gap-8">
                         <div class="flex flex-col gap-2">
-                            <label class="font-headline font-bold text-sm uppercase tracking-widest text-on-surface-variant">Name</label>
+                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">Name</label>
                             <input class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" placeholder="John Doe" type="text" required/>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label class="font-headline font-bold text-sm uppercase tracking-widest text-on-surface-variant">Email</label>
+                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">Email</label>
                             <input class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" placeholder="hi@sunilchoudhary.in" type="email" required/>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label class="font-headline font-bold text-sm uppercase tracking-widest text-on-surface-variant">Phone Number (Optional)</label>
+                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">Phone (Optional)</label>
                             <input class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" placeholder="+91 88903 20610" type="tel"/>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label class="font-headline font-bold text-sm uppercase tracking-widest text-on-surface-variant">Social Media / Website (Optional)</label>
-                            <input class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" placeholder="instagram.com/sole._.traveler" type="url"/>
+                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">Social Link (Optional)</label>
+                            <input class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" placeholder="instagram.com/brand" type="url"/>
                         </div>
                         <div class="md:col-span-2 flex flex-col gap-2">
-                            <label class="font-headline font-bold text-sm uppercase tracking-widest text-on-surface-variant">Project Brief</label>
+                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">Project Brief</label>
                             <textarea class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" placeholder="Tell us about your goals..." rows="4"></textarea>
                         </div>
                         <div class="md:col-span-2 pt-4">
-                            <button class="w-full signature-gradient text-white py-6 rounded-lg font-headline font-black text-xl hover:scale-[1.01] active:scale-95 transition-all shadow-xl" type="submit">
+                            <button class="w-full signature-gradient text-white py-6 rounded-xl font-headline font-black text-xl hover:scale-[1.01] active:scale-95 transition-all shadow-xl shadow-primary/20" type="submit">
                                 Submit Request
                             </button>
                         </div>
@@ -157,14 +156,8 @@
                     </div>
                     <div class="lg:w-1/2 h-[450px] lg:h-auto relative overflow-hidden">
                         <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3568.5630686940027!2d75.8733463754261!3d26.683662976785664!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjbCsDQxJzAxLjIiTiA3NcKwNTInMzQuMSJF!5e0!3m2!1sen!2sin!4v1711981234567!5m2!1sen!2sin" 
-                            width="100%" 
-                            height="100%" 
-                            style="border:0;" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade"
-                            class="grayscale hover:grayscale-0 transition-all duration-700">
+                            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3568.188235282542!2d75.873346375427!3d26.68366307678586!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjbCsDQxJzAxLjIiTiA3NcKwNTInMzMuMyJF!5e0!3m2!1sen!2sin!4v1711974000000!5m2!1sen!2sin" 
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="grayscale hover:grayscale-0 transition-all duration-700">
                         </iframe>
                     </div>
                 </div>
@@ -173,6 +166,7 @@
     </main>
 
     <div id="footer-placeholder"></div>
-    <script src="assets/main.js"></script>
+
+    <script src="main.js"></script>
 </body>
 </html>
