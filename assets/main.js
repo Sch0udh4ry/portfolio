@@ -50,7 +50,7 @@ initSite();
 
     // 3. Start Scroll Animation Observer
     setupScrollAnimations();
-}
+
 
 function setupNavbar() {
     const menuBtn = document.getElementById('menu-btn');
