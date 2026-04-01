@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>About Us | Pure Reach Innovation</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0043f3",
+                        "surface": "#f5f7f9",
+                        "on-surface": "#2c2f31",
+                        "on-primary": "#f2f1ff",
+                        "primary-container": "#859aff",
+                        "on-surface-variant": "#595c5e",
+                        "surface-container-low": "#eef1f3",
+                        "surface-container-lowest": "#ffffff"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        /* Animation Styles */
+        .reveal { opacity: 0; transition: all 0.8s cubic-bezier(0.2, 0.6, 0.2, 1); will-change: transform, opacity; }
+        .reveal-up { transform: translateY(30px); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+
+<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm">
+    <div class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
+        <div class="text-xl font-extrabold tracking-tighter text-slate-900">Pure Reach</div>
+        <div class="hidden md:flex items-center gap-8">
+            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="index.html">Home</a>
+            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="services.html">Services</a>
+            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="ecommerce.html">E-commerce</a>
+            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="support.html">Support</a>
+            <a class="text-blue-600 font-bold border-b-2 border-blue-600 pb-1" href="about.html">About</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <a class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold tracking-tight shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all active:scale-95 inline-block" href="#">Get Started</a>
+        </div>
+    </div>
+</nav>
+
+<main class="pt-24">
+    <section class="px-8 pt-16 pb-24 max-w-7xl mx-auto reveal reveal-up">
+        <div class="max-w-3xl">
+            <span class="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">Our Story</span>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-8 leading-tight">
+                Architecting <span class="text-primary">Digital Momentum.</span>
+            </h1>
+            <p class="text-xl text-on-surface-variant leading-relaxed">
+                At Pure Reach, we believe that scale shouldn't come at the cost of soul. We combine cutting-edge AI automation with a "human-in-the-loop" philosophy to ensure every brand narrative is authentic, impactful, and precise.
+            </p>
+        </div>
+    </section>
+
+    <section class="px-8 py-24 bg-surface-container-low">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-extrabold mb-12 reveal reveal-up">The Pure Reach Philosophy</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-8 rounded-3xl shadow-sm reveal reveal-up">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-primary mb-6">
+                        <span class="material-symbols-outlined">bolt</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Velocity</h3>
+                    <p class="text-slate-600 text-sm">We use high-performance AI to move faster than the market, delivering content and data at scale.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm reveal reveal-up" style="transition-delay: 0.2s;">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-primary mb-6">
+                        <span class="material-symbols-outlined">fingerprint</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Authenticity</h3>
+                    <p class="text-slate-600 text-sm">Technology provides the speed, but human expertise provides the heart. We never sacrifice brand soul for algorithms.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm reveal reveal-up" style="transition-delay: 0.4s;">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-primary mb-6">
+                        <span class="material-symbols-outlined">verified</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Precision</h3>
+                    <p class="text-slate-600 text-sm">Rigorous human QA protocols ensure that every output meets professional standards of excellence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="bg-slate-900 text-white py-12 px-8 mt-20 text-center">
+    <p class="opacity-60 text-sm">© 2026 Pure Reach Innovation. Managed by Sunil Choudhary.</p>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("active");
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll(".reveal").forEach((el) => {
+            observer.observe(el);
+        });
+    });
+</script>
+
+</body>
+</html>
