@@ -4,119 +4,160 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>About Us | Pure Reach Innovation</title>
+    
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="/assets/style.css">
     <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#0043f3",
-                        "surface": "#f5f7f9",
-                        "on-surface": "#2c2f31",
-                        "on-primary": "#f2f1ff",
-                        "primary-container": "#859aff",
-                        "on-surface-variant": "#595c5e",
-                        "surface-container-low": "#eef1f3",
-                        "surface-container-lowest": "#ffffff"
-                    }
-                }
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0043f3",
+              "surface": "#f5f7f9",
+              "on-surface": "#2c2f31",
+              "on-primary": "#f2f1ff",
+              "primary-container": "#859aff",
+              "secondary-container": "#bfd1ff",
+              "on-secondary-container": "#314771",
+              "on-surface-variant": "#595c5e",
+              "surface-container-low": "#eef1f3",
+              "surface-container-highest": "#d9dde0",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed": "#000000",
+              "primary-fixed": "#859aff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"]
             }
-        }
+          },
+        },
+      }
     </script>
-    <style>
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        body { font-family: 'Manrope', sans-serif; }
-        h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
-
-        /* Animation Styles */
-        .reveal { opacity: 0; transition: all 0.8s cubic-bezier(0.2, 0.6, 0.2, 1); will-change: transform, opacity; }
-        .reveal-up { transform: translateY(30px); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-    </style>
 </head>
-<body class="bg-surface text-on-surface antialiased">
+<body class="bg-surface text-on-surface font-body antialiased">
 
-<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm">
-    <div class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
-        <div class="text-xl font-extrabold tracking-tighter text-slate-900">Pure Reach</div>
-        <div class="hidden md:flex items-center gap-8">
-            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="index.html">Home</a>
-            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="services.html">Services</a>
-            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="ecommerce.html">E-commerce</a>
-            <a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="support.html">Support</a>
-            <a class="text-blue-600 font-bold border-b-2 border-blue-600 pb-1" href="about.html">About</a>
-        </div>
-        <div class="flex items-center gap-4">
-            <a class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold tracking-tight shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all active:scale-95 inline-block" href="#">Get Started</a>
-        </div>
-    </div>
-</nav>
+    <div id="navbar-placeholder"></div>
 
-<main class="pt-24">
-    <section class="px-8 pt-16 pb-24 max-w-7xl mx-auto reveal reveal-up">
-        <div class="max-w-3xl">
-            <span class="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">Our Story</span>
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-8 leading-tight">
-                Architecting <span class="text-primary">Digital Momentum.</span>
-            </h1>
-            <p class="text-xl text-on-surface-variant leading-relaxed">
-                At Pure Reach, we believe that scale shouldn't come at the cost of soul. We combine cutting-edge AI automation with a "human-in-the-loop" philosophy to ensure every brand narrative is authentic, impactful, and precise.
-            </p>
-        </div>
-    </section>
-
-    <section class="px-8 py-24 bg-surface-container-low">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl font-extrabold mb-12 reveal reveal-up">The Pure Reach Philosophy</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-8 rounded-3xl shadow-sm reveal reveal-up">
-                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-primary mb-6">
-                        <span class="material-symbols-outlined">bolt</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Velocity</h3>
-                    <p class="text-slate-600 text-sm">We use high-performance AI to move faster than the market, delivering content and data at scale.</p>
-                </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm reveal reveal-up" style="transition-delay: 0.2s;">
-                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-primary mb-6">
-                        <span class="material-symbols-outlined">fingerprint</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Authenticity</h3>
-                    <p class="text-slate-600 text-sm">Technology provides the speed, but human expertise provides the heart. We never sacrifice brand soul for algorithms.</p>
-                </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm reveal reveal-up" style="transition-delay: 0.4s;">
-                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-primary mb-6">
-                        <span class="material-symbols-outlined">verified</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Precision</h3>
-                    <p class="text-slate-600 text-sm">Rigorous human QA protocols ensure that every output meets professional standards of excellence.</p>
+    <main class="pt-24">
+        <section class="relative px-8 pt-16 pb-24 md:pt-32 md:pb-40 overflow-hidden reveal reveal-up">
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="max-w-4xl">
+                    <span class="inline-block py-1 px-3 mb-6 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase font-label">The Mission</span>
+                    <h1 class="text-5xl md:text-8xl font-headline font-black tracking-tighter leading-[0.9] text-on-surface mb-8">
+                        Our Mission: <span class="text-primary italic">Human Velocity.</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-on-surface-variant leading-relaxed max-w-2xl mb-12">
+                        We are redefining the speed of progress by harmonizing the relentless efficiency of AI with the soulful depth of human creativity.
+                    </p>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
+            <div class="absolute top-0 right-0 -z-0 w-full h-full opacity-10 pointer-events-none">
+                <img class="w-full h-full object-cover" alt="Abstract digital mesh with glowing nodes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcTSHKSqoxQ2-Mnh82GGp9TIrm1YOhItmKN-imkVYvcb425e5uVQxJi9fGaWQVvb1Xs3MO4bQJiWAqGPRIoeFx1p9E4-BpAo9Pd0TG8X3NTODHkwm5Ws1sxHBJZmp8FuhxK507AYIegPA9u7zWlggrY8ilXc_QLHIQtWNT1CikTjkifEAbGMvRBr-9OJyQnbEt9MW5GmKb0MdHjts-2H_KjLQ_iuZ8Mft7_UzQ0S1dsARatngryjq4pQ9DqYEvIHONrJZo_90J8Cw"/>
+            </div>
+        </section>
 
-<footer class="bg-slate-900 text-white py-12 px-8 mt-20 text-center">
-    <p class="opacity-60 text-sm">© 2026 Pure Reach Innovation. Managed by Sunil Choudhary.</p>
-</footer>
+        <section class="bg-surface-container-low px-8 py-24 md:py-32 reveal reveal-up">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col lg:flex-row gap-16 items-center">
+                    <div class="lg:w-1/2">
+                        <div class="relative group">
+                            <div class="absolute -top-6 -left-6 w-full h-full bg-primary-container/20 rounded-xl transition-transform group-hover:translate-x-2 group-hover:translate-y-2 duration-500"></div>
+                            <img class="relative z-10 rounded-xl shadow-2xl object-cover aspect-[4/5] w-full" alt="Diverse creative team collaborating" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARa4u0KZyWoOeSaRvvFgtqu2h_DZVIblJVGIpcnXg7KGPiRyU4tgL8K3FiYpDBe2XTUI5NkVENt0LXHRTLvMZ78pizuQWCqjIl-2XeJqGnURvgi-lJzCal5FVbDL5ws1QIXQBuJQ9DWYiyO-KR0TzjGNJCA_QSNMEeBPSTtyBJWmvDbdkn_CrHpzB1W3uvqH8UyNMhuLdEl-0GF8OcAow3CUm0JbO_qrK0Dn1zpvNzJW2cNRv6MUCkjHYaofUrtm2gtud2o9evTqQ"/>
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2 space-y-8">
+                        <h2 class="text-4xl md:text-6xl font-headline font-extrabold tracking-tight leading-tight">
+                            Human-Led,<br/><span class="text-primary">AI-Enhanced.</span>
+                        </h2>
+                        <div class="w-20 h-1 bg-primary"></div>
+                        <p class="text-lg text-on-surface-variant leading-relaxed">
+                            Technology is a tool, not the architect. At Pure Reach, AI powers our speed—automating the mundane and uncovering data insights—but humans drive the strategy, the quality, and the soul of every project we touch.
+                        </p>
+                        <p class="text-lg text-on-surface-variant leading-relaxed">
+                            We believe that the future belongs to those who can leverage digital scale without losing the authentic human touch that builds real trust.
+                        </p>
+                        <div class="grid grid-cols-2 gap-8 pt-4">
+                            <div>
+                                <h4 class="font-headline font-bold text-2xl text-primary">90%</h4>
+                                <p class="text-sm text-on-surface-variant font-label uppercase tracking-widest">Efficiency Gain</p>
+                            </div>
+                            <div>
+                                <h4 class="font-headline font-bold text-2xl text-primary">100%</h4>
+                                <p class="text-sm text-on-surface-variant font-label uppercase tracking-widest">Human Strategy</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("active");
-                }
-            });
-        }, { threshold: 0.1 });
+        <section class="px-8 py-24 md:py-40 bg-surface reveal reveal-up">
+            <div class="max-w-7xl mx-auto text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-headline font-black tracking-tight mb-6">The Pure Reach Edge</h2>
+                <p class="text-on-surface-variant max-w-2xl mx-auto text-lg">Our hybrid model isn't just a process; it's a competitive advantage that delivers measurable impact.</p>
+                <div class="grid md:grid-cols-3 gap-8 mt-16">
+                    <div class="bg-surface-container-low p-10 rounded-xl hover:bg-primary-container transition-all duration-500 group">
+                        <span class="material-symbols-outlined text-primary group-hover:text-on-primary-container text-4xl mb-6">trending_up</span>
+                        <h3 class="text-2xl font-headline font-extrabold mb-4 group-hover:text-on-primary-container">Exponential ROI</h3>
+                        <p class="text-on-surface-variant group-hover:text-on-primary-container/80 leading-relaxed">By reducing production cycles through AI, we reallocate your budget toward high-impact strategic initiatives that drive revenue.</p>
+                    </div>
+                    <div class="bg-surface-container-low p-10 rounded-xl hover:bg-primary-container transition-all duration-500 group">
+                        <span class="material-symbols-outlined text-primary group-hover:text-on-primary-container text-4xl mb-6">verified_user</span>
+                        <h3 class="text-2xl font-headline font-extrabold mb-4 group-hover:text-on-primary-container">Authentic Voice</h3>
+                        <p class="text-on-surface-variant group-hover:text-on-primary-container/80 leading-relaxed">AI can draft, but humans edit for resonance. We ensure your brand voice remains uniquely yours.</p>
+                    </div>
+                    <div class="bg-surface-container-low p-10 rounded-xl hover:bg-primary-container transition-all duration-500 group">
+                        <span class="material-symbols-outlined text-primary group-hover:text-on-primary-container text-4xl mb-6">bolt</span>
+                        <h3 class="text-2xl font-headline font-extrabold mb-4 group-hover:text-on-primary-container">Agile Adaptation</h3>
+                        <p class="text-on-surface-variant group-hover:text-on-primary-container/80 leading-relaxed">Our infrastructure allows us to pivot faster than traditional agencies, responding to market shifts in real-time.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        document.querySelectorAll(".reveal").forEach((el) => {
-            observer.observe(el);
-        });
-    });
-</script>
+        <section class="bg-surface-container-highest px-8 py-24 overflow-hidden reveal reveal-up">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+                <div class="md:w-1/3">
+                    <h2 class="text-4xl md:text-5xl font-headline font-black tracking-tight mb-6">Values That Fuel Us</h2>
+                </div>
+                <div class="md:w-2/3 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+                    <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+                        <h4 class="font-headline font-extrabold text-xl mb-3">Innovation</h4>
+                        <p class="text-sm text-on-surface-variant">Relentlessly seeking the next horizon of digital possibility.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+                        <h4 class="font-headline font-extrabold text-xl mb-3">Integrity</h4>
+                        <p class="text-sm text-on-surface-variant">Transparent AI practices and honest human communication.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+                        <h4 class="font-headline font-extrabold text-xl mb-3">Empathy</h4>
+                        <p class="text-sm text-on-surface-variant">Understanding the person behind the screen is our ultimate priority.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <section class="px-8 py-24 md:py-32 reveal reveal-up">
+            <div class="max-w-6xl mx-auto rounded-3xl overflow-hidden relative signature-gradient p-12 md:p-24 text-center">
+                <div class="relative z-10 text-white">
+                    <h2 class="text-4xl md:text-6xl font-headline font-black tracking-tight mb-8 leading-none">Join the Future of Growth</h2>
+                    <p class="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-12">Ready to see what Human Velocity can do for your brand? Let's build something extraordinary together.</p>
+                    <button class="bg-white text-primary px-10 py-5 rounded-full font-headline font-extrabold text-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        Book a Strategy Call
+                    </button>
+                </div>
+                <div class="absolute inset-0 opacity-10 mix-blend-overlay">
+                    <img class="w-full h-full object-cover" alt="Abstract flowing patterns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMfeh_U5umBf5IQJT15bzsdo1LMyQuVtx33RDGLB4IhinAqU84G4S5a747BCKZxq2D63I4qZ93vc152-Waj7PPxySQpwyWMlkPse8IshgJZXkH4VEqQUmg-fQsQbT9iMi3dodGl9iynMIBiOguFYHKcl92Hx0lGIW2RAe41Fy1AkfmA8VHC2nLnXJmX9pQjVYzzllGCfVXY1kxKFEh1OfrtQpmE9wu9Q1MHDed62TrSuXPBcAZrIVhsWk3gAwwvVRh1zrbNsXw4ro"/>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <script src="assets/main.js"></script>
 </body>
 </html>
