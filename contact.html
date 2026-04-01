@@ -71,7 +71,7 @@
                         </div>
 
                         <div class="group relative aspect-square rounded-2xl overflow-hidden bg-surface-container-highest">
-                            <img src="IMAGES\CKMODI.jpg" alt="Product Manager" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <img src="IMAGES/CKMODI.jpg" alt="Product Manager" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
                             <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white translate-y-2 group-hover:translate-y-0 transition-transform">
                                 <p class="font-bold text-sm">Chanchal K. Modi</p>
                                 <p class="text-[10px] uppercase tracking-widest opacity-80">Operations Lead</p>
@@ -104,30 +104,30 @@
                 </div>
 
                 <div class="lg:w-3/5 bg-surface-container-highest p-8 md:p-16 rounded-3xl shadow-xl">
-                    <form class="grid md:grid-cols-2 gap-8">
+                    <form action="https://formspree.io/f/mgopzjez" method="POST" class="grid md:grid-cols-2 gap-8">
                         <div class="flex flex-col gap-2">
-                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">Name</label>
-                            <input class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" placeholder="John Doe" type="text" required/>
+                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant" for="contact-name">Your name</label>
+                            <input class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" id="contact-name" name="name" placeholder="John Doe" type="text" required/>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">Email</label>
-                            <input class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" placeholder="hi@sunilchoudhary.in" type="email" required/>
+                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant" for="contact-email">Your email</label>
+                            <input class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" id="contact-email" name="email" placeholder="hi@sunilchoudhary.in" type="email" required/>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">Phone (Optional)</label>
-                            <input class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" placeholder="+91 88903 20610" type="tel"/>
+                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant" for="contact-phone">Phone (Optional)</label>
+                            <input class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" id="contact-phone" name="phone" placeholder="+91 88903 20610" type="tel"/>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">Social Link (Optional)</label>
-                            <input class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" placeholder="instagram.com/brand" type="url"/>
+                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant" for="contact-social">Social Link (Optional)</label>
+                            <input class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" id="contact-social" name="social_link" placeholder="https://instagram.com/brand" type="url"/>
                         </div>
                         <div class="md:col-span-2 flex flex-col gap-2">
-                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">Project Brief</label>
-                            <textarea class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none" placeholder="Tell us about your goals..." rows="4"></textarea>
+                            <label class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant" for="contact-message">Your message</label>
+                            <textarea class="w-full bg-surface-container-lowest border-none rounded-lg p-5 focus:ring-2 focus:ring-primary outline-none min-h-[160px]" id="contact-message" name="message" placeholder="Tell us about your goals, timelines, and the kind of support you need." required></textarea>
                         </div>
                         <div class="md:col-span-2 pt-4">
                             <button class="w-full signature-gradient text-white py-6 rounded-xl font-headline font-black text-xl hover:scale-[1.01] active:scale-95 transition-all shadow-xl shadow-primary/20" type="submit">
-                                Submit Request
+                                Send
                             </button>
                         </div>
                     </form>

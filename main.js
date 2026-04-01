@@ -6,8 +6,8 @@
 async function initSite() {
     const v = new Date().getTime(); 
     const components = [
-        { id: 'navbar-placeholder', file: `/components/nav.html?v=${v}` },
-        { id: 'footer-placeholder', file: `/components/footer.html?v=${v}` }
+        { id: 'navbar-placeholder', file: `nav.html?v=${v}` },
+        { id: 'footer-placeholder', file: `footer.html?v=${v}` }
     ];
 
     for (const comp of components) {
@@ -20,7 +20,7 @@ async function initSite() {
         } catch (err) {
             console.error(`Primary load failed for ${comp.file}, trying backup...`, err);
             try {
-                const backupRes = await fetch(comp.file.replace('/', '').split('?')[0]);
+                const backupRes = await fetch(comp.file.split('?')[0]);
                 if (backupRes.ok) placeholder.innerHTML = await backupRes.text();
             } catch (backupErr) {
                 console.error("Backup load failed:", backupErr);
@@ -77,14 +77,33 @@ function setupScrollAnimations() {
 function setupGlobalCTAs() {
     document.querySelectorAll('button, a').forEach(btn => {
         const text = btn.innerText.toLowerCase();
-        if (text.includes('get started') || text.includes('book a') || text.includes('start project')) {
-            // If it's a button or a dead link, point it to contact
-            if (btn.tagName === 'BUTTON' || btn.getAttribute('href') === '#' || btn.getAttribute('href') === '') {
-                btn.onclick = (e) => {
-                    e.preventDefault();
-                    window.location.href = '/contact.html'; 
-                };
-            }
+        let target = "";
+
+        if (
+            text.includes('get started') ||
+            text.includes('book a') ||
+            text.includes('start project') ||
+            text.includes('accelerate growth') ||
+            text.includes('scale with experts') ||
+            text.includes('strategy session') ||
+            text.includes('talk to operations') ||
+            text.includes('initialize setup')
+        ) {
+            target = 'contact.html';
+        } else if (
+            text.includes('explore solutions') ||
+            text.includes('view capabilities')
+        ) {
+            target = 'services.html';
+        } else if (text.includes('view demo')) {
+            target = 'support.html';
+        }
+
+        if (target && (btn.tagName === 'BUTTON' || btn.getAttribute('href') === '#' || btn.getAttribute('href') === '')) {
+            btn.onclick = (e) => {
+                e.preventDefault();
+                window.location.href = target;
+            };
         }
     });
 }
