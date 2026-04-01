@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /nav.html
+Disallow: /footer.html
+
+Sitemap: https://sunilchoudhary.in/sitemap.xml
