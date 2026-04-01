@@ -1,0 +1,21 @@
+/* Custom Font Settings */
+body { font-family: 'Manrope', sans-serif; }
+h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Scroll Animation Engine */
+.reveal {
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
+    will-change: transform, opacity;
+}
+
+.reveal-up { transform: translateY(30px); }
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
