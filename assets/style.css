@@ -1,4 +1,3 @@
-/* Custom Font Settings */
 body { font-family: 'Manrope', sans-serif; }
 h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
 
@@ -12,9 +11,7 @@ h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
     transition: all 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
     will-change: transform, opacity;
 }
-
 .reveal-up { transform: translateY(30px); }
-
 .reveal.active {
     opacity: 1;
     transform: translateY(0);
