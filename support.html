@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Support &amp; Operations | Kinetic Agency</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary": "#00647b",
+              "primary-fixed": "#859aff",
+              "on-tertiary-container": "#004050",
+              "inverse-primary": "#6e88ff",
+              "on-secondary-fixed-variant": "#3b507b",
+              "error-container": "#f74b6d",
+              "on-tertiary-fixed": "#002a35",
+              "primary": "#0043f3",
+              "surface-tint": "#0043f3",
+              "tertiary-container": "#00cffc",
+              "error": "#b41340",
+              "on-secondary-fixed": "#1d335d",
+              "surface-container-lowest": "#ffffff",
+              "surface-dim": "#d0d5d8",
+              "on-primary-fixed": "#000000",
+              "inverse-surface": "#0b0f10",
+              "primary-dim": "#003ad6",
+              "secondary-fixed-dim": "#aec4f6",
+              "on-surface-variant": "#595c5e",
+              "on-surface": "#2c2f31",
+              "on-primary": "#f2f1ff",
+              "surface": "#f5f7f9",
+              "outline": "#747779",
+              "tertiary-dim": "#00576c",
+              "on-background": "#2c2f31",
+              "on-tertiary-fixed-variant": "#004a5c",
+              "secondary": "#465b87",
+              "surface-variant": "#d9dde0",
+              "surface-container": "#e5e9eb",
+              "on-tertiary": "#e2f6ff",
+              "surface-container-low": "#eef1f3",
+              "tertiary-fixed-dim": "#00c0ea",
+              "on-secondary-container": "#314771",
+              "outline-variant": "#abadaf",
+              "surface-container-highest": "#d9dde0",
+              "error-dim": "#a70138",
+              "on-primary-fixed-variant": "#001f7f",
+              "secondary-container": "#bfd1ff",
+              "secondary-dim": "#3a4f7a",
+              "on-primary-container": "#001868",
+              "primary-fixed-dim": "#728bff",
+              "on-error-container": "#510017",
+              "on-error": "#ffefef",
+              "surface-bright": "#f5f7f9",
+              "on-secondary": "#f0f2ff",
+              "secondary-fixed": "#bfd1ff",
+              "tertiary-fixed": "#00cffc",
+              "background": "#f5f7f9",
+              "primary-container": "#859aff",
+              "inverse-on-surface": "#9a9d9f",
+              "surface-container-high": "#dfe3e6"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+      }
+      .signature-gradient {
+        background: linear-gradient(135deg, #0043f3 0%, #859aff 100%);
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-[0px_20px_40px_rgba(0,67,243,0.06)]">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
+<div class="text-xl font-extrabold tracking-tighter text-slate-900">
+                Kinetic Agency
+            </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="{{DATA:SCREEN:SCREEN_8}}">Services</a>
+<a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="{{DATA:SCREEN:SCREEN_2}}">Work</a>
+<a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="#">Insights</a>
+<a class="text-blue-600 font-bold border-b-2 border-blue-600 pb-1" href="{{DATA:SCREEN:SCREEN_5}}">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-4 py-2 text-slate-600 font-medium hover:bg-slate-100/50 rounded-lg transition-all">Login</button>
+<button class="px-6 py-2 bg-primary text-on-primary font-bold rounded-lg shadow-lg hover:scale-95 transition-all duration-200" onclick="window.location.href='{{DATA:SCREEN:SCREEN_6}}'">Get Started</button>
+</div>
+</div>
+</nav>
+<main class="pt-24">
+<!-- Hero Section: Kinetic Authority style -->
+<section class="relative px-8 pt-16 pb-24 md:pt-32 md:pb-48 overflow-hidden">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+<div class="md:col-span-7 z-10">
+<span class="inline-block px-4 py-1.5 mb-6 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase">
+                        Operations &amp; Support
+                    </span>
+<h1 class="text-5xl md:text-7xl font-headline font-extrabold tracking-tighter text-on-surface mb-8 leading-[1.1]">
+                        Seamless <span class="text-primary">Communication</span> High-Stakes Results.
+                    </h1>
+<p class="text-lg md:text-xl text-on-surface-variant max-w-xl leading-relaxed mb-10">
+                        We bridge the gap between technical excellence and human connection. Our on-demand support operations scale with your ambition, ensuring every call and chat is a touchpoint of authority.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<button class="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-xl hover:translate-y-[-2px] transition-all" onclick="window.location.href='{{DATA:SCREEN:SCREEN_8}}'">
+                            View Capabilities
+                        </button>
+<button class="px-8 py-4 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-all">
+                            Talk to Operations
+                        </button>
+</div>
+</div>
+<div class="md:col-span-5 relative">
+<div class="aspect-square rounded-3xl overflow-hidden shadow-2xl bg-surface-container-highest">
+<img class="w-full h-full object-cover mix-blend-overlay opacity-80" data-alt="Professional office space with modern technology" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrJ84f6rstK44Sj3VXiggghTg29LBcgjGz5xHg73_dCjJLTy_K9KpTndAC-4a176ifuUEvYRIaTcsiKRV6dob1BQe8gc8JC5PEGi07zMnkan2wk9xKhcLvsk9YPwlQI-8WggZN7hQGLw-4GonGpr_S_huVh7yu-kDkRMngAJcjTB0PDl1aU3kbxxaEoWGSiXM-NIBYU6-U00WSxnXXfg980QmKsg15hTc6dv15_QE-9dyE5vb3PGa2zyej9sXUVufHYBIbSSSa5uY"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent"></div>
+</div>
+<!-- Floating Stat Card -->
+<div class="absolute -bottom-8 -left-8 p-6 bg-surface-container-lowest rounded-2xl shadow-[0px_20px_40px_rgba(0,67,243,0.1)] max-w-[240px]">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-headline font-bold text-sm">99.8% Resolution</span>
+</div>
+<p class="text-xs text-on-surface-variant">Consistent professional standards across all voice &amp; chat channels.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Dynamic Bento Grid: Communication Channels -->
+<section class="px-8 py-24 bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="mb-16">
+<h2 class="text-4xl font-headline font-bold tracking-tight mb-4 text-on-surface">Omni-Channel Mastery</h2>
+<div class="h-1 w-24 bg-primary rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Voice Inbound -->
+<div class="md:col-span-2 bg-surface-container-lowest p-10 rounded-3xl flex flex-col justify-between hover:shadow-xl transition-all group">
+<div>
+<div class="w-14 h-14 rounded-2xl bg-primary-container flex items-center justify-center text-on-primary-container mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">call_received</span>
+</div>
+<h3 class="text-3xl font-headline font-bold mb-4">Inbound Voice Strategy</h3>
+<p class="text-on-surface-variant text-lg leading-relaxed max-w-lg">
+                                High-volume inbound infrastructure designed for clarity and authority. We handle complex inquiries with rigorous professional communication standards and instant on-demand scaling.
+                            </p>
+</div>
+<div class="mt-12 flex flex-wrap gap-4">
+<span class="px-4 py-2 bg-surface-container text-on-surface-variant text-xs font-bold rounded-lg uppercase tracking-wider">24/7 Availability</span>
+<span class="px-4 py-2 bg-surface-container text-on-surface-variant text-xs font-bold rounded-lg uppercase tracking-wider">Zero Latency</span>
+<span class="px-4 py-2 bg-primary/10 text-primary text-xs font-bold rounded-lg uppercase tracking-wider">100% Human Responses</span>
+</div>
+</div>
+<!-- Chat Support -->
+<div class="bg-primary p-10 rounded-3xl text-white flex flex-col shadow-2xl relative overflow-hidden">
+<div class="relative z-10">
+<div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-3xl">chat_bubble</span>
+</div>
+<h3 class="text-2xl font-headline font-bold mb-4">Real-time Chat</h3>
+<p class="text-on-primary/80 leading-relaxed mb-6">
+                                Instant-response digital communication managed by specialists trained in your brand voice.
+                            </p>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 text-sm font-medium">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span class="font-body">Multilingual Support</span>
+</li>
+<li class="flex items-center gap-3 text-sm font-medium">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span class="font-body">AI-Enhanced Workflows</span>
+</li>
+<li class="flex items-center gap-3 text-sm font-medium">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span class="font-body">Knowledge Integration</span>
+</li>
+</ul>
+</div>
+<div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+</div>
+<!-- Outbound Calls -->
+<div class="bg-surface-container-highest p-10 rounded-3xl hover:bg-surface-container-high transition-colors">
+<div class="w-14 h-14 rounded-2xl bg-surface-container-lowest flex items-center justify-center text-primary mb-8">
+<span class="material-symbols-outlined text-3xl">call_made</span>
+</div>
+<h3 class="text-2xl font-headline font-bold mb-4">Outbound Outreach</h3>
+<p class="text-on-surface-variant leading-relaxed">
+                            Proactive operations that drive growth. From scheduling to strategic follow-ups, our outbound team operates with executive-level precision.
+                        </p>
+</div>
+<!-- AI + Human Synergy -->
+<div class="md:col-span-2 bg-white p-10 rounded-3xl flex items-center gap-12 border border-outline-variant/20 shadow-sm">
+<div class="hidden lg:block w-1/3 aspect-video rounded-2xl overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="Collaborative team working in bright office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4A8bzAizFvuIgUes-Btach8vL5gOOEuaTAF4HUKSrXa_5gRPw8-eORzwlU-ZhC6-6d3XUKQQnRyOE9oEVl-5xWg_aHPXvUGr1EQw-ahFo6HdhUHRKChZ-bygw8DmMgji4qhpCDCixFwe5tpRlrc4l54_etECGgkQjq5uhvhrHzTuF5nK6qqQ_yWRH6zBM017jT4q4Sk3yZcQkhGFxCiCNdZhw9mw1peticwHznhxQZrul2Mpp_lPUilspTDofbJrP9Exncb7QTKw"/>
+<div class="absolute inset-0 bg-primary/10 flex items-center justify-center">
+<div class="bg-white/90 backdrop-blur p-4 rounded-xl text-center">
+<span class="material-symbols-outlined text-primary block mb-1">auto_awesome</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-primary">AI Augmented</span>
+</div>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-bold rounded uppercase">Human-Centric Tech</span>
+</div>
+<h3 class="text-2xl font-headline font-bold mb-4">Augmented Intelligence, <span class="text-primary">Pure Human Empathy.</span></h3>
+<p class="text-on-surface-variant mb-6 leading-relaxed">
+                                Our agents utilize sophisticated AI for instantaneous knowledge retrieval and data synthesis, allowing them to focus 100% on providing an empathetic, high-stakes human connection.
+                            </p>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-surface-container-low rounded-xl border border-primary/5">
+<div class="text-primary font-bold text-xl">100%</div>
+<div class="text-[10px] font-bold uppercase tracking-widest opacity-60">Human-Led Interaction</div>
+</div>
+<div class="p-4 bg-surface-container-low rounded-xl border border-primary/5">
+<div class="text-primary font-bold text-xl">0.8s</div>
+<div class="text-[10px] font-bold uppercase tracking-widest opacity-60">AI Data Retrieval</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust & Quality Section -->
+<section class="px-8 py-32 bg-surface">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-20">
+<div class="md:w-1/2">
+<h2 class="text-4xl md:text-5xl font-headline font-extrabold tracking-tighter mb-8 text-on-surface">Professional Standards Beyond Comparison.</h2>
+<p class="text-on-surface-variant text-lg leading-relaxed mb-8">
+                        We don't just provide support; we represent your authority in the market. Every interaction is governed by strict Quality Assurance protocols and continuous feedback loops.
+                    </p>
+<div class="space-y-8">
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">gavel</span>
+</div>
+<div>
+<h4 class="font-headline font-bold text-lg mb-1">Rigorous Compliance</h4>
+<p class="text-on-surface-variant text-sm">Full adherence to GDPR, CCPA, and industry-specific security protocols.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<div>
+<h4 class="font-headline font-bold text-lg mb-1">Emotional Intelligence</h4>
+<p class="text-on-surface-variant text-sm">Training focused on empathy, de-escalation, and persuasive communication.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="md:w-1/2 grid grid-cols-2 gap-4">
+<div class="aspect-[4/5] rounded-3xl overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Team brainstorming in high-tech boardroom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMFOGSljXmelaXjL4ZaaqikKhGIDshc_7zFG4QuE28geGJ_fESzdIaMLzTcLVIwp9UHhAtIaVDa3T_DhhWpjt0IlscE-_7iqweLpDIarL_3tBgsW4X0Gk3MBZzwifF0loGEeY3ev2GEpTISQQKOKvhIfo2R8MGoGeqjYYvJFyPzMcgk4bHF3xoAuAd2Ma58gLAfZkHH14PNXG1p-PbMfQ3PHScabLLz_HDUVIYdZKJEM60sN40TO3s8LDMTQc6yHGtgsOsUxQyjGY"/>
+</div>
+<div class="aspect-[4/5] rounded-3xl overflow-hidden bg-surface-container-highest translate-y-12">
+<img class="w-full h-full object-cover" data-alt="Modern professional smiling with headset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCg_DLByWrnJ8B_1FTtX6dji4Q-79G4Zw_vPM34xeQcFK_o98avaAfDMgrASQDxSvqsEeGPoL7JZ542xxkgji9ITZIh1tiVSmlDA1A2Wo1MYWcjlDUBcG53pn-e9yqZDH5Q68cRaFr0vhpjMR9ZMkMO4U0xRt8F_AcZW9_1_2boCrWYEFQfN6lVYJczQFf5d5WjGR5jk0xl-jT0YP4G3cv2P9V3YxB0uyI2LEzWRcLd_K7poUvhA6ZYI84zQPSuU32IWmJhd820Bts"/>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="px-8 py-24">
+<div class="max-w-7xl mx-auto signature-gradient rounded-[2rem] p-12 md:p-24 text-center text-white relative overflow-hidden">
+<div class="relative z-10 max-w-3xl mx-auto">
+<h2 class="text-4xl md:text-6xl font-headline font-extrabold tracking-tighter mb-8 leading-none">Ready to amplify your operational authority?</h2>
+<p class="text-on-primary/80 text-lg md:text-xl mb-12">Join industry leaders who trust Kinetic for high-stakes customer interactions and 24/7 reliability.</p>
+<div class="flex flex-col md:flex-row justify-center gap-6">
+<button class="px-10 py-5 bg-on-primary-fixed text-white font-bold rounded-xl hover:scale-105 transition-all text-lg" onclick="window.location.href='{{DATA:SCREEN:SCREEN_6}}'">Initialize Setup</button>
+<button class="px-10 py-5 bg-white/20 text-white font-bold rounded-xl hover:bg-white/30 transition-all text-lg border border-white/10">Download Deck</button>
+</div>
+</div>
+<!-- Abstract accents -->
+<div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+<div class="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl"></div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-100 mt-24">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 py-16 max-w-7xl mx-auto">
+<div class="md:col-span-1">
+<span class="text-2xl font-black text-slate-900 mb-4 block">Kinetic.</span>
+<p class="text-slate-500 text-sm leading-relaxed mb-6">Redefining agency standards through digital momentum and authoritative design.</p>
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center hover:bg-primary hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">share</span>
+</div>
+</div>
+</div>
+<div>
+<span class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Solutions</span>
+<ul class="space-y-4">
+<li><a class="text-slate-500 hover:text-slate-900 hover:translate-x-1 transition-all inline-block" href="{{DATA:SCREEN:SCREEN_8}}">Social Media</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 hover:translate-x-1 transition-all inline-block" href="{{DATA:SCREEN:SCREEN_8}}">Paid Ads</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 hover:translate-x-1 transition-all inline-block" href="{{DATA:SCREEN:SCREEN_8}}">Web Dev</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 hover:translate-x-1 transition-all inline-block" href="{{DATA:SCREEN:SCREEN_8}}">SEO</a></li>
+</ul>
+</div>
+<div>
+<span class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Company</span>
+<ul class="space-y-4">
+<li><a class="text-slate-500 hover:text-slate-900 hover:translate-x-1 transition-all inline-block" href="{{DATA:SCREEN:SCREEN_5}}">About Us</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 hover:translate-x-1 transition-all inline-block" href="#">Careers</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 hover:translate-x-1 transition-all inline-block" href="{{DATA:SCREEN:SCREEN_2}}">Insights</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 hover:translate-x-1 transition-all inline-block" href="{{DATA:SCREEN:SCREEN_2}}">Case Studies</a></li>
+</ul>
+</div>
+<div>
+<span class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Legal</span>
+<ul class="space-y-4">
+<li><a class="text-slate-500 hover:text-slate-900 hover:translate-x-1 transition-all inline-block" href="#">Privacy Policy</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 hover:translate-x-1 transition-all inline-block" href="#">Terms of Service</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 hover:translate-x-1 transition-all inline-block" href="#">Security</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 hover:translate-x-1 transition-all inline-block" href="{{DATA:SCREEN:SCREEN_5}}">Support</a></li>
+</ul>
+</div>
+</div>
+<div class="px-8 py-8 border-t border-slate-200 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-slate-400 text-xs">© 2024 Kinetic Authority Digital. All rights reserved.</p>
+<div class="flex gap-6">
+<span class="text-xs font-bold text-slate-400 hover:text-primary transition-colors cursor-pointer">INSTAGRAM</span>
+<span class="text-xs font-bold text-slate-400 hover:text-primary transition-colors cursor-pointer">LINKEDIN</span>
+<span class="text-xs font-bold text-slate-400 hover:text-primary transition-colors cursor-pointer">TWITTER</span>
+</div>
+</div>
+</footer>
+</body></html>

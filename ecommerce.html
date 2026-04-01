@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>E-commerce Management | Kinetic Agency</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary": "#00647b",
+              "primary-fixed": "#859aff",
+              "on-tertiary-container": "#004050",
+              "inverse-primary": "#6e88ff",
+              "on-secondary-fixed-variant": "#3b507b",
+              "error-container": "#f74b6d",
+              "on-tertiary-fixed": "#002a35",
+              "primary": "#0043f3",
+              "surface-tint": "#0043f3",
+              "tertiary-container": "#00cffc",
+              "error": "#b41340",
+              "on-secondary-fixed": "#1d335d",
+              "surface-container-lowest": "#ffffff",
+              "surface-dim": "#d0d5d8",
+              "on-primary-fixed": "#000000",
+              "inverse-surface": "#0b0f10",
+              "primary-dim": "#003ad6",
+              "secondary-fixed-dim": "#aec4f6",
+              "on-surface-variant": "#595c5e",
+              "on-surface": "#2c2f31",
+              "on-primary": "#f2f1ff",
+              "surface": "#f5f7f9",
+              "outline": "#747779",
+              "tertiary-dim": "#00576c",
+              "on-background": "#2c2f31",
+              "on-tertiary-fixed-variant": "#004a5c",
+              "secondary": "#465b87",
+              "surface-variant": "#d9dde0",
+              "surface-container": "#e5e9eb",
+              "on-tertiary": "#e2f6ff",
+              "surface-container-low": "#eef1f3",
+              "tertiary-fixed-dim": "#00c0ea",
+              "on-secondary-container": "#314771",
+              "outline-variant": "#abadaf",
+              "surface-container-highest": "#d9dde0",
+              "error-dim": "#a70138",
+              "on-primary-fixed-variant": "#001f7f",
+              "secondary-container": "#bfd1ff",
+              "secondary-dim": "#3a4f7a",
+              "on-primary-container": "#001868",
+              "primary-fixed-dim": "#728bff",
+              "on-error-container": "#510017",
+              "on-error": "#ffefef",
+              "surface-bright": "#f5f7f9",
+              "on-secondary": "#f0f2ff",
+              "secondary-fixed": "#bfd1ff",
+              "tertiary-fixed": "#00cffc",
+              "background": "#f5f7f9",
+              "primary-container": "#859aff",
+              "inverse-on-surface": "#9a9d9f",
+              "surface-container-high": "#dfe3e6"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Manrope', sans-serif;
+        background-color: #f5f7f9;
+        color: #2c2f31;
+      }
+      h1, h2, h3, h4 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-[0px_20px_40px_rgba(0,67,243,0.06)]">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
+<div class="text-xl font-extrabold tracking-tighter text-slate-900">Kinetic Agency</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="{{DATA:SCREEN:SCREEN_8}}">Services</a>
+<a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="{{DATA:SCREEN:SCREEN_2}}">Work</a>
+<a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="#">Insights</a>
+<a class="text-slate-600 font-medium hover:text-blue-600 transition-colors" href="{{DATA:SCREEN:SCREEN_5}}">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-5 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100/50 rounded-lg transition-all">Login</button>
+<a class="px-5 py-2 text-sm font-bold bg-primary text-on-primary rounded-lg active:scale-95 duration-200 transition-all inline-block" href="{{DATA:SCREEN:SCREEN_6}}">Get Started</a>
+</div>
+</div>
+</nav>
+<main class="pt-24">
+<!-- Hero Section: Kinetic Authority Style -->
+<section class="px-8 py-16 md:py-24 max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div>
+<span class="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase rounded-full mb-6">AI-Powered Efficiency, Human-Directed Strategy</span>
+<h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter text-on-surface leading-tight mb-6">
+                        Scale Your <span class="text-primary">E-commerce</span> Engine.
+                    </h1>
+<p class="text-lg md:text-xl text-on-surface-variant leading-relaxed mb-8 max-w-xl">
+                        A specialized management suite designed for high-growth brands. We leverage AI for rapid data processing and catalog synchronization, while our veteran managers oversee brand-sensitive strategy.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<a class="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:translate-y-[-2px] transition-transform inline-block" href="{{DATA:SCREEN:SCREEN_8}}">Explore Solutions</a>
+<button class="px-8 py-4 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-colors">View Demo</button>
+</div>
+</div>
+<div class="relative">
+<!-- Dashboard Mockup Element -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0px_20px_40px_rgba(0,67,243,0.06)] relative z-10 overflow-hidden">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-tighter">Hybrid Intelligence</p>
+<p class="text-lg font-bold text-on-surface">Kinetic Dashboard</p>
+</div>
+</div>
+<div class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">Systems Supervised</div>
+</div>
+<div class="space-y-4">
+<div class="h-24 bg-surface-container-low rounded-xl flex items-end p-4 gap-2">
+<div class="w-full bg-primary/20 h-1/2 rounded-t-sm"></div>
+<div class="w-full bg-primary/40 h-3/4 rounded-t-sm"></div>
+<div class="w-full bg-primary h-full rounded-t-sm"></div>
+<div class="w-full bg-primary/60 h-2/3 rounded-t-sm"></div>
+<div class="w-full bg-primary/80 h-4/5 rounded-t-sm"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-surface-container-low rounded-xl border-l-4 border-primary">
+<p class="text-xs text-on-surface-variant font-medium">AI Catalog Sync</p>
+<p class="text-2xl font-bold">99.8%</p>
+</div>
+<div class="p-4 bg-surface-container-low rounded-xl border-l-4 border-tertiary">
+<p class="text-xs text-on-surface-variant font-medium">Human Managed</p>
+<p class="text-2xl font-bold">Verified</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Abstract Background Decoration -->
+<div class="absolute -top-10 -right-10 w-64 h-64 bg-primary-container/30 blur-3xl rounded-full -z-0"></div>
+<div class="absolute -bottom-10 -left-10 w-48 h-48 bg-tertiary-container/20 blur-3xl rounded-full -z-0"></div>
+</div>
+</div>
+</section>
+<!-- Service Bento Grid -->
+<section class="px-8 py-24 bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+<div class="max-w-2xl">
+<h2 class="text-4xl md:text-5xl font-extrabold tracking-tighter mb-4">Management Modules</h2>
+<p class="text-on-surface-variant text-lg leading-relaxed">Precision tools where AI efficiency meets expert human oversight to protect your brand integrity.</p>
+</div>
+<button class="group flex items-center gap-2 font-bold text-primary">
+                        View All Services 
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6">
+<!-- Catalog Updates -->
+<div class="md:col-span-2 bg-surface-container-lowest p-8 rounded-2xl hover:shadow-xl transition-all duration-300 flex flex-col justify-between min-h-[320px]">
+<div>
+<div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+</div>
+<h3 class="text-2xl font-bold mb-3">AI Catalog Processing</h3>
+<p class="text-on-surface-variant leading-relaxed max-w-md">Our neural engines process thousands of SKUs and metadata points in seconds, ensuring seamless marketplace synchronization while maintaining technical accuracy.</p>
+</div>
+<div class="mt-8 pt-8 border-t border-surface-container-low flex items-center gap-4">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-xs font-bold">AI Data Mapping</span>
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-xs font-bold">Automated Syncing</span>
+</div>
+</div>
+<!-- Quantity Updates -->
+<div class="bg-primary text-on-primary p-8 rounded-2xl flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 bg-white/20 text-white rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">stat_0</span>
+</div>
+<h3 class="text-2xl font-bold mb-3">Quantity Pulse</h3>
+<p class="text-on-primary/80">Automated inventory leveling powered by predictive analytics to prevent overselling across all channels.</p>
+</div>
+<button class="mt-8 w-full py-3 bg-white text-primary font-bold rounded-lg hover:bg-on-primary transition-colors">Setup Alerts</button>
+</div>
+<!-- New Launches -->
+<div class="bg-surface-container-highest p-8 rounded-2xl flex flex-col justify-between border-2 border-primary/20">
+<div>
+<div class="w-12 h-12 bg-surface-container-lowest text-on-surface rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">person</span>
+</div>
+<h3 class="text-2xl font-bold mb-3">Expert Launches</h3>
+<p class="text-on-surface-variant">Strategic deployment managed by human experts to ensure brand voice and aesthetic perfection for every collection.</p>
+</div>
+<div class="flex -space-x-2 mt-6">
+<div class="w-10 h-10 rounded-full border-2 border-surface-container-highest bg-slate-300"></div>
+<div class="w-10 h-10 rounded-full border-2 border-surface-container-highest bg-slate-400"></div>
+<div class="w-10 h-10 rounded-full border-2 border-surface-container-highest bg-slate-500"></div>
+<div class="pl-4 text-xs font-bold self-center">Human Verified</div>
+</div>
+</div>
+<!-- Platform Onboarding -->
+<div class="md:col-span-2 bg-surface-container-lowest p-8 rounded-2xl hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row gap-8 items-center">
+<div class="flex-1">
+<div class="w-12 h-12 bg-tertiary-container/30 text-on-tertiary-container rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">hub</span>
+</div>
+<h3 class="text-2xl font-bold mb-3">Architectural Integration</h3>
+<p class="text-on-surface-variant">Our specialists design the technical architecture for Shopify, Amazon, or TikTok Shop, managing the high-level channel strategy that software alone can't navigate.</p>
+</div>
+<div class="flex-none w-full md:w-64 h-40 bg-surface-container-low rounded-xl relative overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-50" data-alt="Data visualization dashboard showing growth charts" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCruybWngnrKY3EmHKf-ctI30EpjzKy7bcNAjQQrwpGSudPyB49onQuoL6WosK4p4uAKWtscyJs68qmxqBsTorEK3QmOHqtM1FPnWHNvnwjL_2PKd-Ro351wlO0A3HunOtf6K54E7nYivUW-4SeesyTR0HwAgo2sL6LIDAlsYQ0Ts3uPjBHCmrC6Vr4pHh9Y8CmZuUI6TEX7UiwEmRzNQwoI4rWUmW6r09BogKT8Sw9iS8jEFytkeZW1PUGZaQ0ybvlHByIheobiYQ"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Dynamic Marketing & Sales Section -->
+<section class="px-8 py-24 max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row gap-16 items-center">
+<div class="w-full md:w-1/2 space-y-12">
+<div class="relative pl-8">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-full"></div>
+<h2 class="text-4xl font-extrabold tracking-tighter mb-4">Human-Led Promotions</h2>
+<p class="text-on-surface-variant text-lg">Deploy high-impact campaigns where AI handles the delivery mechanics, but human managers craft the messaging and sensitive discount logic to protect brand equity.</p>
+</div>
+<div class="space-y-6">
+<div class="flex items-start gap-4 p-6 bg-surface-container-low rounded-2xl">
+<span class="material-symbols-outlined text-primary mt-1">support_agent</span>
+<div>
+<h4 class="font-bold text-lg mb-1">High-Touch Relations</h4>
+<p class="text-sm text-on-surface-variant">Dedicated account managers handling sensitive customer interactions that demand empathy and brand nuance.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-6 bg-surface-container-low rounded-2xl">
+<span class="material-symbols-outlined text-primary mt-1">auto_graph</span>
+<div>
+<h4 class="font-bold text-lg mb-1">Strategic Promotion Engine</h4>
+<p class="text-sm text-on-surface-variant">Expert-designed campaign funnels optimized by AI for maximum conversion and lifetime value.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:w-1/2">
+<div class="bg-on-primary-fixed p-8 rounded-3xl text-on-primary relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="text-2xl font-bold mb-6">Growth Intelligence</h3>
+<div class="space-y-6">
+<div class="flex justify-between items-center text-sm">
+<span class="opacity-70">Campaign Revenue</span>
+<span class="font-bold text-primary-fixed">+$124.5k</span>
+</div>
+<div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed w-4/5"></div>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="opacity-70">Conversion Rate</span>
+<span class="font-bold text-primary-fixed">+12.4%</span>
+</div>
+<div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed w-2/3"></div>
+</div>
+<div class="pt-8 grid grid-cols-2 gap-4">
+<div class="text-center p-4 bg-white/5 rounded-xl">
+<p class="text-xs opacity-60 uppercase font-bold tracking-widest mb-1">AI Delivered</p>
+<p class="text-xl font-bold">1.2M</p>
+</div>
+<div class="text-center p-4 bg-white/5 rounded-xl">
+<p class="text-xs opacity-60 uppercase font-bold tracking-widest mb-1">Human Strategy</p>
+<p class="text-xl font-bold">100%</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Decorative Gradient Flare -->
+<div class="absolute -top-1/2 -right-1/2 w-full h-full bg-primary/20 blur-[100px] rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="px-8 py-24">
+<div class="max-w-7xl mx-auto rounded-[2.5rem] bg-gradient-to-br from-primary to-primary-container p-12 md:p-24 text-center text-white relative overflow-hidden">
+<div class="relative z-10 max-w-3xl mx-auto">
+<h2 class="text-4xl md:text-6xl font-extrabold tracking-tighter mb-8 leading-tight">Ready to operationalize your digital growth?</h2>
+<p class="text-xl opacity-90 mb-12 font-medium">Join 200+ global brands leveraging Kinetic Authority for high-performance retail management through AI-Powered Efficiency and Human-Directed Strategy.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<a class="px-10 py-5 bg-on-primary-fixed text-white font-black rounded-xl hover:scale-105 transition-transform inline-block" href="{{DATA:SCREEN:SCREEN_6}}">Book a Strategy Call</a>
+<button class="px-10 py-5 bg-white/20 backdrop-blur-md text-white font-bold rounded-xl border border-white/20 hover:bg-white/30 transition-colors">View Pricing</button>
+</div>
+</div>
+<!-- Background texture/pattern -->
+<div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+<svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="40" id="grid" patternunits="userSpaceOnUse" width="40">
+<path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"></path>
+</pattern>
+</defs>
+<rect fill="url(#grid)" height="100%" width="100%"></rect>
+</svg>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-100 mt-24">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 py-16 max-w-7xl mx-auto">
+<div class="md:col-span-1">
+<a class="text-2xl font-black text-slate-900 mb-4 block" href="{{DATA:SCREEN:SCREEN_2}}">Kinetic Authority</a>
+<p class="text-slate-500 text-sm leading-relaxed mb-6">Redefining the digital retail ecosystem through AI-Powered Efficiency and Human-Directed Strategy.</p>
+</div>
+<div>
+<span class="text-xs font-bold uppercase tracking-widest text-slate-900 mb-6 block">Services</span>
+<ul class="space-y-4">
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block" href="#">Paid Ads</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block" href="#">Web Dev</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block" href="#">SEO</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block" href="{{DATA:SCREEN:SCREEN_8}}">E-commerce</a></li>
+</ul>
+</div>
+<div>
+<span class="text-xs font-bold uppercase tracking-widest text-slate-900 mb-6 block">Company</span>
+<ul class="space-y-4">
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block" href="#">Social Media</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block" href="{{DATA:SCREEN:SCREEN_5}}">Support</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block" href="#">Privacy Policy</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm hover:translate-x-1 inline-block" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<span class="text-xs font-bold uppercase tracking-widest text-slate-900 mb-6 block">Newsletter</span>
+<p class="text-xs text-slate-500 mb-4 italic">Get retail insights delivered weekly.</p>
+<div class="flex gap-2">
+<input class="flex-1 bg-white border-none rounded-lg text-sm px-4 focus:ring-2 focus:ring-primary" placeholder="Email" type="email"/>
+<button class="bg-primary text-white p-2 rounded-lg">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="px-8 py-8 max-w-7xl mx-auto border-t border-slate-200">
+<p class="text-xs text-slate-400 font-medium">© 2024 Kinetic Authority Digital. All rights reserved.</p>
+</div>
+</footer>
+</body></html>
