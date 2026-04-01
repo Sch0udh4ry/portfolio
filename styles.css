@@ -270,9 +270,3 @@ p {
     opacity: 0;
   }
 }
-
-/* Smooth page load */
-body {
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
