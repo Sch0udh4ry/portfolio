@@ -85,6 +85,33 @@ function setupScrollAnimations() {
 
     document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 }
+function setupGlobalCTAs() {
+    // This finds every button or link that says "Get Started", "Start Project", or "Book a Call"
+    const ctaButtons = document.querySelectorAll('button, a');
+    
+    ctaButtons.forEach(btn => {
+        const text = btn.innerText.toLowerCase();
+        if (text.includes('get started') || text.includes('book a') || text.includes('start project')) {
+            btn.onclick = (e) => {
+                // Replace the URL below with your actual booking link
+                window.location.href = 'contact.html'; 
+            };
+            // Add a signature hover effect to all CTAs globally
+            btn.classList.add('cursor-pointer', 'active:scale-95', 'transition-transform');
+        }
+    });
+}
+// Add this to your main.js to force visibility if the observer fails
+const observerOptions = { threshold: 0.1 };
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+        }
+    });
+}, observerOptions);
 
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// Add setupGlobalCTAs() inside your initSite() function
 // Start the engine
 initSite();
