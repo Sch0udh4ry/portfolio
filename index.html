@@ -1,136 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pure Reach Innovation</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- CSS -->
+  <!-- Tailwind Output CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body class="bg-[#f5f7f9] text-[#2c2f31]">
 
 <!-- NAVBAR -->
-<nav class="navbar">
-  <div class="container nav-inner">
-    <div class="logo">Pure Reach</div>
+<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-lg">
+  <div class="flex justify-between items-center px-8 py-4">
+    <div class="font-extrabold text-xl">Pure Reach Innovation</div>
 
-    <div class="nav-links">
-      <a class="active">Services</a>
-      <a>Work</a>
-      <a>Insights</a>
-      <a>About</a>
+    <div class="hidden md:flex gap-8">
+      <a class="text-blue-600 font-bold border-b-2 border-blue-600 pb-1">Services</a>
+      <a class="text-gray-600 hover:text-blue-600">Work</a>
+      <a class="text-gray-600 hover:text-blue-600">Insights</a>
+      <a class="text-gray-600 hover:text-blue-600">About</a>
     </div>
 
-    <div class="nav-actions">
-      <button class="btn-secondary">Login</button>
-      <button class="btn-primary">Get Started</button>
+    <div class="flex gap-4">
+      <button class="px-4 py-2 text-gray-600">Login</button>
+      <button class="px-6 py-2 bg-blue-600 text-white rounded-lg">Get Started</button>
     </div>
   </div>
 </nav>
 
-<main>
-
 <!-- HERO -->
-<section class="hero container">
-  <div class="hero-glow"></div>
-
-  <h1 class="animate">
-    High-Velocity <span>Digital Growth</span><br>
+<section class="pt-32 px-8 max-w-5xl">
+  <h1 class="text-[3.5rem] font-extrabold leading-tight">
+    High-Velocity <span class="text-blue-600">Digital Growth</span><br>
     Through Expert Execution.
   </h1>
 
-  <p class="animate delay-1">
-    We build kinetic engines that drive authority — from viral narratives to
-    precision-targeted paid media.
+  <p class="mt-6 text-lg text-gray-600 max-w-2xl">
+    We build kinetic engines that drive authority. From viral content
+    to precision-targeted paid media.
   </p>
 </section>
 
-<!-- SOCIAL SECTION -->
-<section class="section light">
-  <div class="container">
+<!-- SERVICES -->
+<section class="px-8 py-24 grid md:grid-cols-3 gap-8">
 
-    <div class="section-header animate">
-      <span>ENGINE 01</span>
-      <h2>Social Media & Creative</h2>
-      <p>Command attention with high-retention content.</p>
-    </div>
-
-    <div class="grid">
-
-      <div class="card large animate delay-1">
-        <h3>Video First Approach</h3>
-        <p>AI-assisted editing meets human creativity.</p>
-
-        <div class="stat">
-          <div class="icon">▶</div>
-          <span>4.2M views generated</span>
-        </div>
-      </div>
-
-      <div class="card primary animate delay-2">
-        <h3>Visual Language</h3>
-        <p>High-converting brand visuals refined by experts.</p>
-      </div>
-
-    </div>
+  <div class="p-8 bg-white rounded-xl shadow hover:scale-105 transition">
+    <h2 class="text-xl font-bold mb-3">Social & Creative</h2>
+    <p class="text-gray-600">AI-assisted high-retention content creation.</p>
   </div>
-</section>
 
-<!-- PERFORMANCE -->
-<section class="section">
-  <div class="container center">
-
-    <div class="section-header animate">
-      <span>ENGINE 02</span>
-      <h2>Performance Advertising</h2>
-      <p>Turn clicks into scalable revenue.</p>
-    </div>
-
-    <div class="grid-3">
-
-      <div class="card animate delay-1">
-        <h3>Meta & Instagram</h3>
-        <p>AI-driven targeting</p>
-      </div>
-
-      <div class="card animate delay-2">
-        <h3>Google Ads</h3>
-        <p>Intent-based scaling</p>
-      </div>
-
-      <div class="card animate delay-3">
-        <h3>Omnichannel</h3>
-        <p>Full-funnel retargeting</p>
-      </div>
-
-    </div>
-
+  <div class="p-8 bg-white rounded-xl shadow hover:scale-105 transition">
+    <h2 class="text-xl font-bold mb-3">Paid Performance</h2>
+    <p class="text-gray-600">Scale revenue through precision execution.</p>
   </div>
-</section>
 
-<!-- DARK SEO -->
-<section class="section dark">
-  <div class="container grid-2">
-
-    <div class="animate">
-      <h2>SEO Authority & Ranking</h2>
-      <p>Technical precision meets storytelling.</p>
-    </div>
-
-    <div class="metric animate delay-1">
-      <h3>94.2%</h3>
-      <p>Visibility Score</p>
-    </div>
-
+  <div class="p-8 bg-white rounded-xl shadow hover:scale-105 transition">
+    <h2 class="text-xl font-bold mb-3">SEO Authority</h2>
+    <p class="text-gray-600">Technical + content strategy for growth.</p>
   </div>
-</section>
 
-</main>
+</section>
 
 <script src="script.js"></script>
 
