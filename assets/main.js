@@ -1,35 +1,42 @@
 /**
  * PURE REACH INNOVATION - GLOBAL ENGINE
- * Optimized for live server deployment
+ * Fully Integrated Production Version
  */
 
 async function initSite() {
-    try {
-        // Use absolute paths to prevent 404s on sub-pages
-        const [navRes, footRes] = await Promise.all([
-            fetch('/components/nav.html'),
-            fetch('/components/footer.html')
-        ]);
-        
-        if (!navRes.ok || !footRes.ok) throw new Error("Component fetch failed");
+    const v = new Date().getTime(); 
+    const components = [
+        { id: 'navbar-placeholder', file: `/components/nav.html?v=${v}` },
+        { id: 'footer-placeholder', file: `/components/footer.html?v=${v}` }
+    ];
 
-        document.getElementById('navbar-placeholder').innerHTML = await navRes.text();
-        document.getElementById('footer-placeholder').innerHTML = await footRes.text();
-
-        // Initialize logic after components are in the DOM
-        setupNavbar();
-        setupGlobalCTAs();
-        
-        // Small delay to ensure browser paints middle sections before observing
-        setTimeout(() => {
-            setupScrollAnimations();
-        }, 100);
-
-    } catch (err) {
-        console.error("Component load error:", err);
-        // Fallback: If animations fail, show all content immediately
-        document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+    for (const comp of components) {
+        const placeholder = document.getElementById(comp.id);
+        if (!placeholder) continue;
+        try {
+            const response = await fetch(comp.file);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            placeholder.innerHTML = await response.text();
+        } catch (err) {
+            console.error(`Primary load failed for ${comp.file}, trying backup...`, err);
+            try {
+                const backupRes = await fetch(comp.file.replace('/', '').split('?')[0]);
+                if (backupRes.ok) placeholder.innerHTML = await backupRes.text();
+            } catch (backupErr) {
+                console.error("Backup load failed:", backupErr);
+            }
+        }
     }
+
+    // Initialize all logic
+    setupNavbar();
+    setupGlobalCTAs();
+    setupScrollAnimations();
+
+    // FAILSAFE: If animations don't trigger, show everything after 1.5 seconds
+    setTimeout(() => {
+        document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+    }, 1500);
 }
 
 function setupNavbar() {
@@ -45,7 +52,6 @@ function setupNavbar() {
         };
     }
 
-    // Highlight active link
     const currentPage = window.location.pathname.split("/").pop() || "index.html";
     document.querySelectorAll('.nav-link').forEach(link => {
         if (link.getAttribute('href') === currentPage) {
@@ -56,40 +62,36 @@ function setupNavbar() {
 }
 
 function setupScrollAnimations() {
-    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-    
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 entry.target.classList.add("active");
-                observer.unobserve(entry.target); // Stop watching once visible
+                observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.1 });
 
-    const targets = document.querySelectorAll(".reveal");
-    if (targets.length === 0) {
-        console.warn("No .reveal elements found yet.");
-    }
-    targets.forEach((el) => observer.observe(el));
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 }
 
 function setupGlobalCTAs() {
-    const ctaButtons = document.querySelectorAll('button, a');
-    ctaButtons.forEach(btn => {
+    document.querySelectorAll('button, a').forEach(btn => {
         const text = btn.innerText.toLowerCase();
-        if (text.includes('get started') || text.includes('book a') || text.includes('start project') || text.includes('message now')) {
-            // Only apply if it's a button without a specific link
-            if (btn.tagName === 'BUTTON' || btn.getAttribute('href') === '#') {
+        if (text.includes('get started') || text.includes('book a') || text.includes('start project')) {
+            // If it's a button or a dead link, point it to contact
+            if (btn.tagName === 'BUTTON' || btn.getAttribute('href') === '#' || btn.getAttribute('href') === '') {
                 btn.onclick = (e) => {
                     e.preventDefault();
                     window.location.href = '/contact.html'; 
                 };
             }
-            btn.classList.add('cursor-pointer', 'active:scale-95', 'transition-transform');
         }
     });
 }
 
-// Run the engine
-document.addEventListener('DOMContentLoaded', initSite);
+// Start the engine when the DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSite);
+} else {
+    initSite();
+}

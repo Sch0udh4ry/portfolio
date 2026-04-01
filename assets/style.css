@@ -16,3 +16,32 @@ h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
     opacity: 1;
     transform: translateY(0);
 }
+/* Branding Gradient for Pure Reach Innovation */
+.signature-gradient {
+    background: linear-gradient(135deg, #0043f3 0%, #859aff 100%) !important;
+}
+
+/* Ensure the text inside the card remains visible */
+.signature-gradient h2, 
+.signature-gradient p {
+    color: white !important;
+}
+/* Force visibility on live server if JS fails */
+.reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+}
+
+/* Only apply animations if the browser supports IntersectionObserver and JS is working */
+@supports (selector(.reveal.active)) {
+    .reveal:not(.active) {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+        transition: all 0.8s ease-out;
+    }
+}
