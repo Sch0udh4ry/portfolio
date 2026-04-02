@@ -5,6 +5,8 @@
 
 function initSite() {
     // Initialize page interactions immediately so component fetches do not block UX.
+    registerServiceWorker();
+    optimizeImageLoading();
     setupGlobalCTAs();
     setupScrollAnimations();
     setupCountUpAnimations();
@@ -63,6 +65,46 @@ async function fetchComponentMarkup(file) {
     } finally {
         if (timeoutId) window.clearTimeout(timeoutId);
     }
+}
+
+function registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) return;
+    if (window.location.protocol === 'file:') return;
+
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch((err) => {
+            console.error('Service worker registration failed', err);
+        });
+    }, { once: true });
+}
+
+function optimizeImageLoading() {
+    const images = document.querySelectorAll('img');
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    images.forEach((image, index) => {
+        if (!image.hasAttribute('decoding')) {
+            image.decoding = 'async';
+        }
+
+        const rect = image.getBoundingClientRect();
+        const nearViewport = rect.top <= viewportHeight * 1.1 && rect.bottom >= -viewportHeight * 0.1;
+        const isPriorityImage = nearViewport && index < 2;
+
+        if (isPriorityImage) {
+            image.loading = 'eager';
+            image.fetchPriority = image.fetchPriority || 'high';
+            return;
+        }
+
+        if (!image.hasAttribute('loading')) {
+            image.loading = 'lazy';
+        }
+
+        if (!image.hasAttribute('fetchpriority')) {
+            image.fetchPriority = 'low';
+        }
+    });
 }
 
 function setupLinkPrefetching() {
