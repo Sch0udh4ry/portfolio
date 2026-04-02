@@ -8,6 +8,7 @@ function initSite() {
     setupGlobalCTAs();
     setupScrollAnimations();
     setupCountUpAnimations();
+    setupLinkPrefetching();
     loadSharedComponents();
 
     // FAILSAFE: If animations don't trigger, show everything after 1.5 seconds
@@ -61,6 +62,77 @@ async function fetchComponentMarkup(file) {
         return await response.text();
     } finally {
         if (timeoutId) window.clearTimeout(timeoutId);
+    }
+}
+
+function setupLinkPrefetching() {
+    const prefetchedUrls = new Set();
+    const prefersReducedData = navigator.connection && navigator.connection.saveData;
+
+    if (prefersReducedData) return;
+
+    const prefetchLink = (href) => {
+        if (!href) return;
+
+        let url;
+        try {
+            url = new URL(href, window.location.href);
+        } catch (err) {
+            return;
+        }
+
+        if (url.origin !== window.location.origin) return;
+        if (!url.pathname.endsWith('.html')) return;
+        if (url.pathname === window.location.pathname && !url.hash) return;
+
+        const cacheKey = url.href;
+        if (prefetchedUrls.has(cacheKey)) return;
+        prefetchedUrls.add(cacheKey);
+
+        const prefetchTag = document.createElement('link');
+        prefetchTag.rel = 'prefetch';
+        prefetchTag.as = 'document';
+        prefetchTag.href = cacheKey;
+        document.head.appendChild(prefetchTag);
+    };
+
+    const getAnchorFromEvent = (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return null;
+        return target.closest('a[href]');
+    };
+
+    const maybePrefetchFromAnchor = (anchor) => {
+        if (!anchor) return;
+        if (anchor.target && anchor.target !== '_self') return;
+        if (anchor.hasAttribute('download')) return;
+        prefetchLink(anchor.getAttribute('href'));
+    };
+
+    document.addEventListener('mouseover', (event) => {
+        maybePrefetchFromAnchor(getAnchorFromEvent(event));
+    }, { passive: true });
+
+    document.addEventListener('focusin', (event) => {
+        maybePrefetchFromAnchor(getAnchorFromEvent(event));
+    });
+
+    document.addEventListener('touchstart', (event) => {
+        maybePrefetchFromAnchor(getAnchorFromEvent(event));
+    }, { passive: true });
+
+    const warmLikelyNextPages = () => {
+        document.querySelectorAll('a[href]').forEach((anchor) => {
+            if (anchor.closest('nav, footer') || anchor.classList.contains('nav-link')) {
+                maybePrefetchFromAnchor(anchor);
+            }
+        });
+    };
+
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(warmLikelyNextPages, { timeout: 1200 });
+    } else {
+        window.setTimeout(warmLikelyNextPages, 800);
     }
 }
 
