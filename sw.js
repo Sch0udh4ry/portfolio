@@ -18,8 +18,8 @@ const SHELL_ASSETS = [
     './terms.html',
     './website-redesign-seo-mistakes.html',
     './main.js',
-    './tailwind.generated.css',
     './style.css',
+    './tailwind.runtime.js',
     './nav.html',
     './footer.html'
 ];
