@@ -133,6 +133,20 @@ function setupCountUpAnimations() {
         return;
     }
 
+    const isElementNearViewport = (element) => {
+        const rect = element.getBoundingClientRect();
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+        return rect.bottom >= 0 && rect.top <= viewportHeight * 0.92;
+    };
+
+    const checkCountUpsInView = () => {
+        countUpElements.forEach((element) => {
+            if (element.dataset.countupAnimated === 'true') return;
+            if (isElementNearViewport(element)) animateCountUp(element);
+        });
+    };
+
     const countObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
@@ -140,9 +154,21 @@ function setupCountUpAnimations() {
             animateCountUp(entry.target);
             countObserver.unobserve(entry.target);
         });
-    }, { threshold: 0.15 });
+    }, {
+        threshold: 0,
+        rootMargin: '0px 0px -8% 0px'
+    });
 
-    countUpElements.forEach((element) => countObserver.observe(element));
+    countUpElements.forEach((element) => {
+        countObserver.observe(element);
+    });
+
+    window.addEventListener('load', checkCountUpsInView, { once: true });
+    window.addEventListener('resize', checkCountUpsInView, { passive: true });
+    window.addEventListener('scroll', checkCountUpsInView, { passive: true });
+
+    requestAnimationFrame(checkCountUpsInView);
+    window.setTimeout(checkCountUpsInView, 250);
 }
 
 function animateCountUp(element) {
