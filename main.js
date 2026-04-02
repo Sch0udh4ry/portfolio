@@ -37,6 +37,7 @@ async function initSite() {
     setupPortalLogin();
     setupClientPortal();
     setupPortalLogout();
+    setupPortalLogout();
 
     // FAILSAFE: If animations don't trigger, show everything after 1.5 seconds
     setTimeout(() => {
@@ -573,8 +574,8 @@ function renderClientPortal(account) {
                     <p class="mt-3 text-sm font-medium text-on-surface">${escapeMarkup(service.nextStep)}</p>
                 </div>
                 <div class="mt-6 rounded-2xl border border-dashed border-outline-variant/50 p-5">
-                    <p class="text-sm font-semibold text-on-surface">Service dashboard placeholder</p>
-                    <p class="mt-2 text-sm text-on-surface-variant">This area can later show campaign charts, SEO progress, content calendars, tickets, or store operations data from a secure backend.</p>
+                    <p class="text-sm font-semibold text-on-surface">Dashboard preview</p>
+                    <p class="mt-2 text-sm text-on-surface-variant">This space can surface campaign charts, SEO progress, content calendars, tickets, or store operations data as the account grows.</p>
                 </div>
             `;
             servicesNode.appendChild(card);
