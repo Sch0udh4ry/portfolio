@@ -4,29 +4,12 @@
  */
 
 async function initSite() {
-    const v = new Date().getTime(); 
     const components = [
-        { id: 'navbar-placeholder', file: `nav.html?v=${v}` },
-        { id: 'footer-placeholder', file: `footer.html?v=${v}` }
+        { id: 'navbar-placeholder', file: 'nav.html' },
+        { id: 'footer-placeholder', file: 'footer.html' }
     ];
 
-    for (const comp of components) {
-        const placeholder = document.getElementById(comp.id);
-        if (!placeholder) continue;
-        try {
-            const response = await fetch(comp.file);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            placeholder.innerHTML = await response.text();
-        } catch (err) {
-            console.error(`Primary load failed for ${comp.file}, trying backup...`, err);
-            try {
-                const backupRes = await fetch(comp.file.split('?')[0]);
-                if (backupRes.ok) placeholder.innerHTML = await backupRes.text();
-            } catch (backupErr) {
-                console.error("Backup load failed:", backupErr);
-            }
-        }
-    }
+    await Promise.all(components.map(({ id, file }) => loadSharedComponent(id, file)));
 
     // Initialize all logic
     setupNavbar();
@@ -78,6 +61,39 @@ function setupScrollAnimations() {
     }, { threshold: 0.1 });
 
     document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+}
+
+async function loadSharedComponent(id, file) {
+    const placeholder = document.getElementById(id);
+    if (!placeholder) return;
+
+    const cacheKey = `shared-component:${file}`;
+
+    try {
+        const cachedMarkup = sessionStorage.getItem(cacheKey);
+        if (cachedMarkup) {
+            placeholder.innerHTML = cachedMarkup;
+            return;
+        }
+    } catch (error) {
+        console.warn('Component cache unavailable.', error);
+    }
+
+    try {
+        const response = await fetch(file, { credentials: 'same-origin' });
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const markup = await response.text();
+        placeholder.innerHTML = markup;
+
+        try {
+            sessionStorage.setItem(cacheKey, markup);
+        } catch (error) {
+            console.warn('Component cache write skipped.', error);
+        }
+    } catch (error) {
+        console.error(`Failed to load shared component: ${file}`, error);
+    }
 }
 
 function setupTestimonialsCarousel() {
