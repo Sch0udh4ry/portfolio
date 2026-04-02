@@ -86,8 +86,10 @@ function setupTestimonialsCarousel() {
     const name = document.getElementById('review-name');
     const role = document.getElementById('review-role');
     const tag = document.getElementById('review-tag');
+    const ratingStars = document.getElementById('review-rating-stars');
+    const ratingText = document.getElementById('review-rating-text');
 
-    if (!carousel || !prevButton || !nextButton || !indicators || !quote || !avatar || !name || !role || !tag) {
+    if (!carousel || !prevButton || !nextButton || !indicators || !quote || !avatar || !name || !role || !tag || !ratingStars || !ratingText) {
         return;
     }
 
@@ -97,28 +99,32 @@ function setupTestimonialsCarousel() {
             name: "Marcus Thorne",
             role: "CEO, Zenith Tech",
             tag: "Expert-Led Results",
-            avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuARi5yJZ69ncz2PzwZopYlgUUhFoHO7DfsHW-cZQc7FmXba9INu1EQDfoPvMLJRICIcCOvuFdxpdqbjFWW5nVz79E3zDmxHSHv_vtQUQwsggzN8ic6oVKHshPdnUVb2AJgJ4qQVv8EYml2v05Ge6kSYY1xVpfdzvI1DkzqjyT4ERgVx_285ns-cR7QGFerZcoaJaVqzRefPJwGwVXYtIjasLBM3cQGRu5kUsafTClgK9bBBOxSCptXOGNlPeQtuFKybDmpGXyJMkBM"
+            avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuARi5yJZ69ncz2PzwZopYlgUUhFoHO7DfsHW-cZQc7FmXba9INu1EQDfoPvMLJRICIcCOvuFdxpdqbjFWW5nVz79E3zDmxHSHv_vtQUQwsggzN8ic6oVKHshPdnUVb2AJgJ4qQVv8EYml2v05Ge6kSYY1xVpfdzvI1DkzqjyT4ERgVx_285ns-cR7QGFerZcoaJaVqzRefPJwGwVXYtIjasLBM3cQGRu5kUsafTClgK9bBBOxSCptXOGNlPeQtuFKybDmpGXyJMkBM",
+            rating: 5
         },
         {
             quote: "We came in for technical SEO and left with a clearer content engine, stronger visibility, and a team that actually explains the why behind every move. That's rare.",
             name: "Alina Mercer",
             role: "Growth Director, Northlane Studio",
             tag: "Search Authority",
-            avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuA4A8bzAizFvuIgUes-Btach8vL5gOOEuaTAF4HUKSrXa_5gRPw8-eORzwlU-ZhC6-6d3XUKQQnRyOE9oEVl-5xWg_aHPXvUGr1EQw-ahFo6HdhUHRKChZ-bygw8DmMgji4qhpCDCixFwe5tpRlrc4l54_etECGgkQjq5uhvhrHzTuF5nK6qqQ_yWRH6zBM017jT4q4Sk3yZcQkhGFxCiCNdZhw9mw1peticwHznhxQZrul2Mpp_lPUilspTDofbJrP9Exncb7QTKw8"
+            avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuA4A8bzAizFvuIgUes-Btach8vL5gOOEuaTAF4HUKSrXa_5gRPw8-eORzwlU-ZhC6-6d3XUKQQnRyOE9oEVl-5xWg_aHPXvUGr1EQw-ahFo6HdhUHRKChZ-bygw8DmMgji4qhpCDCixFwe5tpRlrc4l54_etECGgkQjq5uhvhrHzTuF5nK6qqQ_yWRH6zBM017jT4q4Sk3yZcQkhGFxCiCNdZhw9mw1peticwHznhxQZrul2Mpp_lPUilspTDofbJrP9Exncb7QTKw8",
+            rating: 4.9
         },
         {
             quote: "Their support workflows feel premium because they're designed with empathy first. We improved response quality and consistency without sounding robotic to customers.",
             name: "Priya D'Souza",
             role: "Operations Lead, Care Harbor",
             tag: "Customer Experience",
-            avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuCg_DLByWrnJ8B_1FTtX6dji4Q-79G4Zw_vPM34xeQcFK_o98avaAfDMgrASQDxSvqsEeGPoL7JZ542xxkgji9ITZIh1tiVSmlDA1A2Wo1MYWcjlDUBcG53pn-e9yqZDH5Q68cRaFr0vhpjMR9ZMkMO4U0xRt8F_AcZW9_1_2boCrWYEFQfN6lVYJczQFf5d5WjGR5jk0xl-jT0YP4G3cv2P9V3YxB0uyI2LEzWRcLd_K7poUvhA6ZYI84zQPSuU32IWmJhd820Bts"
+            avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuCg_DLByWrnJ8B_1FTtX6dji4Q-79G4Zw_vPM34xeQcFK_o98avaAfDMgrASQDxSvqsEeGPoL7JZ542xxkgji9ITZIh1tiVSmlDA1A2Wo1MYWcjlDUBcG53pn-e9yqZDH5Q68cRaFr0vhpjMR9ZMkMO4U0xRt8F_AcZW9_1_2boCrWYEFQfN6lVYJczQFf5d5WjGR5jk0xl-jT0YP4G3cv2P9V3YxB0uyI2LEzWRcLd_K7poUvhA6ZYI84zQPSuU32IWmJhd820Bts",
+            rating: 5
         },
         {
             quote: "Our catalogue operations used to be a bottleneck every week. Pure Reach built a cleaner execution rhythm, caught issues early, and gave our team room to focus on merchandising.",
             name: "Daniel Reeves",
             role: "E-commerce Manager, Atelier Cart",
             tag: "Operational Precision",
-            avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBrJ84f6rstK44Sj3VXiggghTg29LBcgjGz5xHg73_dCjJLTy_K9KpTndAC-4a176ifuUEvYRIaTcsiKRV6dob1BQe8gc8JC5PEGi07zMnkan2wk9xKhcLvsk9YPwlQI-8WggZN7hQGLw-4GonGpr_S_huVh7yu-kDkRMngAJcjTB0PDl1aU3kbxxaEoWGSiXM-NIBYU6-U00WSxnXXfg980QmKsg15hTc6dv15_QE-9dyE5vb3PGa2zyej9sXUVufHYBIbSSSa5uY"
+            avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBrJ84f6rstK44Sj3VXiggghTg29LBcgjGz5xHg73_dCjJLTy_K9KpTndAC-4a176ifuUEvYRIaTcsiKRV6dob1BQe8gc8JC5PEGi07zMnkan2wk9xKhcLvsk9YPwlQI-8WggZN7hQGLw-4GonGpr_S_huVh7yu-kDkRMngAJcjTB0PDl1aU3kbxxaEoWGSiXM-NIBYU6-U00WSxnXXfg980QmKsg15hTc6dv15_QE-9dyE5vb3PGa2zyej9sXUVufHYBIbSSSa5uY",
+            rating: 4.8
         }
     ];
 
@@ -140,6 +146,7 @@ function setupTestimonialsCarousel() {
             name.textContent = review.name;
             role.textContent = review.role;
             tag.textContent = review.tag;
+            renderReviewRating(review.rating || 5, ratingStars, ratingText);
 
             indicatorButtons.forEach((button, buttonIndex) => {
                 button.classList.toggle('is-active', buttonIndex === index);
@@ -164,6 +171,13 @@ function setupTestimonialsCarousel() {
             return button;
         });
     };
+
+    const normalizeReviews = (items) => items
+        .filter((item) => item && item.quote && item.name && item.role && item.tag && item.avatar)
+        .map((item) => ({
+            ...item,
+            rating: clampRating(item.rating)
+        }));
 
     const goToRelativeReview = (direction) => {
         const nextIndex = (activeIndex + direction + reviews.length) % reviews.length;
@@ -221,7 +235,10 @@ function setupTestimonialsCarousel() {
         .then((response) => response.ok ? response.json() : null)
         .then((payload) => {
             if (!payload || !Array.isArray(payload.reviews) || !payload.reviews.length) return;
-            reviews = payload.reviews;
+            reviews = normalizeReviews(payload.reviews);
+            if (!reviews.length) {
+                reviews = defaultReviews;
+            }
             activeIndex = 0;
             renderIndicators();
             renderReview(activeIndex);
@@ -237,13 +254,33 @@ function setupDynamicForms() {
         const status = form.querySelector('[data-form-status]');
         const submitButton = form.querySelector('button[type="submit"]');
         const submitLabel = submitButton ? submitButton.dataset.submitLabel || submitButton.textContent.trim() : '';
+        form.noValidate = true;
+
+        if (submitButton) {
+            submitButton.classList.add('form-submit');
+        }
+
+        setupLiveValidation(form);
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
+            form.dataset.submitted = 'true';
+
+            const validation = validateForm(form, true);
+
+            if (!validation.valid) {
+                setFormStatus(status, 'error', 'Please fix the highlighted fields and try again.');
+                if (validation.firstInvalid) {
+                    validation.firstInvalid.focus();
+                }
+                return;
+            }
 
             if (submitButton) {
                 submitButton.disabled = true;
-                submitButton.textContent = 'Sending...';
+                submitButton.classList.add('is-loading');
+                submitButton.setAttribute('aria-busy', 'true');
+                submitButton.textContent = 'Sending';
             }
 
             setFormStatus(status, 'pending', 'Submitting your request...');
@@ -274,6 +311,7 @@ function setupDynamicForms() {
                 }
 
                 form.reset();
+                clearFormValidation(form);
                 setFormStatus(status, 'success', result.message || 'Thanks. We received your request and will reply soon.');
             } catch (error) {
                 if (error instanceof TypeError) {
@@ -285,9 +323,41 @@ function setupDynamicForms() {
             } finally {
                 if (submitButton) {
                     submitButton.disabled = false;
+                    submitButton.classList.remove('is-loading');
+                    submitButton.removeAttribute('aria-busy');
                     submitButton.textContent = submitLabel;
                 }
             }
+        });
+    });
+}
+
+function setupLiveValidation(form) {
+    const fields = Array.from(form.querySelectorAll('input[name]:not([type="hidden"]):not([type="checkbox"]), textarea[name]'));
+
+    fields.forEach((field) => {
+        field.addEventListener('blur', () => {
+            field.dataset.touched = 'true';
+            validateNamedField(form, field.name, true);
+        });
+
+        field.addEventListener('input', () => {
+            if (field.dataset.touched === 'true' || form.dataset.submitted === 'true') {
+                validateNamedField(form, field.name, true);
+            }
+        });
+    });
+
+    const serviceInputs = Array.from(form.querySelectorAll('input[name="services_needed[]"]'));
+    serviceInputs.forEach((input) => {
+        const label = input.closest('label');
+        if (label) {
+            label.classList.add('service-choice');
+        }
+
+        input.addEventListener('change', () => {
+            form.dataset.servicesTouched = 'true';
+            validateServiceSelection(form, true);
         });
     });
 }
@@ -320,6 +390,229 @@ function setFormStatus(statusNode, tone, message) {
 
     statusNode.className = `md:col-span-2 form-status form-status--${tone}`;
     statusNode.textContent = message;
+}
+
+function validateForm(form, revealMessages) {
+    const trackedNames = Array.from(new Set(
+        Array.from(form.querySelectorAll('input[name]:not([type="hidden"]):not([type="checkbox"]), textarea[name]'))
+            .map((field) => field.name)
+            .filter(Boolean)
+    ));
+
+    let firstInvalid = null;
+    let valid = true;
+
+    trackedNames.forEach((name) => {
+        const result = validateNamedField(form, name, revealMessages);
+        if (!result.valid) {
+            valid = false;
+            if (!firstInvalid) firstInvalid = result.node;
+        }
+    });
+
+    if (form.querySelector('input[name="services_needed[]"]')) {
+        const servicesResult = validateServiceSelection(form, revealMessages);
+        if (!servicesResult.valid) {
+            valid = false;
+            if (!firstInvalid) firstInvalid = servicesResult.node;
+        }
+    }
+
+    return { valid, firstInvalid };
+}
+
+function validateNamedField(form, fieldName, revealMessage) {
+    const field = form.querySelector(`[name="${fieldName}"]`);
+    if (!field) return { valid: true, node: null };
+
+    const value = field.value.trim();
+    let message = '';
+
+    switch (fieldName) {
+        case 'name':
+            if (!value) {
+                message = 'Please enter your name.';
+            } else if (value.length < 2) {
+                message = 'Use at least 2 characters for your name.';
+            }
+            break;
+        case 'email':
+            if (!value) {
+                message = 'Please enter your email address.';
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                message = 'Enter a valid email address.';
+            }
+            break;
+        case 'phone':
+            if (value && !/^[0-9+\-\s()]{7,20}$/.test(value)) {
+                message = 'Use a valid phone number or leave this blank.';
+            }
+            break;
+        case 'social_link':
+            if (value && !isValidHttpUrl(value)) {
+                message = 'Add a full link starting with http:// or https://.';
+            }
+            break;
+        case 'message':
+            if (!value) {
+                message = 'Please tell us a bit about what you need.';
+            } else if (value.length < 12) {
+                message = 'Add a little more detail so we can respond well.';
+            }
+            break;
+        default:
+            if (field.required && !value) {
+                message = 'This field is required.';
+            }
+            break;
+    }
+
+    applyFieldValidation(field, revealMessage ? message : '');
+    return { valid: !message, node: field };
+}
+
+function validateServiceSelection(form, revealMessage) {
+    const serviceInputs = Array.from(form.querySelectorAll('input[name="services_needed[]"]'));
+    if (!serviceInputs.length) return { valid: true, node: null };
+
+    const valid = serviceInputs.some((input) => input.checked);
+    const group = getServiceGroup(form);
+    const grid = group ? group.querySelector('.grid') : null;
+    const errorNode = group ? ensureFieldError(group, 'services-needed') : null;
+    const showMessage = revealMessage || form.dataset.servicesTouched === 'true' || form.dataset.submitted === 'true';
+    const message = valid ? '' : 'Pick at least one service so we can scope the quote.';
+
+    if (grid) {
+        grid.classList.toggle('is-invalid-group', !!message && showMessage);
+        grid.classList.toggle('is-valid-group', valid);
+    }
+
+    serviceInputs.forEach((input) => {
+        const label = input.closest('label');
+        if (label) {
+            label.classList.toggle('is-invalid-choice', !!message && showMessage);
+            label.classList.toggle('is-valid-choice', valid);
+        }
+    });
+
+    if (errorNode) {
+        errorNode.hidden = !(showMessage && message);
+        errorNode.textContent = showMessage ? message : '';
+    }
+
+    return { valid, node: serviceInputs[0] };
+}
+
+function applyFieldValidation(field, message) {
+    const value = field.value.trim();
+    const container = getFieldContainer(field);
+    const errorNode = ensureFieldError(container, `${field.name}-error`);
+    const label = container ? container.querySelector('label') : null;
+    const showValid = !message && value.length > 0;
+
+    field.classList.toggle('is-invalid', !!message);
+    field.classList.toggle('is-valid', showValid);
+
+    if (container) {
+        container.classList.toggle('has-error', !!message);
+        container.classList.toggle('has-success', showValid);
+    }
+
+    if (label) {
+        label.classList.toggle('form-label-error', !!message);
+    }
+
+    errorNode.hidden = !message;
+    errorNode.textContent = message;
+}
+
+function clearFormValidation(form) {
+    form.dataset.submitted = 'false';
+    form.dataset.servicesTouched = 'false';
+
+    form.querySelectorAll('.is-invalid, .is-valid, .has-error, .has-success, .form-label-error, .is-invalid-choice, .is-valid-choice, .is-invalid-group, .is-valid-group')
+        .forEach((node) => {
+            node.classList.remove('is-invalid', 'is-valid', 'has-error', 'has-success', 'form-label-error', 'is-invalid-choice', 'is-valid-choice', 'is-invalid-group', 'is-valid-group');
+        });
+
+    form.querySelectorAll('.form-field-error').forEach((node) => {
+        node.hidden = true;
+        node.textContent = '';
+    });
+
+    form.querySelectorAll('[data-touched]').forEach((field) => {
+        delete field.dataset.touched;
+    });
+}
+
+function getFieldContainer(field) {
+    return field.closest('.flex.flex-col.gap-2') || field.parentElement;
+}
+
+function getServiceGroup(form) {
+    const serviceInput = form.querySelector('input[name="services_needed[]"]');
+    if (!serviceInput) return null;
+    const grid = serviceInput.closest('.grid');
+    return grid ? grid.parentElement : null;
+}
+
+function ensureFieldError(container, key) {
+    if (!container) {
+        const fallback = document.createElement('p');
+        fallback.hidden = true;
+        return fallback;
+    }
+
+    let node = container.querySelector(`[data-error-for="${key}"]`);
+
+    if (!node) {
+        node = document.createElement('p');
+        node.className = 'form-field-error';
+        node.dataset.errorFor = key;
+        node.hidden = true;
+        container.appendChild(node);
+    }
+
+    return node;
+}
+
+function isValidHttpUrl(value) {
+    try {
+        const url = new URL(value);
+        return url.protocol === 'http:' || url.protocol === 'https:';
+    } catch (error) {
+        return false;
+    }
+}
+
+function renderReviewRating(rating, ratingStars, ratingText) {
+    const safeRating = clampRating(rating);
+    ratingStars.innerHTML = '';
+    ratingStars.setAttribute('aria-label', `Rated ${safeRating} out of 5`);
+
+    for (let index = 1; index <= 5; index += 1) {
+        const icon = document.createElement('span');
+        icon.className = 'material-symbols-outlined review-rating-star';
+
+        if (safeRating >= index) {
+            icon.textContent = 'star';
+        } else if (safeRating >= index - 0.5) {
+            icon.textContent = 'star_half';
+        } else {
+            icon.textContent = 'star';
+            icon.classList.add('is-empty');
+        }
+
+        ratingStars.appendChild(icon);
+    }
+
+    ratingText.textContent = `Rated ${safeRating.toFixed(1)}/5`;
+}
+
+function clampRating(value) {
+    const numeric = Number(value);
+    if (!Number.isFinite(numeric)) return 5;
+    return Math.max(1, Math.min(5, numeric));
 }
 
 function setupGlobalCTAs() {

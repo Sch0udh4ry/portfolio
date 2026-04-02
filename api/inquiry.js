@@ -90,7 +90,10 @@ function buildFormspreeBody(payload) {
 
 async function deliverInquiry(payload) {
     if (hasResendConfig()) {
-        return sendWithResend(payload);
+        const resendResult = await sendWithResend(payload);
+        if (resendResult.ok) {
+            return resendResult;
+        }
     }
 
     return sendWithFormspree(payload);
