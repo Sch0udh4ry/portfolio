@@ -32,6 +32,7 @@ async function initSite() {
     setupNavbar();
     setupGlobalCTAs();
     setupScrollAnimations();
+    setupDynamicForms();
     setupTestimonialsCarousel();
 
     // FAILSAFE: If animations don't trigger, show everything after 1.5 seconds
@@ -90,7 +91,7 @@ function setupTestimonialsCarousel() {
         return;
     }
 
-    const reviews = [
+    const defaultReviews = [
         {
             quote: "Pure Reach didn't just automate our ads; they applied human wisdom to AI scale. Our conversion rates tripled because they knew exactly when to let the algorithm run and when to step in.",
             name: "Marcus Thorne",
@@ -121,21 +122,10 @@ function setupTestimonialsCarousel() {
         }
     ];
 
+    let reviews = defaultReviews;
     let activeIndex = 0;
     let autoAdvanceId = null;
-
-    const indicatorButtons = reviews.map((review, index) => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'review-indicator';
-        button.setAttribute('aria-label', `Show review ${index + 1}`);
-        button.onclick = () => {
-            renderReview(index);
-            restartAutoAdvance();
-        };
-        indicators.appendChild(button);
-        return button;
-    });
+    let indicatorButtons = [];
 
     const renderReview = (index) => {
         const review = reviews[index];
@@ -157,6 +147,22 @@ function setupTestimonialsCarousel() {
 
             carousel.classList.remove('is-transitioning');
         }, 140);
+    };
+
+    const renderIndicators = () => {
+        indicators.innerHTML = '';
+        indicatorButtons = reviews.map((review, index) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'review-indicator';
+            button.setAttribute('aria-label', `Show review ${index + 1}`);
+            button.onclick = () => {
+                renderReview(index);
+                restartAutoAdvance();
+            };
+            indicators.appendChild(button);
+            return button;
+        });
     };
 
     const goToRelativeReview = (direction) => {
@@ -194,8 +200,126 @@ function setupTestimonialsCarousel() {
     });
     carousel.addEventListener('focusout', restartAutoAdvance);
 
+    let touchStartX = 0;
+
+    carousel.addEventListener('touchstart', (event) => {
+        touchStartX = event.changedTouches[0].clientX;
+    }, { passive: true });
+
+    carousel.addEventListener('touchend', (event) => {
+        const touchDistance = event.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(touchDistance) < 40) return;
+        goToRelativeReview(touchDistance > 0 ? -1 : 1);
+        restartAutoAdvance();
+    }, { passive: true });
+
+    renderIndicators();
     renderReview(activeIndex);
     restartAutoAdvance();
+
+    fetch('/api/reviews')
+        .then((response) => response.ok ? response.json() : null)
+        .then((payload) => {
+            if (!payload || !Array.isArray(payload.reviews) || !payload.reviews.length) return;
+            reviews = payload.reviews;
+            activeIndex = 0;
+            renderIndicators();
+            renderReview(activeIndex);
+            restartAutoAdvance();
+        })
+        .catch(() => {
+            // Keep the default on-page reviews if the dynamic endpoint is unavailable.
+        });
+}
+
+function setupDynamicForms() {
+    document.querySelectorAll('form[data-dynamic-form]').forEach((form) => {
+        const status = form.querySelector('[data-form-status]');
+        const submitButton = form.querySelector('button[type="submit"]');
+        const submitLabel = submitButton ? submitButton.dataset.submitLabel || submitButton.textContent.trim() : '';
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Sending...';
+            }
+
+            setFormStatus(status, 'pending', 'Submitting your request...');
+
+            try {
+                const response = await fetch('/api/inquiry', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        kind: form.dataset.dynamicForm,
+                        page: window.location.pathname,
+                        ...serializeForm(form)
+                    })
+                });
+
+                if (response.status === 404 || response.status === 405) {
+                    form.submit();
+                    return;
+                }
+
+                const result = await response.json().catch(() => ({}));
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Something went wrong while sending your request.');
+                }
+
+                form.reset();
+                setFormStatus(status, 'success', result.message || 'Thanks. We received your request and will reply soon.');
+            } catch (error) {
+                if (error instanceof TypeError) {
+                    form.submit();
+                    return;
+                }
+
+                setFormStatus(status, 'error', error.message || 'We could not send your request right now.');
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = submitLabel;
+                }
+            }
+        });
+    });
+}
+
+function serializeForm(form) {
+    const formData = new FormData(form);
+    const payload = {};
+
+    formData.forEach((value, rawKey) => {
+        const key = rawKey.endsWith('[]') ? rawKey.slice(0, -2) : rawKey;
+        const normalizedValue = typeof value === 'string' ? value.trim() : value;
+
+        if (payload[key] === undefined) {
+            payload[key] = normalizedValue;
+            return;
+        }
+
+        if (!Array.isArray(payload[key])) {
+            payload[key] = [payload[key]];
+        }
+
+        payload[key].push(normalizedValue);
+    });
+
+    return payload;
+}
+
+function setFormStatus(statusNode, tone, message) {
+    if (!statusNode) return;
+
+    statusNode.className = `md:col-span-2 form-status form-status--${tone}`;
+    statusNode.textContent = message;
 }
 
 function setupGlobalCTAs() {

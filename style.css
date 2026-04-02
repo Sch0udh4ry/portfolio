@@ -79,3 +79,25 @@ h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
     background: #0043f3;
     transform: scale(1.15);
 }
+
+.form-status {
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.form-status--pending {
+    background: #eef1f3;
+    color: #314771;
+}
+
+.form-status--success {
+    background: #dff7e8;
+    color: #1d5b36;
+}
+
+.form-status--error {
+    background: #ffeaef;
+    color: #b41340;
+}
