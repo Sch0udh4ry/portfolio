@@ -32,6 +32,7 @@ async function initSite() {
     setupNavbar();
     setupGlobalCTAs();
     setupScrollAnimations();
+    setupCountUpAnimations();
 
     // FAILSAFE: If animations don't trigger, show everything after 1.5 seconds
     setTimeout(() => {
@@ -72,6 +73,83 @@ function setupScrollAnimations() {
     }, { threshold: 0.1 });
 
     document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+}
+
+function setupCountUpAnimations() {
+    const countUpElements = document.querySelectorAll("[data-countup]");
+
+    if (!countUpElements.length) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    countUpElements.forEach((element) => {
+        element.dataset.countupOriginal = element.textContent.trim();
+    });
+
+    if (prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
+        countUpElements.forEach((element) => {
+            element.textContent = element.dataset.countupOriginal;
+        });
+        return;
+    }
+
+    const countObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+
+            animateCountUp(entry.target);
+            countObserver.unobserve(entry.target);
+        });
+    }, { threshold: 0.35 });
+
+    countUpElements.forEach((element) => countObserver.observe(element));
+}
+
+function animateCountUp(element) {
+    if (element.dataset.countupAnimated === 'true') return;
+
+    const originalText = element.dataset.countupOriginal || element.textContent.trim();
+    const match = originalText.match(/-?\d[\d,]*(?:\.\d+)?/);
+
+    if (!match) {
+        element.dataset.countupAnimated = 'true';
+        return;
+    }
+
+    const numberText = match[0];
+    const targetValue = Number(numberText.replace(/,/g, ''));
+    const decimalPlaces = (numberText.split('.')[1] || '').length;
+    const prefix = originalText.slice(0, match.index);
+    const suffix = originalText.slice((match.index || 0) + numberText.length);
+    const duration = Number(element.dataset.countupDuration || 1400);
+    const startTime = performance.now();
+
+    const renderValue = (value) => {
+        const formattedValue = value.toLocaleString(undefined, {
+            minimumFractionDigits: decimalPlaces,
+            maximumFractionDigits: decimalPlaces
+        });
+
+        element.textContent = `${prefix}${formattedValue}${suffix}`;
+    };
+
+    const tick = (currentTime) => {
+        const elapsed = Math.min((currentTime - startTime) / duration, 1);
+        const easedProgress = 1 - Math.pow(1 - elapsed, 3);
+        const currentValue = targetValue * easedProgress;
+
+        renderValue(elapsed < 1 ? currentValue : targetValue);
+
+        if (elapsed < 1) {
+            requestAnimationFrame(tick);
+            return;
+        }
+
+        element.dataset.countupAnimated = 'true';
+    };
+
+    renderValue(0);
+    requestAnimationFrame(tick);
 }
 
 function setupGlobalCTAs() {
