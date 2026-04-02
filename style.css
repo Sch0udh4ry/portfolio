@@ -57,3 +57,25 @@ h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
         transition: all 0.8s ease-out;
     }
 }
+
+.review-card {
+    transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.review-card.is-transitioning {
+    opacity: 0.55;
+    transform: translateY(8px);
+}
+
+.review-indicator {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 9999px;
+    background: #d9dde0;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.review-indicator.is-active {
+    background: #0043f3;
+    transform: scale(1.15);
+}

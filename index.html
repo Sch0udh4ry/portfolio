@@ -228,33 +228,34 @@
                         <h2 class="text-5xl font-extrabold tracking-tighter mb-6 leading-none">Voices of <br/>Authority</h2>
                         <p class="text-on-surface-variant mb-8">The results of our human-led approach speak louder than any pitch. Hear from the visionaries we help accelerate.</p>
                         <div class="flex gap-4">
-                            <button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                            <button type="button" id="reviews-prev" aria-label="Previous review" class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary hover:text-white transition-all">
                                 <span class="material-symbols-outlined">arrow_back</span>
                             </button>
-                            <button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                            <button type="button" id="reviews-next" aria-label="Next review" class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary hover:text-white transition-all">
                                 <span class="material-symbols-outlined">arrow_forward</span>
                             </button>
                         </div>
+                        <div id="reviews-indicators" class="flex gap-2 mt-6" aria-label="Review navigation"></div>
                     </div>
-                    <div class="lg:w-2/3 relative">
-                        <div class="bg-surface-container-lowest p-12 rounded-3xl shadow-[0px_20px_40px_rgba(0,67,243,0.06)] relative overflow-hidden">
+                    <div class="lg:w-2/3 relative" id="reviews-carousel">
+                        <div class="bg-surface-container-lowest p-12 rounded-3xl shadow-[0px_20px_40px_rgba(0,67,243,0.06)] relative overflow-hidden review-card">
                             <div class="absolute top-0 left-0 w-1.5 h-full bg-primary"></div>
                             <div class="flex flex-col gap-8">
-                                <h3 class="text-3xl font-bold italic leading-snug text-on-surface">
+                                <h3 id="review-quote" class="text-3xl font-bold italic leading-snug text-on-surface transition-opacity duration-300">
                                     "Pure Reach didn't just automate our ads; they applied human wisdom to AI scale. Our conversion rates tripled because they knew exactly when to let the algorithm run and when to step in."
                                 </h3>
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center gap-4">
                                         <div class="w-16 h-16 rounded-full bg-surface-container-highest overflow-hidden">
-                                            <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARi5yJZ69ncz2PzwZopYlgUUhFoHO7DfsHW-cZQc7FmXba9INu1EQDfoPvMLJRICIcCOvuFdxpdqbjFWW5nVz79E3zDmxHSHv_vtQUQwsggzN8ic6oVKHshPdnUVb2AJgJ4qQVv8EYml2v05Ge6kSYY1xVpfdzvI1DkzqjyT4ERgVx_285ns-cR7QGFerZcoaJaVqzRefPJwGwVXYtIjasLBM3cQGRu5kUsafTClgK9bBBOxSCptXOGNlPeQtuFKybDmpGXyJMkBM"/>
+                                            <img id="review-avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARi5yJZ69ncz2PzwZopYlgUUhFoHO7DfsHW-cZQc7FmXba9INu1EQDfoPvMLJRICIcCOvuFdxpdqbjFWW5nVz79E3zDmxHSHv_vtQUQwsggzN8ic6oVKHshPdnUVb2AJgJ4qQVv8EYml2v05Ge6kSYY1xVpfdzvI1DkzqjyT4ERgVx_285ns-cR7QGFerZcoaJaVqzRefPJwGwVXYtIjasLBM3cQGRu5kUsafTClgK9bBBOxSCptXOGNlPeQtuFKybDmpGXyJMkBM" alt="Marcus Thorne portrait"/>
                                         </div>
                                         <div>
-                                            <p class="font-bold text-lg">Marcus Thorne</p>
-                                            <p class="text-on-surface-variant text-sm uppercase tracking-widest">CEO, Zenith Tech</p>
+                                            <p id="review-name" class="font-bold text-lg">Marcus Thorne</p>
+                                            <p id="review-role" class="text-on-surface-variant text-sm uppercase tracking-widest">CEO, Zenith Tech</p>
                                         </div>
                                     </div>
                                     <div class="hidden sm:block">
-                                        <span class="px-6 py-2 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold uppercase tracking-widest">Expert-Led Results</span>
+                                        <span id="review-tag" class="px-6 py-2 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold uppercase tracking-widest">Expert-Led Results</span>
                                     </div>
                                 </div>
                             </div>
