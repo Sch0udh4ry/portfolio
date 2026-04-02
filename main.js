@@ -30,13 +30,13 @@ async function initSite() {
 
     // Initialize all logic
     setupNavbar();
+    setupAuthNavigation();
     setupGlobalCTAs();
     setupScrollAnimations();
     setupDynamicForms();
     setupTestimonialsCarousel();
     setupPortalLogin();
     setupClientPortal();
-    setupPortalLogout();
     setupPortalLogout();
 
     // FAILSAFE: If animations don't trigger, show everything after 1.5 seconds
@@ -336,6 +336,40 @@ function setupDynamicForms() {
     });
 }
 
+function setupAuthNavigation() {
+    const authLinks = Array.from(document.querySelectorAll('a[href="login.html"]'));
+    if (!authLinks.length) return;
+
+    fetch('/api/client-portal')
+        .then((response) => response.ok ? response.json() : null)
+        .then((payload) => {
+            if (!payload || !payload.account) return;
+
+            const onPortalPage = window.location.pathname.endsWith('client-portal.html');
+
+            authLinks.forEach((link) => {
+                if (onPortalPage) {
+                    link.textContent = 'Log Out';
+                    link.href = '#';
+                    link.dataset.authAction = 'logout';
+                    link.onclick = async (event) => {
+                        event.preventDefault();
+                        await logoutClientSession();
+                    };
+                    return;
+                }
+
+                link.textContent = 'Client Portal';
+                link.href = 'client-portal.html';
+                delete link.dataset.authAction;
+                link.onclick = null;
+            });
+        })
+        .catch(() => {
+            // Keep the default Login links when no active session exists.
+        });
+}
+
 function setupLiveValidation(form) {
     const fields = Array.from(form.querySelectorAll('input[name]:not([type="hidden"]):not([type="checkbox"]), textarea[name]'));
 
@@ -603,14 +637,23 @@ function setupPortalLogout() {
         button.textContent = 'Signing Out';
 
         try {
-            await fetch('/api/client-logout', { method: 'POST' });
+            await logoutClientSession(false);
         } finally {
             button.disabled = false;
             button.classList.remove('is-loading');
             button.textContent = defaultLabel;
-            window.location.href = 'login.html';
         }
     });
+}
+
+async function logoutClientSession(redirect = true) {
+    try {
+        await fetch('/api/client-logout', { method: 'POST' });
+    } finally {
+        if (redirect) {
+            window.location.href = 'login.html';
+        }
+    }
 }
 
 function escapeMarkup(value) {
