@@ -3,41 +3,81 @@
  * Fully Integrated Production Version
  */
 
-async function initSite() {
-    const v = new Date().getTime(); 
-    const components = [
-        { id: 'navbar-placeholder', file: `nav.html?v=${v}` },
-        { id: 'footer-placeholder', file: `footer.html?v=${v}` }
-    ];
-
-    for (const comp of components) {
-        const placeholder = document.getElementById(comp.id);
-        if (!placeholder) continue;
-        try {
-            const response = await fetch(comp.file);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            placeholder.innerHTML = await response.text();
-        } catch (err) {
-            console.error(`Primary load failed for ${comp.file}, trying backup...`, err);
-            try {
-                const backupRes = await fetch(comp.file.split('?')[0]);
-                if (backupRes.ok) placeholder.innerHTML = await backupRes.text();
-            } catch (backupErr) {
-                console.error("Backup load failed:", backupErr);
-            }
-        }
-    }
-
-    // Initialize all logic
-    setupNavbar();
+function initSite() {
+    // Initialize page interactions immediately so component fetches do not block UX.
     setupGlobalCTAs();
     setupScrollAnimations();
     setupCountUpAnimations();
+    loadSharedComponents();
 
     // FAILSAFE: If animations don't trigger, show everything after 1.5 seconds
     setTimeout(() => {
         document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
     }, 1500);
+}
+
+async function loadSharedComponents() {
+    const components = [
+        { id: 'navbar-placeholder', file: 'nav.html' },
+        { id: 'footer-placeholder', file: 'footer.html' }
+    ];
+
+    const componentTasks = components.map(async (comp) => {
+        const placeholder = document.getElementById(comp.id);
+        if (!placeholder) return;
+
+        const cacheKey = `shared-component:${comp.file}`;
+        const cachedMarkup = getSessionCache(cacheKey);
+
+        if (cachedMarkup) {
+            placeholder.innerHTML = cachedMarkup;
+        }
+
+        try {
+            const markup = await fetchComponentMarkup(comp.file);
+            if (markup) {
+                placeholder.innerHTML = markup;
+                setSessionCache(cacheKey, markup);
+            }
+        } catch (err) {
+            console.error(`Component load failed for ${comp.file}`, err);
+        }
+    });
+
+    await Promise.all(componentTasks);
+    setupNavbar();
+    setupGlobalCTAs();
+}
+
+async function fetchComponentMarkup(file) {
+    const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const timeoutId = controller
+        ? window.setTimeout(() => controller.abort(), 2500)
+        : null;
+
+    try {
+        const response = await fetch(file, controller ? { signal: controller.signal } : undefined);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return await response.text();
+    } finally {
+        if (timeoutId) window.clearTimeout(timeoutId);
+    }
+}
+
+function getSessionCache(key) {
+    try {
+        return window.sessionStorage.getItem(key);
+    } catch (err) {
+        return null;
+    }
+}
+
+function setSessionCache(key, value) {
+    try {
+        window.sessionStorage.setItem(key, value);
+    } catch (err) {
+        // Ignore storage write failures and continue with fresh markup.
+    }
 }
 
 function setupNavbar() {
@@ -100,7 +140,7 @@ function setupCountUpAnimations() {
             animateCountUp(entry.target);
             countObserver.unobserve(entry.target);
         });
-    }, { threshold: 0.35 });
+    }, { threshold: 0.15 });
 
     countUpElements.forEach((element) => countObserver.observe(element));
 }
