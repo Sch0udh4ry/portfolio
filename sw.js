@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'pri-v2';
+const CACHE_VERSION = 'pri-v3';
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
@@ -18,6 +18,7 @@ const SHELL_ASSETS = [
     './terms.html',
     './website-redesign-seo-mistakes.html',
     './main.js',
+    './tailwind.generated.css',
     './style.css',
     './nav.html',
     './footer.html'
