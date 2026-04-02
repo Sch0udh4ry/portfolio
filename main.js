@@ -36,6 +36,7 @@ async function initSite() {
     setupTestimonialsCarousel();
     setupPortalLogin();
     setupClientPortal();
+    setupPortalLogout();
 
     // FAILSAFE: If animations don't trigger, show everything after 1.5 seconds
     setTimeout(() => {
@@ -402,13 +403,14 @@ function setupPortalLogin() {
     const passwordField = form.querySelector('[name="password"]');
     const submitButton = form.querySelector('button[type="submit"]');
     const statusNode = form.querySelector('[data-login-status]');
+    const submitLabel = submitButton ? submitButton.textContent.trim() : '';
 
     form.noValidate = true;
     if (submitButton) {
         submitButton.classList.add('form-submit');
     }
 
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
         const email = emailField ? emailField.value.trim() : '';
@@ -429,15 +431,43 @@ function setupPortalLogin() {
         if (submitButton) {
             submitButton.disabled = true;
             submitButton.classList.add('is-loading');
-            submitButton.textContent = 'Opening Portal';
+            submitButton.setAttribute('aria-busy', 'true');
+            submitButton.textContent = 'Signing In';
         }
 
-        setPortalStatus(statusNode, 'pending', 'Opening your client workspace...');
+        setPortalStatus(statusNode, 'pending', 'Verifying your account...');
 
-        window.setTimeout(() => {
-            const targetUrl = `client-portal.html?client=demo&email=${encodeURIComponent(email)}`;
-            window.location.href = targetUrl;
-        }, 700);
+        try {
+            const response = await fetch('/api/client-login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const result = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(result.message || 'We could not sign you in right now.');
+            }
+
+            setPortalStatus(statusNode, 'success', 'Login successful. Opening your client portal...');
+
+            window.setTimeout(() => {
+                window.location.href = 'client-portal.html';
+            }, 450);
+        } catch (error) {
+            setPortalStatus(statusNode, 'error', error.message || 'We could not sign you in right now.');
+        } finally {
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.classList.remove('is-loading');
+                submitButton.removeAttribute('aria-busy');
+                submitButton.textContent = submitLabel;
+            }
+        }
     });
 }
 
@@ -445,74 +475,33 @@ function setupClientPortal() {
     const portalRoot = document.querySelector('[data-client-portal]');
     if (!portalRoot) return;
 
-    const fallbackPayload = {
-        companyName: 'Northlane Studio',
-        contactName: 'Client Team',
-        email: 'client@northlanestudio.com',
-        status: 'Active Retainer',
-        planName: 'Growth Systems Plan',
-        planSummary: 'Technical SEO, blog operations, creative support, reporting, and monthly consulting.',
-        nextPaymentDate: 'April 18, 2026',
-        invoiceStatus: 'Due in 16 days',
-        paymentAmount: 'INR 48,000',
-        paymentLink: 'faq.html#quote-form',
-        supportContact: 'hi@sunilchoudhary.in',
-        latestInvoice: {
-            id: 'PRI-2026-041',
-            amount: 'INR 48,000',
-            status: 'Open',
-            dueDate: 'April 18, 2026'
-        },
-        invoices: [
-            { id: 'PRI-2026-041', period: 'April 2026', amount: 'INR 48,000', status: 'Open', url: '#' },
-            { id: 'PRI-2026-032', period: 'March 2026', amount: 'INR 48,000', status: 'Paid', url: '#' },
-            { id: 'PRI-2026-021', period: 'February 2026', amount: 'INR 48,000', status: 'Paid', url: '#' }
-        ],
-        services: [
-            {
-                name: 'Technical SEO',
-                state: 'In Progress',
-                summary: 'Core site fixes, schema review, internal linking, and content indexation monitoring.',
-                nextStep: 'Priority crawl review scheduled for April 06.'
-            },
-            {
-                name: 'Blog Strategy',
-                state: 'Publishing',
-                summary: 'Monthly editorial plan, article production, optimization, and search intent refinement.',
-                nextStep: 'Two new authority articles ready for approval.'
-            },
-            {
-                name: 'Creative Support',
-                state: 'Queued',
-                summary: 'Static assets, ad variations, and social creative concepts aligned with the current campaign.',
-                nextStep: 'Next asset batch planned after landing page update.'
-            }
-        ]
-    };
-
-    const portalClient = new URLSearchParams(window.location.search).get('client') || 'demo';
-    const portalEmail = new URLSearchParams(window.location.search).get('email') || '';
     const statusNode = document.querySelector('[data-portal-status]');
-
-    renderClientPortal({
-        ...fallbackPayload,
-        email: portalEmail || fallbackPayload.email
-    });
     setPortalStatus(statusNode, 'pending', 'Loading client account details...');
 
-    fetch(`/api/client-portal?client=${encodeURIComponent(portalClient)}&email=${encodeURIComponent(portalEmail)}`)
-        .then((response) => response.ok ? response.json() : null)
+    fetch('/api/client-portal')
+        .then(async (response) => {
+            const payload = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(payload.message || 'Please log in to view the client portal.');
+            }
+
+            return payload;
+        })
         .then((payload) => {
             if (!payload || !payload.account) {
-                setPortalStatus(statusNode, 'success', 'Placeholder account loaded. Secure backend sync can replace this data later.');
-                return;
+                throw new Error('Please log in to view the client portal.');
             }
 
             renderClientPortal(payload.account);
             setPortalStatus(statusNode, 'success', 'Client account loaded.');
         })
-        .catch(() => {
-            setPortalStatus(statusNode, 'success', 'Placeholder account loaded. Connect your backend later for secure live data.');
+        .catch((error) => {
+            setPortalStatus(statusNode, 'error', error.message || 'Please log in to view the client portal.');
+
+            window.setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 700);
         });
 }
 
@@ -543,23 +532,24 @@ function renderClientPortal(account) {
 
     const latestInvoice = document.getElementById('portal-latest-invoice');
     if (latestInvoice && account.latestInvoice) {
-        latestInvoice.textContent = `${account.latestInvoice.id} · ${account.latestInvoice.amount} · ${account.latestInvoice.status}`;
+        latestInvoice.textContent = `${account.latestInvoice.id} | ${account.latestInvoice.amount} | ${account.latestInvoice.status}`;
     }
 
     const invoicesNode = document.getElementById('portal-invoices');
     if (invoicesNode) {
         invoicesNode.innerHTML = '';
+
         (account.invoices || []).forEach((invoice) => {
             const row = document.createElement('div');
             row.className = 'grid grid-cols-1 gap-4 rounded-2xl bg-surface-container-low p-6 md:grid-cols-[1.4fr,1fr,0.8fr,auto] md:items-center';
             row.innerHTML = `
                 <div>
-                    <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">${invoice.id}</p>
-                    <p class="mt-2 text-lg font-bold text-on-surface">${invoice.period}</p>
+                    <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">${escapeMarkup(invoice.id)}</p>
+                    <p class="mt-2 text-lg font-bold text-on-surface">${escapeMarkup(invoice.period)}</p>
                 </div>
-                <p class="font-semibold text-on-surface">${invoice.amount}</p>
-                <p class="text-sm font-bold uppercase tracking-widest ${invoice.status === 'Paid' ? 'text-green-700' : 'text-primary'}">${invoice.status}</p>
-                <a class="inline-flex items-center justify-center rounded-xl bg-white px-4 py-3 text-sm font-bold text-primary shadow-sm hover:bg-primary hover:text-white transition-colors" href="${invoice.url || '#'}">View Invoice</a>
+                <p class="font-semibold text-on-surface">${escapeMarkup(invoice.amount)}</p>
+                <p class="text-sm font-bold uppercase tracking-widest ${invoice.status === 'Paid' ? 'text-green-700' : 'text-primary'}">${escapeMarkup(invoice.status)}</p>
+                <a class="inline-flex items-center justify-center rounded-xl bg-white px-4 py-3 text-sm font-bold text-primary shadow-sm hover:bg-primary hover:text-white transition-colors" href="${escapeAttribute(invoice.url || '#')}">View Invoice</a>
             `;
             invoicesNode.appendChild(row);
         });
@@ -568,18 +558,19 @@ function renderClientPortal(account) {
     const servicesNode = document.getElementById('portal-services');
     if (servicesNode) {
         servicesNode.innerHTML = '';
+
         (account.services || []).forEach((service) => {
             const card = document.createElement('article');
             card.className = 'rounded-3xl bg-surface-container-lowest p-8 shadow-sm';
             card.innerHTML = `
                 <div class="mb-6 flex items-center justify-between gap-4">
-                    <h3 class="text-2xl font-extrabold text-on-surface">${service.name}</h3>
-                    <span class="rounded-full bg-secondary-container px-4 py-2 text-[11px] font-bold uppercase tracking-widest text-on-secondary-container">${service.state}</span>
+                    <h3 class="text-2xl font-extrabold text-on-surface">${escapeMarkup(service.name)}</h3>
+                    <span class="rounded-full bg-secondary-container px-4 py-2 text-[11px] font-bold uppercase tracking-widest text-on-secondary-container">${escapeMarkup(service.state)}</span>
                 </div>
-                <p class="text-on-surface-variant leading-relaxed">${service.summary}</p>
+                <p class="text-on-surface-variant leading-relaxed">${escapeMarkup(service.summary)}</p>
                 <div class="mt-6 rounded-2xl bg-surface-container-low p-5">
                     <p class="text-xs font-bold uppercase tracking-widest text-primary">Next Step</p>
-                    <p class="mt-3 text-sm font-medium text-on-surface">${service.nextStep}</p>
+                    <p class="mt-3 text-sm font-medium text-on-surface">${escapeMarkup(service.nextStep)}</p>
                 </div>
                 <div class="mt-6 rounded-2xl border border-dashed border-outline-variant/50 p-5">
                     <p class="text-sm font-semibold text-on-surface">Service dashboard placeholder</p>
@@ -596,6 +587,42 @@ function setPortalStatus(node, tone, message) {
 
     node.className = `form-status form-status--${tone}`;
     node.textContent = message;
+}
+
+function setupPortalLogout() {
+    const button = document.querySelector('[data-portal-logout]');
+    if (!button) return;
+
+    const defaultLabel = button.textContent.trim();
+    button.classList.add('form-submit');
+
+    button.addEventListener('click', async () => {
+        button.disabled = true;
+        button.classList.add('is-loading');
+        button.textContent = 'Signing Out';
+
+        try {
+            await fetch('/api/client-logout', { method: 'POST' });
+        } finally {
+            button.disabled = false;
+            button.classList.remove('is-loading');
+            button.textContent = defaultLabel;
+            window.location.href = 'login.html';
+        }
+    });
+}
+
+function escapeMarkup(value) {
+    return String(value || '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+}
+
+function escapeAttribute(value) {
+    return escapeMarkup(value);
 }
 
 function validateForm(form, revealMessages) {
