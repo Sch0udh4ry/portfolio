@@ -157,9 +157,15 @@ h1, h2, h3, h4 {
     z-index: 1;
 }
 
+#navbar-placeholder,
+#navbar-placeholder nav {
+    z-index: 200 !important;
+}
+
 main > section {
     position: relative;
     overflow: hidden;
+    z-index: 0;
 }
 
 main > section::before {
@@ -207,6 +213,7 @@ body.portal-page main > section:first-of-type::after {
     background-position: center;
     pointer-events: none;
     animation: floatCard 14s ease-in-out infinite;
+    z-index: 0;
 }
 
 body.home-page main > section:first-of-type::after {
