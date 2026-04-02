@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Client Portal | Pure Reach Innovation</title>
+    <meta name="description" content="Pure Reach client portal placeholder with plan overview, payment schedule, invoices, and future service dashboards."/>
+    <meta name="robots" content="noindex, nofollow"/>
+    <link rel="canonical" href="https://sunilchoudhary.in/client-portal.html"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Client Portal | Pure Reach Innovation"/>
+    <meta property="og:description" content="Access plan details, payment dates, invoices, and future service dashboards in the Pure Reach client portal."/>
+    <meta property="og:url" content="https://sunilchoudhary.in/client-portal.html"/>
+    <meta property="og:site_name" content="Pure Reach Innovation"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Client Portal | Pure Reach Innovation"/>
+    <meta name="twitter:description" content="Access plan details, payment dates, invoices, and future service dashboards in the Pure Reach client portal."/>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+    <link rel="stylesheet" href="style.css">
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0043f3",
+              "surface": "#f5f7f9",
+              "on-surface": "#2c2f31",
+              "on-primary": "#f2f1ff",
+              "primary-container": "#859aff",
+              "secondary-container": "#bfd1ff",
+              "on-secondary-container": "#314771",
+              "on-surface-variant": "#595c5e",
+              "surface-container-low": "#eef1f3",
+              "surface-container-highest": "#d9dde0",
+              "surface-container-lowest": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary-container selection:text-on-primary-container">
+
+    <div id="navbar-placeholder"></div>
+
+    <main class="pt-24" data-client-portal>
+        <section class="px-8 pt-16 pb-16 reveal reveal-up">
+            <div class="max-w-7xl mx-auto">
+                <div class="rounded-[2rem] bg-gradient-to-br from-primary to-primary-container p-10 md:p-14 text-white shadow-[0px_30px_80px_rgba(0,67,243,0.20)]">
+                    <div class="grid grid-cols-1 lg:grid-cols-[1.6fr,0.8fr] gap-10 items-start">
+                        <div>
+                            <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-xs font-bold uppercase tracking-widest">
+                                <span class="material-symbols-outlined text-base">shield_lock</span>
+                                Client Portal Placeholder
+                            </span>
+                            <h1 class="mt-6 text-4xl md:text-6xl font-headline font-extrabold tracking-tighter leading-[1.02]">Welcome back, <span id="portal-company-name">Northlane Studio</span>.</h1>
+                            <p class="mt-6 max-w-3xl text-lg text-white/80 leading-relaxed">This page is ready to become your client account hub. Right now it uses placeholder data, but the layout is already structured for secure backend authentication, payment systems, invoices, and individual service dashboards.</p>
+                            <div class="mt-8 flex flex-wrap gap-4 text-sm">
+                                <div class="rounded-2xl bg-white/10 px-5 py-4">
+                                    <p class="text-white/60 uppercase tracking-widest font-bold text-[11px]">Primary Contact</p>
+                                    <p id="portal-contact-name" class="mt-2 font-bold text-lg">Client Team</p>
+                                </div>
+                                <div class="rounded-2xl bg-white/10 px-5 py-4">
+                                    <p class="text-white/60 uppercase tracking-widest font-bold text-[11px]">Account Email</p>
+                                    <p id="portal-email" class="mt-2 font-bold text-lg">client@northlanestudio.com</p>
+                                </div>
+                                <div class="rounded-2xl bg-white/10 px-5 py-4">
+                                    <p class="text-white/60 uppercase tracking-widest font-bold text-[11px]">Status</p>
+                                    <p id="portal-status-chip" class="mt-2 font-bold text-lg">Active Retainer</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rounded-3xl bg-white/10 p-6 backdrop-blur-sm">
+                            <p class="text-xs font-bold uppercase tracking-widest text-white/70">Portal Notes</p>
+                            <div data-portal-status aria-live="polite" class="mt-4"></div>
+                            <div class="mt-6 rounded-2xl bg-white/10 p-5">
+                                <p class="text-xs font-bold uppercase tracking-widest text-white/70">Support Contact</p>
+                                <p id="portal-support-contact" class="mt-3 text-lg font-bold">hi@sunilchoudhary.in</p>
+                            </div>
+                            <div class="mt-4 rounded-2xl bg-white/10 p-5">
+                                <p class="text-xs font-bold uppercase tracking-widest text-white/70">Latest Invoice</p>
+                                <p id="portal-latest-invoice" class="mt-3 text-lg font-bold">PRI-2026-041 · INR 48,000 · Open</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="px-8 py-8 reveal reveal-up">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+                <article class="rounded-3xl bg-surface-container-lowest p-8 shadow-sm">
+                    <p class="text-xs font-bold uppercase tracking-widest text-primary">Current Plan</p>
+                    <h2 id="portal-plan-name" class="mt-4 text-3xl font-headline font-extrabold tracking-tight">Growth Systems Plan</h2>
+                    <p id="portal-plan-summary" class="mt-4 text-on-surface-variant leading-relaxed">Technical SEO, blog operations, creative support, reporting, and monthly consulting.</p>
+                </article>
+                <article class="rounded-3xl bg-surface-container-lowest p-8 shadow-sm">
+                    <p class="text-xs font-bold uppercase tracking-widest text-primary">Next Payment Date</p>
+                    <p id="portal-payment-date" class="mt-4 text-3xl font-headline font-extrabold tracking-tight">April 18, 2026</p>
+                    <p id="portal-invoice-status" class="mt-4 text-on-surface-variant">Due in 16 days</p>
+                </article>
+                <article class="rounded-3xl bg-surface-container-lowest p-8 shadow-sm">
+                    <p class="text-xs font-bold uppercase tracking-widest text-primary">Payment Amount</p>
+                    <p id="portal-payment-amount" class="mt-4 text-3xl font-headline font-extrabold tracking-tight">INR 48,000</p>
+                    <a id="portal-payment-link" href="faq.html#quote-form" class="mt-6 inline-flex items-center justify-center rounded-xl bg-primary px-5 py-4 font-bold text-white transition-colors hover:bg-blue-700">Open Payment Link</a>
+                </article>
+            </div>
+        </section>
+
+        <section class="px-8 py-16 bg-surface-container-low reveal reveal-up">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                    <div>
+                        <span class="inline-block rounded-full bg-secondary-container px-4 py-2 text-xs font-bold uppercase tracking-widest text-on-secondary-container">Billing Center</span>
+                        <h2 class="mt-5 text-4xl md:text-5xl font-headline font-extrabold tracking-tight">Invoices and payment history</h2>
+                    </div>
+                    <a href="contact.html" class="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-4 font-bold text-primary shadow-sm hover:bg-primary hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">mail</span>
+                        Need billing help?
+                    </a>
+                </div>
+                <div id="portal-invoices" class="space-y-4"></div>
+            </div>
+        </section>
+
+        <section class="px-8 py-16 reveal reveal-up">
+            <div class="max-w-7xl mx-auto">
+                <div class="max-w-3xl mb-12">
+                    <span class="inline-block rounded-full bg-secondary-container px-4 py-2 text-xs font-bold uppercase tracking-widest text-on-secondary-container">Service Dashboards</span>
+                    <h2 class="mt-5 text-4xl md:text-5xl font-headline font-extrabold tracking-tight">Room for each service to become its own client dashboard.</h2>
+                    <p class="mt-5 text-lg text-on-surface-variant leading-relaxed">These cards are placeholders today, but the structure is ready for service-specific portals later. SEO can show rankings and tickets, content can show editorial status, ads can show spend and ROAS, and support can show queue health.</p>
+                </div>
+                <div id="portal-services" class="grid grid-cols-1 xl:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+
+        <section class="px-8 pb-24 reveal reveal-up">
+            <div class="max-w-7xl mx-auto rounded-[2rem] bg-surface-container-lowest p-10 md:p-14 shadow-sm">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                    <div>
+                        <span class="inline-block rounded-full bg-primary text-white px-4 py-2 text-xs font-bold uppercase tracking-widest">Backend Ready</span>
+                        <h2 class="mt-5 text-4xl font-headline font-extrabold tracking-tight">What we can connect next.</h2>
+                        <p class="mt-5 text-lg text-on-surface-variant leading-relaxed">This portal can later be upgraded with secure authentication, role-based client access, live invoices, Stripe or Razorpay links, signed documents, and service dashboards fed by your internal workflow.</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="rounded-2xl bg-surface-container-low p-6">
+                            <p class="text-xs font-bold uppercase tracking-widest text-primary">Authentication</p>
+                            <p class="mt-3 text-sm text-on-surface-variant">Secure login, password resets, invite flows, and session-based access.</p>
+                        </div>
+                        <div class="rounded-2xl bg-surface-container-low p-6">
+                            <p class="text-xs font-bold uppercase tracking-widest text-primary">Billing</p>
+                            <p class="mt-3 text-sm text-on-surface-variant">Payment links, invoice PDFs, paid status, overdue notices, and receipts.</p>
+                        </div>
+                        <div class="rounded-2xl bg-surface-container-low p-6">
+                            <p class="text-xs font-bold uppercase tracking-widest text-primary">Delivery</p>
+                            <p class="mt-3 text-sm text-on-surface-variant">Milestones, approvals, deliverable history, and account updates.</p>
+                        </div>
+                        <div class="rounded-2xl bg-surface-container-low p-6">
+                            <p class="text-xs font-bold uppercase tracking-widest text-primary">Dashboards</p>
+                            <p class="mt-3 text-sm text-on-surface-variant">SEO, content, ads, support, or e-commerce reporting modules as the account grows.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="main.js"></script>
+</body>
+</html>

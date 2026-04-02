@@ -34,6 +34,8 @@ async function initSite() {
     setupScrollAnimations();
     setupDynamicForms();
     setupTestimonialsCarousel();
+    setupPortalLogin();
+    setupClientPortal();
 
     // FAILSAFE: If animations don't trigger, show everything after 1.5 seconds
     setTimeout(() => {
@@ -390,6 +392,210 @@ function setFormStatus(statusNode, tone, message) {
 
     statusNode.className = `md:col-span-2 form-status form-status--${tone}`;
     statusNode.textContent = message;
+}
+
+function setupPortalLogin() {
+    const form = document.querySelector('[data-portal-login]');
+    if (!form) return;
+
+    const emailField = form.querySelector('[name="email"]');
+    const passwordField = form.querySelector('[name="password"]');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const statusNode = form.querySelector('[data-login-status]');
+
+    form.noValidate = true;
+    if (submitButton) {
+        submitButton.classList.add('form-submit');
+    }
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const email = emailField ? emailField.value.trim() : '';
+        const password = passwordField ? passwordField.value.trim() : '';
+
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setPortalStatus(statusNode, 'error', 'Enter a valid email address to continue.');
+            if (emailField) emailField.focus();
+            return;
+        }
+
+        if (!password || password.length < 6) {
+            setPortalStatus(statusNode, 'error', 'Enter your password to continue.');
+            if (passwordField) passwordField.focus();
+            return;
+        }
+
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.classList.add('is-loading');
+            submitButton.textContent = 'Opening Portal';
+        }
+
+        setPortalStatus(statusNode, 'pending', 'Opening your client workspace...');
+
+        window.setTimeout(() => {
+            const targetUrl = `client-portal.html?client=demo&email=${encodeURIComponent(email)}`;
+            window.location.href = targetUrl;
+        }, 700);
+    });
+}
+
+function setupClientPortal() {
+    const portalRoot = document.querySelector('[data-client-portal]');
+    if (!portalRoot) return;
+
+    const fallbackPayload = {
+        companyName: 'Northlane Studio',
+        contactName: 'Client Team',
+        email: 'client@northlanestudio.com',
+        status: 'Active Retainer',
+        planName: 'Growth Systems Plan',
+        planSummary: 'Technical SEO, blog operations, creative support, reporting, and monthly consulting.',
+        nextPaymentDate: 'April 18, 2026',
+        invoiceStatus: 'Due in 16 days',
+        paymentAmount: 'INR 48,000',
+        paymentLink: 'faq.html#quote-form',
+        supportContact: 'hi@sunilchoudhary.in',
+        latestInvoice: {
+            id: 'PRI-2026-041',
+            amount: 'INR 48,000',
+            status: 'Open',
+            dueDate: 'April 18, 2026'
+        },
+        invoices: [
+            { id: 'PRI-2026-041', period: 'April 2026', amount: 'INR 48,000', status: 'Open', url: '#' },
+            { id: 'PRI-2026-032', period: 'March 2026', amount: 'INR 48,000', status: 'Paid', url: '#' },
+            { id: 'PRI-2026-021', period: 'February 2026', amount: 'INR 48,000', status: 'Paid', url: '#' }
+        ],
+        services: [
+            {
+                name: 'Technical SEO',
+                state: 'In Progress',
+                summary: 'Core site fixes, schema review, internal linking, and content indexation monitoring.',
+                nextStep: 'Priority crawl review scheduled for April 06.'
+            },
+            {
+                name: 'Blog Strategy',
+                state: 'Publishing',
+                summary: 'Monthly editorial plan, article production, optimization, and search intent refinement.',
+                nextStep: 'Two new authority articles ready for approval.'
+            },
+            {
+                name: 'Creative Support',
+                state: 'Queued',
+                summary: 'Static assets, ad variations, and social creative concepts aligned with the current campaign.',
+                nextStep: 'Next asset batch planned after landing page update.'
+            }
+        ]
+    };
+
+    const portalClient = new URLSearchParams(window.location.search).get('client') || 'demo';
+    const portalEmail = new URLSearchParams(window.location.search).get('email') || '';
+    const statusNode = document.querySelector('[data-portal-status]');
+
+    renderClientPortal({
+        ...fallbackPayload,
+        email: portalEmail || fallbackPayload.email
+    });
+    setPortalStatus(statusNode, 'pending', 'Loading client account details...');
+
+    fetch(`/api/client-portal?client=${encodeURIComponent(portalClient)}&email=${encodeURIComponent(portalEmail)}`)
+        .then((response) => response.ok ? response.json() : null)
+        .then((payload) => {
+            if (!payload || !payload.account) {
+                setPortalStatus(statusNode, 'success', 'Placeholder account loaded. Secure backend sync can replace this data later.');
+                return;
+            }
+
+            renderClientPortal(payload.account);
+            setPortalStatus(statusNode, 'success', 'Client account loaded.');
+        })
+        .catch(() => {
+            setPortalStatus(statusNode, 'success', 'Placeholder account loaded. Connect your backend later for secure live data.');
+        });
+}
+
+function renderClientPortal(account) {
+    const fields = {
+        companyName: document.getElementById('portal-company-name'),
+        contactName: document.getElementById('portal-contact-name'),
+        portalEmail: document.getElementById('portal-email'),
+        portalStatus: document.getElementById('portal-status-chip'),
+        planName: document.getElementById('portal-plan-name'),
+        planSummary: document.getElementById('portal-plan-summary'),
+        nextPaymentDate: document.getElementById('portal-payment-date'),
+        invoiceStatus: document.getElementById('portal-invoice-status'),
+        paymentAmount: document.getElementById('portal-payment-amount'),
+        supportContact: document.getElementById('portal-support-contact')
+    };
+
+    Object.entries(fields).forEach(([key, node]) => {
+        if (!node) return;
+        const sourceKey = key === 'portalEmail' ? 'email' : key;
+        node.textContent = account[sourceKey] || '';
+    });
+
+    const paymentLink = document.getElementById('portal-payment-link');
+    if (paymentLink && account.paymentLink) {
+        paymentLink.href = account.paymentLink;
+    }
+
+    const latestInvoice = document.getElementById('portal-latest-invoice');
+    if (latestInvoice && account.latestInvoice) {
+        latestInvoice.textContent = `${account.latestInvoice.id} · ${account.latestInvoice.amount} · ${account.latestInvoice.status}`;
+    }
+
+    const invoicesNode = document.getElementById('portal-invoices');
+    if (invoicesNode) {
+        invoicesNode.innerHTML = '';
+        (account.invoices || []).forEach((invoice) => {
+            const row = document.createElement('div');
+            row.className = 'grid grid-cols-1 gap-4 rounded-2xl bg-surface-container-low p-6 md:grid-cols-[1.4fr,1fr,0.8fr,auto] md:items-center';
+            row.innerHTML = `
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">${invoice.id}</p>
+                    <p class="mt-2 text-lg font-bold text-on-surface">${invoice.period}</p>
+                </div>
+                <p class="font-semibold text-on-surface">${invoice.amount}</p>
+                <p class="text-sm font-bold uppercase tracking-widest ${invoice.status === 'Paid' ? 'text-green-700' : 'text-primary'}">${invoice.status}</p>
+                <a class="inline-flex items-center justify-center rounded-xl bg-white px-4 py-3 text-sm font-bold text-primary shadow-sm hover:bg-primary hover:text-white transition-colors" href="${invoice.url || '#'}">View Invoice</a>
+            `;
+            invoicesNode.appendChild(row);
+        });
+    }
+
+    const servicesNode = document.getElementById('portal-services');
+    if (servicesNode) {
+        servicesNode.innerHTML = '';
+        (account.services || []).forEach((service) => {
+            const card = document.createElement('article');
+            card.className = 'rounded-3xl bg-surface-container-lowest p-8 shadow-sm';
+            card.innerHTML = `
+                <div class="mb-6 flex items-center justify-between gap-4">
+                    <h3 class="text-2xl font-extrabold text-on-surface">${service.name}</h3>
+                    <span class="rounded-full bg-secondary-container px-4 py-2 text-[11px] font-bold uppercase tracking-widest text-on-secondary-container">${service.state}</span>
+                </div>
+                <p class="text-on-surface-variant leading-relaxed">${service.summary}</p>
+                <div class="mt-6 rounded-2xl bg-surface-container-low p-5">
+                    <p class="text-xs font-bold uppercase tracking-widest text-primary">Next Step</p>
+                    <p class="mt-3 text-sm font-medium text-on-surface">${service.nextStep}</p>
+                </div>
+                <div class="mt-6 rounded-2xl border border-dashed border-outline-variant/50 p-5">
+                    <p class="text-sm font-semibold text-on-surface">Service dashboard placeholder</p>
+                    <p class="mt-2 text-sm text-on-surface-variant">This area can later show campaign charts, SEO progress, content calendars, tickets, or store operations data from a secure backend.</p>
+                </div>
+            `;
+            servicesNode.appendChild(card);
+        });
+    }
+}
+
+function setPortalStatus(node, tone, message) {
+    if (!node) return;
+
+    node.className = `form-status form-status--${tone}`;
+    node.textContent = message;
 }
 
 function validateForm(form, revealMessages) {
