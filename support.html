@@ -162,6 +162,66 @@
             </div>
         </section>
 
+        <section class="px-8 py-24 bg-surface reveal reveal-up">
+            <div class="max-w-7xl mx-auto">
+                <div class="max-w-3xl mb-14">
+                    <span class="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary text-white text-xs font-bold tracking-widest uppercase">How To Begin</span>
+                    <h2 class="text-4xl md:text-5xl font-headline font-extrabold tracking-tighter mb-6">A simple starter pack to get your support system live fast.</h2>
+                    <p class="text-lg text-on-surface-variant leading-relaxed">Borrowing the useful parts of the DeskMoz model, the onboarding path should be simple: share details, give us the FAQs and training material, launch a trial, and go live with a widget visitors can use immediately.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                    <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-sm">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-5">assignment_ind</span>
+                        <h3 class="text-2xl font-headline font-bold mb-3">Submit Your Details</h3>
+                        <p class="text-on-surface-variant leading-relaxed">Share your business name, website, support channels, target hours, and the main customer pain points you want handled.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-sm">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-5">sticky_note_2</span>
+                        <h3 class="text-2xl font-headline font-bold mb-3">Share FAQs & Training</h3>
+                        <p class="text-on-surface-variant leading-relaxed">Provide your common questions, answers, product/service notes, escalation rules, and any policy documents your team already uses.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-sm">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-5">verified</span>
+                        <h3 class="text-2xl font-headline font-bold mb-3">Free Trial Window</h3>
+                        <p class="text-on-surface-variant leading-relaxed">Launch a short trial period so the team can be trained, tested, and adjusted before the full rollout begins.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-sm">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-5">forum</span>
+                        <h3 class="text-2xl font-headline font-bold mb-3">Go Live With Widget</h3>
+                        <p class="text-on-surface-variant leading-relaxed">Once ready, embed the chat widget on the site so visitors can start a live conversation with support from any page.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="px-8 py-24 bg-surface-container-low reveal reveal-up">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                <div>
+                    <span class="inline-block px-4 py-1.5 mb-6 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase">What To Provide</span>
+                    <h2 class="text-4xl md:text-5xl font-headline font-extrabold tracking-tighter mb-6">Everything the support team needs before day one.</h2>
+                    <p class="text-lg text-on-surface-variant leading-relaxed">The faster your team can learn the business, the faster support can feel native to your brand. A good starter pack should cover the business basics and the likely questions visitors will ask first.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-xl font-headline font-bold mb-2">Business Overview</h3>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">What you sell, who you serve, and what makes your support promises unique.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-xl font-headline font-bold mb-2">FAQ Sheet</h3>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">Top customer questions with approved answers and escalation notes.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-xl font-headline font-bold mb-2">Training Material</h3>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">Policies, product references, screenshots, pricing, and examples for edge cases.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-xl font-headline font-bold mb-2">Escalation Rules</h3>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">When to answer, when to hold, and when to route the visitor to a human lead.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="px-8 py-24 reveal reveal-up">
             <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                 <div>
@@ -228,6 +288,67 @@
 
     <div id="footer-placeholder"></div>
 
+    <button id="live-chat-launcher" class="fixed bottom-6 right-6 z-[60] bg-primary text-white rounded-full px-5 py-4 shadow-2xl shadow-primary/20 font-bold flex items-center gap-3">
+        <span class="material-symbols-outlined">chat</span>
+        <span class="hidden sm:inline">Chat with us</span>
+    </button>
+
+    <div id="live-chat-widget" class="fixed inset-0 z-[70] hidden items-end justify-end p-4 sm:p-6">
+        <div id="live-chat-backdrop" class="absolute inset-0 bg-black/50"></div>
+        <div class="relative w-full max-w-md bg-surface-container-lowest rounded-3xl shadow-2xl border border-outline-variant/20 overflow-hidden">
+            <div class="flex items-center justify-between px-6 py-4 bg-primary text-white">
+                <div>
+                    <div class="font-headline font-bold text-lg">Live Support</div>
+                    <div class="text-xs text-white/80">Message us on WhatsApp</div>
+                </div>
+                <button id="live-chat-close" class="text-white/90 hover:text-white">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <p class="text-sm text-on-surface-variant leading-relaxed">Open WhatsApp with a prefilled message so visitors can start a conversation instantly.</p>
+                <form id="live-chat-form" class="space-y-3">
+                    <input id="live-chat-name" class="w-full rounded-xl border border-outline-variant/20 bg-surface-container-low px-4 py-3 text-sm" placeholder="Your name" />
+                    <input id="live-chat-email" type="email" class="w-full rounded-xl border border-outline-variant/20 bg-surface-container-low px-4 py-3 text-sm" placeholder="Email address" />
+                    <textarea id="live-chat-message" rows="4" class="w-full rounded-xl border border-outline-variant/20 bg-surface-container-low px-4 py-3 text-sm" placeholder="What do you need help with?"></textarea>
+                    <button type="submit" class="w-full bg-primary text-white py-3 rounded-xl font-bold">Continue to WhatsApp</button>
+                </form>
+                <p class="text-xs text-on-surface-variant">This opens WhatsApp in a new tab with your details included.</p>
+            </div>
+        </div>
+    </div>
+
     <script src="main.js"></script>
+    <script>
+        const launcher = document.getElementById('live-chat-launcher');
+        const widget = document.getElementById('live-chat-widget');
+        const closeBtn = document.getElementById('live-chat-close');
+        const backdrop = document.getElementById('live-chat-backdrop');
+        const form = document.getElementById('live-chat-form');
+        const whatsappNumber = '918890320610';
+
+        const openWidget = () => {
+            widget.classList.remove('hidden');
+            widget.classList.add('flex');
+        };
+        const closeWidget = () => {
+            widget.classList.add('hidden');
+            widget.classList.remove('flex');
+        };
+
+        launcher?.addEventListener('click', openWidget);
+        closeBtn?.addEventListener('click', closeWidget);
+        backdrop?.addEventListener('click', closeWidget);
+
+        form?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('live-chat-name')?.value?.trim() || 'Visitor';
+            const email = document.getElementById('live-chat-email')?.value?.trim() || 'not provided';
+            const message = document.getElementById('live-chat-message')?.value?.trim() || 'I need support with my website.';
+            const text = encodeURIComponent(`Hi, I am ${name}. Email: ${email}. Message: ${message}`);
+            window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank', 'noopener,noreferrer');
+            closeWidget();
+        });
+    </script>
 </body>
 </html>
