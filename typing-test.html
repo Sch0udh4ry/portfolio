@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Typing Test</title>
-  <meta name="description" content="Standalone random-word typing test." />
+  <title>Typing Speed Test</title>
+  <meta name="description" content="Standalone 60-second typing speed test with WPM, CPM, and accuracy." />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -24,37 +24,41 @@
       <a href="index.html" class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-xl" style="background:linear-gradient(135deg,#7a5d39,#d1aa74);color:#fbf4ea;font-weight:800;font-size:11px;letter-spacing:.12em">PRI</div>
         <div>
-          <div class="title text-lg font-extrabold">Typing Test</div>
-          <div class="text-[11px] uppercase tracking-[.24em]" style="color:var(--soft)">Random dictionary words</div>
+          <div class="title text-lg font-extrabold">Typing Speed Test</div>
+          <div class="text-[11px] uppercase tracking-[.24em]" style="color:var(--soft)">60 second WPM test</div>
         </div>
       </a>
-      <a href="instagram-ad-calculator.html" class="rounded-xl px-4 py-2 font-bold btn">Back to Calculator</a>
+      <a href="index.html" class="rounded-xl px-4 py-2 font-bold btn">Home</a>
     </div>
   </header>
 
   <main class="mx-auto max-w-5xl px-5 py-14 md:px-8">
     <section class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
       <div>
-        <div class="inline-flex rounded-full border px-4 py-1.5 text-xs font-bold uppercase tracking-[.22em]" style="background:rgba(201,161,105,.10);border-color:rgba(201,161,105,.24);color:var(--gold2)">Standalone game</div>
-        <h1 class="title mt-5 text-5xl font-extrabold md:text-7xl leading-[.95]">Random Word <span class="block" style="color:var(--gold2)">Typing Test</span></h1>
-        <p class="mt-6 max-w-2xl text-lg leading-8" style="color:var(--soft)">Words are fetched from an English word list and randomized each round. Press Enter after typing the word correctly to load the next one.</p>
+        <div class="inline-flex rounded-full border px-4 py-1.5 text-xs font-bold uppercase tracking-[.22em]" style="background:rgba(201,161,105,.10);border-color:rgba(201,161,105,.24);color:var(--gold2)">WPM test</div>
+        <h1 class="title mt-5 text-5xl font-extrabold md:text-7xl leading-[.95]">Typing Speed <span class="block" style="color:var(--gold2)">Test</span></h1>
+        <p class="mt-6 max-w-2xl text-lg leading-8" style="color:var(--soft)">Type the random text stream for 60 seconds. Your results are measured in WPM, CPM, and accuracy.</p>
       </div>
       <div class="card rounded-[32px] p-6 shadow-[0_30px_80px_rgba(0,0,0,.35)]">
         <div class="grid grid-cols-3 gap-3 text-sm">
-          <div class="rounded-2xl border p-4" style="background:#0e1116;border-color:var(--line)"><div class="text-[10px] uppercase tracking-[.22em]" style="color:var(--faint)">Score</div><div id="score" class="mt-2 title text-3xl font-extrabold" style="color:var(--gold2)">0</div></div>
-          <div class="rounded-2xl border p-4" style="background:#0e1116;border-color:var(--line)"><div class="text-[10px] uppercase tracking-[.22em]" style="color:var(--faint)">Time</div><div id="timer" class="mt-2 title text-3xl font-extrabold" style="color:var(--gold2)">0.0s</div></div>
-          <div class="rounded-2xl border p-4" style="background:#0e1116;border-color:var(--line)"><div class="text-[10px] uppercase tracking-[.22em]" style="color:var(--faint)">Words</div><div id="count" class="mt-2 title text-3xl font-extrabold" style="color:var(--gold2)">0</div></div>
+          <div class="rounded-2xl border p-4" style="background:#0e1116;border-color:var(--line)"><div class="text-[10px] uppercase tracking-[.22em]" style="color:var(--faint)">WPM</div><div id="wpm" class="mt-2 title text-3xl font-extrabold" style="color:var(--gold2)">0</div></div>
+          <div class="rounded-2xl border p-4" style="background:#0e1116;border-color:var(--line)"><div class="text-[10px] uppercase tracking-[.22em]" style="color:var(--faint)">CPM</div><div id="cpm" class="mt-2 title text-3xl font-extrabold" style="color:var(--gold2)">0</div></div>
+          <div class="rounded-2xl border p-4" style="background:#0e1116;border-color:var(--line)"><div class="text-[10px] uppercase tracking-[.22em]" style="color:var(--faint)">Accuracy</div><div id="accuracy" class="mt-2 title text-3xl font-extrabold" style="color:var(--gold2)">100%</div></div>
         </div>
         <div class="mt-4 rounded-2xl border p-5 text-center" style="background:rgba(255,255,255,.03);border-color:var(--line)">
-          <div class="text-[11px] uppercase tracking-[.24em]" style="color:var(--faint)">Current Word</div>
-          <div id="word" class="title mt-3 text-4xl font-extrabold" style="color:var(--gold2)">...</div>
+          <div class="text-[11px] uppercase tracking-[.24em]" style="color:var(--faint)">Time Left</div>
+          <div id="timer" class="title mt-3 text-4xl font-extrabold" style="color:var(--gold2)">60.0s</div>
         </div>
       </div>
     </section>
 
     <section class="mt-10 card rounded-3xl p-6 md:p-8">
-      <div class="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
-        <input id="input" type="text" autocomplete="off" spellcheck="false" placeholder="Type the word and press Enter" class="rounded-2xl px-4 py-4">
+      <div class="rounded-2xl border p-5" style="background:#0e1116;border-color:var(--line)">
+        <div class="text-[11px] uppercase tracking-[.24em]" style="color:var(--faint)">Text</div>
+        <div id="text" class="title mt-3 text-3xl font-extrabold leading-[1.9] md:text-4xl" style="color:var(--gold2)"></div>
+      </div>
+      <div class="mt-5 grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
+        <input id="input" type="text" autocomplete="off" spellcheck="false" placeholder="Start typing here" class="rounded-2xl px-4 py-4">
         <div class="flex gap-3">
           <button id="start" class="btn rounded-2xl px-5 py-4 font-bold">Start</button>
           <button id="reset" class="btn-ghost rounded-2xl px-5 py-4 font-bold">Reset</button>
@@ -63,71 +67,102 @@
       <div id="feedback" class="mt-3 text-sm" style="color:var(--soft)"></div>
       <div class="mt-6 rounded-2xl border p-4" style="background:#0e1116;border-color:var(--line)">
         <div class="text-[11px] uppercase tracking-[.24em]" style="color:var(--faint)">How it works</div>
-        <p class="mt-2 text-sm leading-6" style="color:var(--soft)">When you type the correct word and press Enter, your score increases and a new random word is fetched automatically.</p>
+        <p class="mt-2 text-sm leading-6" style="color:var(--soft)">A new word stream is fetched from a common-words list. When the timer runs out, your final WPM, CPM, and accuracy are shown.</p>
       </div>
     </section>
   </main>
 
   <script>
     const $ = (id) => document.getElementById(id);
-    const WORD_API = "https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt";
+    const WORD_API = "https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english.txt";
     const fallback = ["launch","signal","market","growth","metric","script","focus","insight","reach","impact","moment","pulse","silver","vector","tactic"];
+    const DURATION = 60;
     let wordList = [];
-    let currentWord = "";
-    let score = 0;
-    let wordsPlayed = 0;
+    let text = "";
     let running = false;
     let startedAt = 0;
     let timerId = null;
+    let endId = null;
+    let typedChars = 0;
+    let correctChars = 0;
+    let correctWords = 0;
 
-    function setFeedback(text) { $("feedback").textContent = text; }
-    function updateStats() {
-      $("score").textContent = String(score);
-      $("count").textContent = String(wordsPlayed);
-    }
-    function updateTimer() {
-      const elapsed = running ? (performance.now() - startedAt) / 1000 : 0;
-      $("timer").textContent = `${elapsed.toFixed(1)}s`;
+    function setFeedback(msg) { $("feedback").textContent = msg; }
+    function clampWords(source) {
+      return source.filter((w) => /^[a-z]+$/.test(w) && w.length >= 4 && w.length <= 8);
     }
     function pickWord() {
-      if (!wordList.length) return fallback[Math.floor(Math.random() * fallback.length)];
-      const candidates = wordList.filter((w) => w.length >= 4 && w.length <= 8 && /^[a-z]+$/.test(w));
-      return (candidates[Math.floor(Math.random() * candidates.length)] || fallback[Math.floor(Math.random() * fallback.length)]).toLowerCase();
+      const source = wordList.length ? wordList : fallback;
+      const pool = clampWords(source);
+      return (pool[Math.floor(Math.random() * pool.length)] || fallback[Math.floor(Math.random() * fallback.length)]).toLowerCase();
     }
-    async function loadWords() {
-      try {
-        const res = await fetch(WORD_API, { cache: "force-cache" });
-        const text = await res.text();
-        wordList = text.split(/\r?\n/).map((w) => w.trim()).filter(Boolean);
-      } catch {
-        wordList = fallback.slice();
-      }
-    }
-    function nextWord() {
-      currentWord = pickWord();
-      $("word").textContent = currentWord;
+    function buildText() {
+      const words = [];
+      for (let i = 0; i < 28; i += 1) words.push(pickWord());
+      text = words.join(" ");
+      $("text").textContent = text;
       $("input").value = "";
       $("input").focus();
-      wordsPlayed += 1;
+      setFeedback("Type the text as quickly and accurately as possible.");
+    }
+    function updateStats() {
+      const elapsed = Math.min(DURATION, running ? (performance.now() - startedAt) / 1000 : DURATION);
+      const minutes = Math.max(elapsed / 60, 1 / 60);
+      const wpm = Math.round(correctWords / minutes);
+      const cpm = Math.round(correctChars / minutes);
+      const accuracy = typedChars > 0 ? Math.round((correctChars / typedChars) * 100) : 100;
+      $("wpm").textContent = String(wpm);
+      $("cpm").textContent = String(cpm);
+      $("accuracy").textContent = `${accuracy}%`;
+      $("timer").textContent = `${Math.max(0, DURATION - elapsed).toFixed(1)}s`;
+    }
+    function endGame() {
+      if (!running) return;
+      running = false;
+      if (timerId) clearInterval(timerId);
+      if (endId) clearInterval(endId);
+      timerId = null;
+      endId = null;
       updateStats();
-      setFeedback("Type the word, then press Enter.");
+      setFeedback("Time is up. Reset to try again.");
+      $("input").blur();
     }
     function startGame() {
       if (running) return;
       running = true;
       startedAt = performance.now();
-      timerId = setInterval(updateTimer, 100);
+      timerId = setInterval(updateStats, 100);
+      endId = setInterval(() => {
+        const elapsed = (performance.now() - startedAt) / 1000;
+        if (elapsed >= DURATION) endGame();
+      }, 100);
       setFeedback("Go.");
+      updateStats();
     }
     function resetGame() {
       running = false;
-      score = 0;
-      wordsPlayed = 0;
       if (timerId) clearInterval(timerId);
+      if (endId) clearInterval(endId);
       timerId = null;
-      $("timer").textContent = "0.0s";
-      updateStats();
-      nextWord();
+      endId = null;
+      startedAt = 0;
+      typedChars = 0;
+      correctChars = 0;
+      correctWords = 0;
+      $("timer").textContent = `${DURATION}.0s`;
+      $("wpm").textContent = "0";
+      $("cpm").textContent = "0";
+      $("accuracy").textContent = "100%";
+      buildText();
+    }
+    async function loadWords() {
+      try {
+        const res = await fetch(WORD_API, { cache: "force-cache" });
+        const txt = await res.text();
+        wordList = txt.split(/\r?\n/).map((w) => w.trim()).filter(Boolean);
+      } catch {
+        wordList = fallback.slice();
+      }
     }
 
     $("start").addEventListener("click", () => { resetGame(); startGame(); });
@@ -135,19 +170,24 @@
     $("input").addEventListener("keydown", (e) => {
       if (e.key !== "Enter") return;
       if (!running) startGame();
-      if ($("input").value.trim().toLowerCase() === currentWord) {
-        score += 1;
-        updateStats();
-        setFeedback("Correct. New word loaded.");
-        nextWord();
+      const value = $("input").value;
+      typedChars += value.length;
+      const charsMatched = Array.from(value).reduce((acc, ch, i) => acc + ((text[i] || "").toLowerCase() === ch.toLowerCase() ? 1 : 0), 0);
+      correctChars += charsMatched;
+      if (value.trim().toLowerCase() === text.trim().toLowerCase()) {
+        correctWords += 1;
+        setFeedback("Correct. New text loaded.");
+        buildText();
       } else {
-        setFeedback("Try again.");
+        setFeedback("Keep going.");
       }
+      updateStats();
     });
 
     (async () => {
       await loadWords();
       resetGame();
+      $("timer").textContent = `${DURATION}.0s`;
     })();
   </script>
 </body>
