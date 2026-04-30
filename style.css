@@ -604,6 +604,45 @@ textarea:focus {
     transform: translateY(0);
 }
 
+.text-reveal {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: textRevealIn 0.8s cubic-bezier(0.2, 0.6, 0.2, 1) forwards;
+    animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes textRevealIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.typewriter {
+    position: relative;
+}
+
+.typewriter::after {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 1em;
+    margin-left: 0.12em;
+    background: currentColor;
+    vertical-align: -0.14em;
+    animation: caretBlink 0.9s steps(1) infinite;
+}
+
+@keyframes caretBlink {
+    50% {
+        opacity: 0;
+    }
+}
+
 .review-card {
     transition: opacity 0.28s ease, transform 0.28s ease;
 }

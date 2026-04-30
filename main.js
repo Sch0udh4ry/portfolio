@@ -16,6 +16,7 @@ async function initSite() {
     setupAuthNavigation();
     setupGlobalCTAs();
     setupScrollAnimations();
+    setupTextAnimations();
     setupDynamicForms();
     setupTestimonialsCarousel();
     setupPortalLogin();
@@ -63,6 +64,57 @@ function setupScrollAnimations() {
     }, { threshold: 0.1 });
 
     document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+}
+
+function setupTextAnimations() {
+    const textBlocks = document.querySelectorAll("[data-text-reveal]");
+    const typewriters = document.querySelectorAll("[data-typewriter]");
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+    textBlocks.forEach((el, index) => {
+        el.classList.add("text-reveal");
+        el.style.setProperty("--reveal-delay", `${Math.min(index * 90, 360)}ms`);
+    });
+
+    if (!typewriters.length) return;
+
+    const playTypewriter = (el) => {
+        const text = el.dataset.typewriterText || el.textContent.trim();
+        const speed = Number(el.dataset.typewriterSpeed || 28);
+        const startDelay = Number(el.dataset.typewriterDelay || 150);
+        el.textContent = "";
+
+        if (prefersReducedMotion) {
+            el.textContent = text;
+            return;
+        }
+
+        let index = 0;
+        const tick = () => {
+            el.textContent = text.slice(0, index);
+            index += 1;
+            if (index <= text.length) {
+                window.setTimeout(tick, speed);
+            }
+        };
+
+        window.setTimeout(tick, startDelay);
+    };
+
+    if (!("IntersectionObserver" in window)) {
+        typewriters.forEach(playTypewriter);
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            playTypewriter(entry.target);
+            observer.unobserve(entry.target);
+        });
+    }, { threshold: 0.35 });
+
+    typewriters.forEach((el) => observer.observe(el));
 }
 
 function setupInteractiveSurfaces() {
@@ -116,7 +168,7 @@ function setupCountUpMetrics() {
 
     const animate = (el) => {
         const target = Number(el.dataset.countTo || 0);
-        const duration = Number(el.dataset.countDuration || 1200);
+        const duration = Number(el.dataset.countDuration || 2400);
         const decimals = Number(el.dataset.countDecimals || 0);
 
         if (prefersReducedMotion) {
@@ -124,19 +176,28 @@ function setupCountUpMetrics() {
             return;
         }
 
+        formatValue(el, 0);
         const start = performance.now();
-        const tick = (now) => {
+        const frame = (now) => {
             const progress = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
+            const eased = 1 - Math.pow(1 - progress, 2.5);
             const value = target * eased;
             const finalValue = decimals > 0 ? Number(value.toFixed(decimals)) : Math.round(value);
             formatValue(el, finalValue);
-            if (progress < 1) window.requestAnimationFrame(tick);
+            if (progress < 1) {
+                window.requestAnimationFrame(frame);
+            } else {
+                formatValue(el, target);
+            }
         };
 
-        formatValue(el, 0);
-        window.requestAnimationFrame(tick);
+        window.setTimeout(() => window.requestAnimationFrame(frame), 120);
     };
+
+    if (!("IntersectionObserver" in window)) {
+        counters.forEach(animate);
+        return;
+    }
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -144,9 +205,17 @@ function setupCountUpMetrics() {
             animate(entry.target);
             observer.unobserve(entry.target);
         });
-    }, { threshold: 0.35 });
+    }, { threshold: 0.2, rootMargin: "0px 0px -10% 0px" });
 
     counters.forEach((el) => observer.observe(el));
+
+    window.setTimeout(() => {
+        counters.forEach((el) => {
+            if (el.textContent === "0" || el.textContent === "0%" || el.textContent === "00") {
+                animate(el);
+            }
+        });
+    }, 900);
 }
 
 async function loadSharedComponent(id, file) {

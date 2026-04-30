@@ -181,6 +181,28 @@
     const money = (v) => (v || v === 0 ? "INR " + v.toLocaleString("en-IN", { maximumFractionDigits: 2 }) : "-");
     const pct = (v) => (v || v === 0 ? (v * 100).toFixed(2) + "%" : "-");
 
+    function animateCounter(el, target, { duration = 2200, decimals = 0, prefix = "", suffix = "", padded = 0 } = {}) {
+      const start = performance.now();
+      const render = (value) => {
+        const rounded = decimals > 0 ? Number(value.toFixed(decimals)) : Math.round(value);
+        const numericText = padded > 0
+          ? String(rounded).padStart(padded, "0")
+          : rounded.toLocaleString("en-IN", { maximumFractionDigits: decimals });
+        el.textContent = `${prefix}${numericText}${suffix}`;
+      };
+
+      render(0);
+      const tick = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 2.6);
+        render(target * eased);
+        if (progress < 1) requestAnimationFrame(tick);
+        else render(target);
+      };
+
+      requestAnimationFrame(tick);
+    }
+
     function chip(type, text) {
       const styles = {
         good: ["rgba(149,213,178,.12)", "rgba(149,213,178,.28)", "#d8f3dc"],
@@ -199,19 +221,26 @@
     function renderReport(report) {
       const kpis = $("kpis"); kpis.innerHTML = "";
       [
-        ["Total Views", fmt(report.views)],
-        ["Reach", fmt(report.reach)],
-        ["Followers Gained", fmt(report.followersGained)],
-        ["Cost per Lead", money(report.costPerLead)],
-        ["Profile Visit Rate", pct(report.profileVisitRate)],
-        ["Follow Conv. Rate", pct(report.followConversionRate)],
-        ["Engagement Rate", pct(report.engagementRate)],
-        ["Cost per Follower", money(report.costPerFollower)],
-      ].forEach(([label, value]) => {
+        { label: "Total Views", value: report.views, kind: "number" },
+        { label: "Reach", value: report.reach, kind: "number" },
+        { label: "Followers Gained", value: report.followersGained, kind: "number" },
+        { label: "Cost per Lead", value: report.costPerLead, kind: "currency", prefix: "INR " },
+        { label: "Profile Visit Rate", value: report.profileVisitRate * 100, kind: "percent", decimals: 2 },
+        { label: "Follow Conv. Rate", value: report.followConversionRate * 100, kind: "percent", decimals: 2 },
+        { label: "Engagement Rate", value: report.engagementRate * 100, kind: "percent", decimals: 2 },
+        { label: "Cost per Follower", value: report.costPerFollower, kind: "currency", prefix: "INR " },
+      ].forEach((metric) => {
         const d = document.createElement("div");
         d.className = "card interactive rounded-2xl p-5";
-        d.innerHTML = `<div class="text-[10px] uppercase tracking-[.24em]" style="color:var(--soft)">${label}</div><div class="countup mt-2 text-3xl font-extrabold" style="color:var(--gold2)">${value}</div>`;
+        d.innerHTML = `<div class="text-[10px] uppercase tracking-[.24em]" style="color:var(--soft)">${metric.label}</div><div class="countup mt-2 text-3xl font-extrabold" style="color:var(--gold2)">${metric.kind === "percent" ? "0.00%" : metric.kind === "currency" ? "INR 0" : "0"}</div>`;
         kpis.appendChild(d);
+        const valueEl = d.querySelector(".countup");
+        animateCounter(valueEl, metric.value, {
+          duration: metric.kind === "currency" ? 2400 : 2000,
+          decimals: metric.decimals || 0,
+          prefix: metric.prefix || "",
+          suffix: metric.kind === "percent" ? "%" : ""
+        });
       });
 
       const insights = $("insights"); insights.innerHTML = "";
