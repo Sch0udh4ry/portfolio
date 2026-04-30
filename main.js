@@ -21,6 +21,8 @@ async function initSite() {
     setupPortalLogin();
     setupClientPortal();
     setupPortalLogout();
+    setupInteractiveSurfaces();
+    setupCountUpMetrics();
 
     // FAILSAFE: If animations don't trigger, show everything after 1.5 seconds
     setTimeout(() => {
@@ -61,6 +63,86 @@ function setupScrollAnimations() {
     }, { threshold: 0.1 });
 
     document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+}
+
+function setupInteractiveSurfaces() {
+    const surfaces = document.querySelectorAll([
+        "main .group",
+        "main article",
+        "main .review-card",
+        "main .card",
+        "main .rounded-2xl",
+        "main .rounded-3xl",
+        "main .shadow-sm",
+        "main .shadow-xl",
+    ].join(","));
+
+    surfaces.forEach((surface) => {
+        if (surface.dataset.interactiveSurface === "false") return;
+        surface.classList.add("interactive-surface");
+        surface.addEventListener("pointerdown", () => surface.classList.add("is-pressed"));
+        surface.addEventListener("pointerup", () => surface.classList.remove("is-pressed"));
+        surface.addEventListener("pointerleave", () => surface.classList.remove("is-pressed"));
+        surface.addEventListener("click", () => {
+            surface.classList.add("is-clicked");
+            window.setTimeout(() => surface.classList.remove("is-clicked"), 180);
+        });
+    });
+}
+
+function setupCountUpMetrics() {
+    const counters = document.querySelectorAll("[data-count-to]");
+    if (!counters.length) return;
+
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+    const formatValue = (el, value) => {
+        const format = el.dataset.countFormat || "number";
+        const decimals = Number(el.dataset.countDecimals || 0);
+        const prefix = el.dataset.countPrefix || "";
+        const suffix = el.dataset.countSuffix || "";
+        const formatted =
+            format === "percent"
+                ? `${prefix}${value.toFixed(decimals)}%${suffix}`
+                : format === "currency"
+                    ? `${prefix}${value.toLocaleString("en-IN", { maximumFractionDigits: decimals })}${suffix}`
+                    : `${prefix}${value.toLocaleString("en-IN", { maximumFractionDigits: decimals })}${suffix}`;
+        el.textContent = formatted;
+    };
+
+    const animate = (el) => {
+        const target = Number(el.dataset.countTo || 0);
+        const duration = Number(el.dataset.countDuration || 1200);
+        const decimals = Number(el.dataset.countDecimals || 0);
+
+        if (prefersReducedMotion) {
+            formatValue(el, target);
+            return;
+        }
+
+        const start = performance.now();
+        const tick = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const value = target * eased;
+            const finalValue = decimals > 0 ? Number(value.toFixed(decimals)) : Math.round(value);
+            formatValue(el, finalValue);
+            if (progress < 1) window.requestAnimationFrame(tick);
+        };
+
+        formatValue(el, 0);
+        window.requestAnimationFrame(tick);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            animate(entry.target);
+            observer.unobserve(entry.target);
+        });
+    }, { threshold: 0.35 });
+
+    counters.forEach((el) => observer.observe(el));
 }
 
 async function loadSharedComponent(id, file) {

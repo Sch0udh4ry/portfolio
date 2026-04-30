@@ -544,6 +544,29 @@ button:hover {
     transform: translateY(-2px);
 }
 
+.interactive-surface {
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+    will-change: transform;
+}
+
+.interactive-surface:hover {
+    transform: translateY(-4px);
+}
+
+.interactive-surface.is-pressed,
+.interactive-surface.is-clicked {
+    transform: translateY(-1px) scale(0.995);
+}
+
+.interactive-surface:focus-within {
+    border-color: rgba(201, 161, 105, 0.24) !important;
+    box-shadow: 0 0 0 4px rgba(201, 161, 105, 0.10), var(--pri-shadow-soft) !important;
+}
+
+.countup {
+    font-variant-numeric: tabular-nums;
+}
+
 img {
     box-shadow: var(--pri-shadow-soft);
 }
