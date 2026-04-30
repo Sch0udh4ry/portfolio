@@ -14,6 +14,22 @@
     .card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line)}
     .title{font-family:"Plus Jakarta Sans",sans-serif;letter-spacing:-.04em}
     input,select{background:rgba(255,255,255,.03) !important;border:1px solid var(--line);color:#f4ebdd !important}
+    select{
+      appearance:none;
+      -webkit-appearance:none;
+      -moz-appearance:none;
+      background-color:#0e1116 !important;
+      color:#f4ebdd !important;
+      background-image: linear-gradient(45deg, transparent 50%, var(--gold2) 50%), linear-gradient(135deg, var(--gold2) 50%, transparent 50%);
+      background-position: calc(100% - 18px) calc(50% - 3px), calc(100% - 12px) calc(50% - 3px);
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+      padding-right: 2.5rem;
+    }
+    select option{
+      background:#0e1116;
+      color:#f4ebdd;
+    }
     input::placeholder{color:#857b6a}
     input:focus,select:focus{outline:none;box-shadow:0 0 0 4px rgba(201,161,105,.14)}
     .btn{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#000}
@@ -125,6 +141,7 @@
           <label class="flex flex-col gap-2"><span class="text-[11px] uppercase tracking-[.2em]" style="color:var(--soft)">Views</span><input id="views" type="number" min="0" class="rounded-xl px-4 py-3"></label>
           <label class="flex flex-col gap-2"><span class="text-[11px] uppercase tracking-[.2em]" style="color:var(--soft)">Reach</span><input id="reach" type="number" min="0" class="rounded-xl px-4 py-3"></label>
           <label class="flex flex-col gap-2"><span class="text-[11px] uppercase tracking-[.2em]" style="color:var(--soft)">Profile Visits</span><input id="profileVisits" type="number" min="0" class="rounded-xl px-4 py-3"></label>
+          <label class="flex flex-col gap-2"><span class="text-[11px] uppercase tracking-[.2em]" style="color:var(--soft)">Leads</span><input id="leads" type="number" min="0" class="rounded-xl px-4 py-3"></label>
           <label class="flex flex-col gap-2"><span class="text-[11px] uppercase tracking-[.2em]" style="color:var(--soft)">Direct Follows</span><input id="directFollows" type="number" min="0" class="rounded-xl px-4 py-3"></label>
           <label class="flex flex-col gap-2"><span class="text-[11px] uppercase tracking-[.2em]" style="color:var(--soft)">Followers Before</span><input id="followersBefore" type="number" min="0" class="rounded-xl px-4 py-3"></label>
           <label class="flex flex-col gap-2"><span class="text-[11px] uppercase tracking-[.2em]" style="color:var(--soft)">Followers After</span><input id="followersAfter" type="number" min="0" class="rounded-xl px-4 py-3"></label>
@@ -205,7 +222,7 @@
     }
 
     $("generate").addEventListener("click", () => {
-      const views = num("views"), reach = num("reach"), profileVisits = num("profileVisits"), directFollows = num("directFollows"),
+      const views = num("views"), reach = num("reach"), profileVisits = num("profileVisits"), leads = num("leads"), directFollows = num("directFollows"),
             followersBefore = num("followersBefore"), followersAfter = num("followersAfter"), likes = num("likes"), shares = num("shares"),
             comments = num("comments"), saves = num("saves"), adSpend = num("adSpend"), dailyBudget = num("dailyBudget");
       const followersGained = Math.max(0, followersAfter - followersBefore);
@@ -213,7 +230,7 @@
       const followConversionRate = profileVisits > 0 ? directFollows / profileVisits : 0;
       const engagementRate = views > 0 ? (likes + shares + comments + saves) / views : 0;
       const costPerVisit = profileVisits > 0 ? adSpend / profileVisits : 0;
-      const costPerLead = directFollows > 0 ? adSpend / directFollows : 0;
+      const costPerLead = leads > 0 ? adSpend / leads : 0;
       const costPerFollower = followersGained > 0 ? adSpend / followersGained : 0;
       const cpm = reach > 0 ? adSpend / reach * 1000 : 0;
       renderReport({ views, reach, followersGained, profileVisitRate, followConversionRate, engagementRate, costPerVisit, costPerLead, costPerFollower, cpm, likes, saves });
