@@ -28,6 +28,7 @@ const brand = {
 };
 
 const defaultInputs = {
+  objective: "lead_generation",
   views: "",
   reach: "",
   profileVisits: "",
@@ -42,6 +43,13 @@ const defaultInputs = {
   adSpend: "",
   dailyBudget: "",
 };
+
+const objectiveOptions = [
+  { value: "lead_generation", label: "Lead Generation", description: "Measure landing page intent, visits, and leads." },
+  { value: "follower_growth", label: "Follower Growth", description: "Measure profile traffic and follower conversion." },
+  { value: "engagement", label: "Engagement", description: "Measure likes, comments, shares, and saves." },
+  { value: "traffic", label: "Traffic", description: "Measure reach, clicks, and visit efficiency." },
+];
 
 const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const n = (value) => Number.parseFloat(value) || 0;
@@ -80,6 +88,36 @@ function Field({ label, value, onChange, placeholder = "0" }) {
         style={{ background: "rgba(255,255,255,0.04)", borderColor: brand.line, color: brand.text }}
       />
     </label>
+  );
+}
+
+const requiredFieldsByObjective = {
+  lead_generation: ["views", "reach", "profileVisits", "directFollows", "adSpend"],
+  follower_growth: ["views", "reach", "profileVisits", "followersBefore", "followersAfter", "adSpend"],
+  engagement: ["views", "reach", "likes", "shares", "comments", "saves", "adSpend"],
+  traffic: ["views", "reach", "profileVisits", "adSpend"],
+};
+
+function ObjectiveCard({ value, label, description, active, onSelect }) {
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(value)}
+      className="rounded-2xl border p-4 text-left transition hover:-translate-y-0.5"
+      style={{
+        background: active
+          ? "linear-gradient(180deg, rgba(201,161,105,0.18), rgba(29,33,43,0.96))"
+          : "linear-gradient(180deg, rgba(21,24,32,0.95), rgba(29,33,43,0.95))",
+        borderColor: active ? "rgba(224,191,141,0.42)" : brand.line,
+      }}
+    >
+      <div className="text-sm font-bold" style={{ color: active ? brand.gold2 : brand.text }}>
+        {label}
+      </div>
+      <div className="mt-1 text-xs leading-5" style={{ color: brand.soft }}>
+        {description}
+      </div>
+    </button>
   );
 }
 
@@ -195,6 +233,7 @@ export default function HomePage() {
   const [report, setReport] = useState(null);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [downloadStatus, setDownloadStatus] = useState("idle");
+  const [validationMessage, setValidationMessage] = useState("");
   const [lead, setLead] = useState({ name: "", email: "", business: "" });
   const [leadDone, setLeadDone] = useState(false);
   const inputRef = useRef(null);
@@ -202,6 +241,7 @@ export default function HomePage() {
   const canvasRef = useRef(null);
 
   const setField = (key) => (value) => setInputs((prev) => ({ ...prev, [key]: value }));
+  const setObjective = (objective) => setInputs((prev) => ({ ...prev, objective }));
 
   const reportData = useMemo(() => {
     if (!report) return [];
@@ -213,7 +253,18 @@ export default function HomePage() {
     ];
   }, [report]);
 
+  const selectedObjective = inputs.objective || "lead_generation";
+  const requiredFields = requiredFieldsByObjective[selectedObjective] || [];
+  const isFieldRequired = (key) => requiredFields.includes(key);
+
   const generate = () => {
+    const objective = selectedObjective;
+    const missing = requiredFields.filter((key) => n(inputs[key]) <= 0);
+    if (missing.length > 0) {
+      setValidationMessage("Please fill the required fields for the selected campaign objective before generating the report.");
+      return;
+    }
+    setValidationMessage("");
     const views = n(inputs.views);
     const reach = n(inputs.reach);
     const profileVisits = n(inputs.profileVisits);
@@ -233,22 +284,115 @@ export default function HomePage() {
     const followConversionRate = profileVisits > 0 ? directFollows / profileVisits : 0;
     const engagementRate = views > 0 ? (likes + shares + comments + saves) / views : 0;
     const costPerVisit = profileVisits > 0 ? adSpend / profileVisits : 0;
+    const costPerLead = directFollows > 0 ? adSpend / directFollows : 0;
     const costPerFollower = followersGained > 0 ? adSpend / followersGained : 0;
     const cpm = reach > 0 ? (adSpend / reach) * 1000 : 0;
     const engagementTotal = likes + shares + comments + saves;
-
     const insights = [];
-    if (profileVisitRate > 0.006) insights.push({ type: "good", text: `Profile Visit Rate is ${fmtPct(profileVisitRate)} and is clearing the 0.6% benchmark.` });
-    else if (profileVisitRate > 0) insights.push({ type: "warn", text: `Profile Visit Rate is ${fmtPct(profileVisitRate)}. Stronger hooks and clearer CTA language should help.` });
-    if (followConversionRate > 0.15) insights.push({ type: "good", text: `Follow conversion is ${fmtPct(followConversionRate)}. The profile is doing excellent closing work.` });
-    else if (followConversionRate > 0) insights.push({ type: "tip", text: `Follow conversion is ${fmtPct(followConversionRate)}. Tighten your bio and pin your best proof points.` });
-    if (costPerFollower > 0 && costPerFollower < 3) insights.push({ type: "good", text: `Cost per follower is ${formatINR(costPerFollower)} and looks efficient.` });
+
+    const objectiveCopy = {
+      lead_generation: {
+        primaryLabel: "Lead Goal",
+        primaryValue: directFollows,
+        primaryHint: "Recorded lead actions",
+        benchmark: profileVisits > 0 ? directFollows / profileVisits : 0.08,
+        benchmarkLabel: "Lead conversion",
+        primaryThreshold: 0.05,
+        successText:
+          directFollows > 0
+            ? `Lead generation is producing ${fmtNum(directFollows)} lead actions with a cost per lead of ${formatINR(costPerLead)}.`
+            : "Lead generation mode is active, but no lead actions were recorded yet.",
+        focusText:
+          "In lead generation mode, profile visits and follower growth are secondary signals. The main question is whether the ad produced qualified inquiries at an acceptable cost.",
+      },
+      follower_growth: {
+        primaryLabel: "Followers Gained",
+        primaryValue: followersGained,
+        primaryHint: "Net new followers",
+        benchmark: profileVisits > 0 ? directFollows / profileVisits : 0.15,
+        benchmarkLabel: "Follow conversion",
+        primaryThreshold: 10,
+        successText:
+          followersGained > 0
+            ? `Follower growth added ${fmtNum(followersGained)} new followers with a cost per follower of ${formatINR(costPerFollower)}.`
+            : "Follower growth mode is active, but the campaign has not added followers yet.",
+        focusText:
+          "In follower growth mode, low lead volume is expected. Judge success by how efficiently the ad turns attention into profile visits and follows.",
+      },
+      engagement: {
+        primaryLabel: "Engagement Total",
+        primaryValue: engagementTotal,
+        primaryHint: "Likes, shares, comments, saves",
+        benchmark: engagementRate,
+        benchmarkLabel: "Engagement rate",
+        primaryThreshold: 50,
+        successText:
+          engagementTotal > 0
+            ? `Engagement mode produced ${fmtNum(engagementTotal)} total interactions at ${fmtPct(engagementRate)} engagement rate.`
+            : "Engagement mode is active, but the post has not generated much interaction yet.",
+        focusText:
+          "In engagement mode, leads and follows are not the core success metric. Look at interaction depth, save rate, and comment quality first.",
+      },
+      traffic: {
+        primaryLabel: "Profile Visits",
+        primaryValue: profileVisits,
+        primaryHint: "Visits driven by the ad",
+        benchmark: profileVisitRate,
+        benchmarkLabel: "Visit rate",
+        primaryThreshold: 25,
+        successText:
+          profileVisits > 0
+            ? `Traffic mode drove ${fmtNum(profileVisits)} visits with a cost per visit of ${formatINR(costPerVisit)}.`
+            : "Traffic mode is active, but the campaign has not driven profile visits yet.",
+        focusText:
+          "In traffic mode, follower growth and leads can stay low. The main job is to move people into the next step efficiently.",
+      },
+    };
+
+    const activeObjective = objectiveCopy[objective];
+
+    if (objective === "lead_generation") {
+      if (directFollows > 0) {
+        insights.push({ type: "good", text: `Lead actions recorded: ${fmtNum(directFollows)}.` });
+      }
+      if (costPerVisit > 0) {
+        insights.push({ type: "tip", text: `Cost per visit is ${formatINR(costPerVisit)}. That matters, but the lead count is the main benchmark here.` });
+      }
+      if (directFollows > 0 && costPerFollower > 0 && costPerFollower < 5) {
+        insights.push({ type: "good", text: `Cost per lead is ${formatINR(costPerLead)} and looks efficient for a lead-focused campaign.` });
+      }
+    } else if (objective === "follower_growth") {
+      if (followersGained > 0) {
+        insights.push({ type: "good", text: `Follower growth added ${fmtNum(followersGained)} new followers.` });
+      }
+      if (followersGained === 0 && profileVisits > 0) {
+        insights.push({ type: "warn", text: `The campaign drove ${fmtNum(profileVisits)} visits but did not convert to follower growth yet.` });
+      }
+    } else if (objective === "engagement") {
+      if (engagementTotal > 0) {
+        insights.push({ type: "good", text: `Engagement total is ${fmtNum(engagementTotal)} across likes, shares, comments, and saves.` });
+      }
+      if (saves > likes * 0.1) insights.push({ type: "good", text: `Save rate is healthy, which is a strong signal for engagement quality.` });
+    } else if (objective === "traffic") {
+      if (profileVisits > 0) {
+        insights.push({ type: "good", text: `Traffic mode drove ${fmtNum(profileVisits)} visits.` });
+      }
+      if (profileVisitRate > 0.006) insights.push({ type: "good", text: `Visit rate is ${fmtPct(profileVisitRate)} and is clearing the 0.6% benchmark.` });
+    }
+
+    if (objective !== "engagement" && engagementRate > 0.03) insights.push({ type: "good", text: `Engagement rate of ${fmtPct(engagementRate)} is above the 3% benchmark.` });
+    else if (engagementRate > 0) insights.push({ type: "tip", text: `Engagement rate is ${fmtPct(engagementRate)}. Use it as a supporting signal, not the only score.` });
+    if (objective !== "lead_generation" && followConversionRate > 0.15) insights.push({ type: "good", text: `Follow conversion is ${fmtPct(followConversionRate)} and the profile is doing strong closing work.` });
+    else if (followConversionRate > 0) insights.push({ type: "tip", text: `Follow conversion is ${fmtPct(followConversionRate)}. Keep it in context with the selected objective.` });
+    if (objective !== "follower_growth" && costPerFollower > 0 && costPerFollower < 3) insights.push({ type: "good", text: `Cost per follower is ${formatINR(costPerFollower)} and looks efficient.` });
     else if (costPerFollower >= 3) insights.push({ type: "warn", text: `Cost per follower is ${formatINR(costPerFollower)}. Test new creatives or audience segments.` });
-    if (engagementRate > 0.03) insights.push({ type: "good", text: `Engagement rate of ${fmtPct(engagementRate)} is above the 3% benchmark.` });
-    else if (engagementRate > 0) insights.push({ type: "tip", text: `Engagement rate is ${fmtPct(engagementRate)}. Add more direct interaction cues in the creative.` });
-    if (saves > likes * 0.1) insights.push({ type: "good", text: `Save rate is healthy, which is a strong quality signal for organic lift.` });
 
     setReport({
+      objective,
+      objectiveLabel: activeObjective.primaryLabel,
+      objectiveHint: activeObjective.primaryHint,
+      objectiveSuccessText: activeObjective.successText,
+      objectiveFocusText: activeObjective.focusText,
       views,
       reach,
       profileVisits,
@@ -267,6 +411,7 @@ export default function HomePage() {
       followConversionRate,
       engagementRate,
       costPerVisit,
+      costPerLead,
       costPerFollower,
       cpm,
       engagementTotal,
@@ -381,40 +526,55 @@ export default function HomePage() {
               Enter Campaign Data
             </h2>
             <p className="mt-2" style={{ color: brand.soft }}>
-              All fields are optional. The calculator updates once you generate the report.
+              First choose the campaign objective, then enter the metrics that matter for that campaign.
             </p>
           </div>
           <div className="grid gap-5">
+            <Section title="Campaign Objective" icon="🎯">
+              <div className="grid gap-4 md:grid-cols-2">
+                {objectiveOptions.map((option) => (
+                  <ObjectiveCard
+                    key={option.value}
+                    value={option.value}
+                    label={option.label}
+                    description={option.description}
+                    active={inputs.objective === option.value}
+                    onSelect={setObjective}
+                  />
+                ))}
+              </div>
+            </Section>
             <Section title="Campaign Data" icon="📊">
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label="Views" value={inputs.views} onChange={setField("views")} />
-                <Field label="Reach" value={inputs.reach} onChange={setField("reach")} />
-                <Field label="Profile Visits" value={inputs.profileVisits} onChange={setField("profileVisits")} />
-                <Field label="Direct Follows" value={inputs.directFollows} onChange={setField("directFollows")} />
+                <Field label={`Views${isFieldRequired("views") ? " *" : ""}`} value={inputs.views} onChange={setField("views")} />
+                <Field label={`Reach${isFieldRequired("reach") ? " *" : ""}`} value={inputs.reach} onChange={setField("reach")} />
+                <Field label={`Profile Visits${isFieldRequired("profileVisits") ? " *" : ""}`} value={inputs.profileVisits} onChange={setField("profileVisits")} />
+                <Field label={`Direct Follows${isFieldRequired("directFollows") ? " *" : ""}`} value={inputs.directFollows} onChange={setField("directFollows")} />
               </div>
             </Section>
             <Section title="Followers" icon="👥">
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label="Followers Before" value={inputs.followersBefore} onChange={setField("followersBefore")} />
-                <Field label="Followers After" value={inputs.followersAfter} onChange={setField("followersAfter")} />
+                <Field label={`Followers Before${isFieldRequired("followersBefore") ? " *" : ""}`} value={inputs.followersBefore} onChange={setField("followersBefore")} />
+                <Field label={`Followers After${isFieldRequired("followersAfter") ? " *" : ""}`} value={inputs.followersAfter} onChange={setField("followersAfter")} />
               </div>
             </Section>
             <Section title="Engagement" icon="❤️">
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                <Field label="Likes" value={inputs.likes} onChange={setField("likes")} />
-                <Field label="Shares" value={inputs.shares} onChange={setField("shares")} />
-                <Field label="Comments" value={inputs.comments} onChange={setField("comments")} />
-                <Field label="Saves" value={inputs.saves} onChange={setField("saves")} />
+                <Field label={`Likes${isFieldRequired("likes") ? " *" : ""}`} value={inputs.likes} onChange={setField("likes")} />
+                <Field label={`Shares${isFieldRequired("shares") ? " *" : ""}`} value={inputs.shares} onChange={setField("shares")} />
+                <Field label={`Comments${isFieldRequired("comments") ? " *" : ""}`} value={inputs.comments} onChange={setField("comments")} />
+                <Field label={`Saves${isFieldRequired("saves") ? " *" : ""}`} value={inputs.saves} onChange={setField("saves")} />
                 <Field label="3-sec Plays" value={inputs.playsThreeSec} onChange={setField("playsThreeSec")} />
               </div>
             </Section>
             <Section title="Cost" icon="💰">
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label="Ad Spend (INR)" value={inputs.adSpend} onChange={setField("adSpend")} />
+                <Field label={`Ad Spend (INR)${isFieldRequired("adSpend") ? " *" : ""}`} value={inputs.adSpend} onChange={setField("adSpend")} />
                 <Field label="Daily Budget (INR)" value={inputs.dailyBudget} onChange={setField("dailyBudget")} />
               </div>
             </Section>
           </div>
+          {validationMessage ? <div className="mt-5 rounded-2xl border px-4 py-4 text-sm" style={{ background: "rgba(224,191,141,0.10)", borderColor: "rgba(224,191,141,0.24)", color: brand.gold2 }}>{validationMessage}</div> : null}
           <button onClick={generate} className="mt-6 w-full rounded-2xl px-6 py-5 text-lg font-extrabold text-black transition hover:brightness-105" style={{ background: `linear-gradient(135deg, ${brand.gold2}, ${brand.gold})`, fontFamily: "Plus Jakarta Sans, sans-serif" }}>
             Generate My Report
           </button>
@@ -430,6 +590,12 @@ export default function HomePage() {
                 <h2 className="mt-4 text-3xl font-extrabold tracking-tight" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
                   Campaign Dashboard
                 </h2>
+                <p className="mt-2 max-w-2xl text-sm leading-6" style={{ color: brand.gold2 }}>
+                  {report.objectiveSuccessText}
+                </p>
+                <p className="mt-2 max-w-2xl text-sm leading-6" style={{ color: brand.soft }}>
+                  {report.objectiveFocusText}
+                </p>
               </div>
               <button onClick={() => setShowDownloadModal(true)} className="rounded-2xl border px-5 py-4 text-left transition hover:bg-white/5" style={{ background: "rgba(255,255,255,0.03)", borderColor: brand.line, color: brand.text }}>
                 <div className="text-sm font-bold" style={{ color: brand.gold2 }}>Download HD Report</div>
@@ -438,16 +604,22 @@ export default function HomePage() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              <KPI label="Total Views" value={fmtNum(report.views)} sub="Impressions served" />
-              <KPI label="Reach" value={fmtNum(report.reach)} sub="Unique accounts" accent={brand.blue} />
-              <KPI label="Followers Gained" value={fmtNum(report.followersGained)} sub="Net new followers" accent={brand.green} />
-              <KPI label="Cost per Follower" value={formatINR(report.costPerFollower)} sub="Acquisition cost" accent={report.costPerFollower > 0 && report.costPerFollower < 3 ? brand.green : brand.gold2} />
+              <KPI label={report.objectiveLabel} value={fmtNum(report[report.objective === "lead_generation" ? "directFollows" : report.objective === "follower_growth" ? "followersGained" : report.objective === "engagement" ? "engagementTotal" : "profileVisits"])} sub={report.objectiveHint} accent={brand.gold2} />
+              <KPI label="Views" value={fmtNum(report.views)} sub="Impressions served" accent={brand.blue} />
+              <KPI label="Reach" value={fmtNum(report.reach)} sub="Unique accounts" accent={brand.green} />
+              <KPI label="Cost per Visit" value={formatINR(report.costPerVisit)} sub="Visit cost" accent={brand.purple} />
             </div>
             <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              <KPI label="Profile Visit Rate" value={fmtPct(report.profileVisitRate)} sub="Views to visits" accent={brand.purple} />
-              <KPI label="Follow Conv. Rate" value={fmtPct(report.followConversionRate)} sub="Visits to follows" accent="#f0c9dc" />
-              <KPI label="Engagement Rate" value={fmtPct(report.engagementRate)} sub="Of total views" accent="#9ae6b4" />
-              <KPI label="Cost per Visit" value={formatINR(report.costPerVisit)} sub="Visit cost" accent="#f3d8a8" />
+              <KPI label="Profile Visit Rate" value={fmtPct(report.profileVisitRate)} sub="Views to visits" accent="#f0c9dc" />
+              <KPI label="Follow Conv. Rate" value={fmtPct(report.followConversionRate)} sub="Visits to follows" accent="#9ae6b4" />
+              <KPI label="Engagement Rate" value={fmtPct(report.engagementRate)} sub="Of total views" accent="#f3d8a8" />
+              <KPI label="Cost per Lead" value={formatINR(report.costPerLead)} sub="Only when leads were the goal" accent={report.costPerLead > 0 && report.costPerLead < 5 ? brand.green : brand.gold2} />
+            </div>
+            <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              <KPI label="Cost per Follower" value={formatINR(report.costPerFollower)} sub="Only when followers were the goal" accent={report.costPerFollower > 0 && report.costPerFollower < 3 ? brand.green : brand.gold2} />
+              <KPI label="CPM" value={formatINR(report.cpm)} sub="Cost per thousand impressions" accent={brand.blue} />
+              <KPI label="Total Ad Spend" value={formatINR(report.adSpend)} sub="Budget spent" accent={brand.purple} />
+              <KPI label="Daily Budget" value={formatINR(report.dailyBudget)} sub="Budget setting" accent="#f0c9dc" />
             </div>
 
             <div className="mt-5 grid gap-5 lg:grid-cols-2">
