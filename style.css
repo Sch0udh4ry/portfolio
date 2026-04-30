@@ -797,6 +797,33 @@ textarea.is-valid {
     box-shadow: 0 0 0 2px rgba(113, 170, 139, 0.18);
 }
 
+.course-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.course-card--complete {
+    background: linear-gradient(180deg, rgba(113, 170, 139, 0.18), rgba(255, 255, 255, 0.05)) !important;
+    box-shadow: 0 0 0 1px rgba(113, 170, 139, 0.24), 0 18px 40px rgba(0, 0, 0, 0.22);
+}
+
+.course-card--complete::after {
+    content: "Completed";
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(22, 66, 47, 0.9);
+    color: #d7f1df;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: 1px solid rgba(113, 170, 139, 0.22);
+    pointer-events: none;
+}
+
 .is-invalid-group,
 .is-valid-group {
     border-radius: 1rem;
