@@ -37,6 +37,11 @@
     .interactive:hover{transform:translateY(-4px)}
     .interactive:active{transform:translateY(-1px) scale(.995)}
     .countup{font-variant-numeric:tabular-nums}
+    .objective-card.is-active{
+      border-color:rgba(224,191,141,.45) !important;
+      background:linear-gradient(180deg, rgba(201,161,105,.18), rgba(29,33,43,.96)) !important;
+      box-shadow:0 18px 40px rgba(0,0,0,.24);
+    }
   </style>
 </head>
 <body>
@@ -78,28 +83,31 @@
           <a href="index.html" class="rounded-2xl border px-6 py-4 font-bold interactive" style="border-color:var(--line);background:rgba(255,255,255,.03)">Home</a>
         </div>
         <div class="mt-8 grid gap-4 sm:grid-cols-3">
-          <div class="card interactive rounded-2xl p-4">
-            <div class="text-[10px] uppercase tracking-[.22em]" style="color:var(--soft)">Primary</div>
-            <div class="mt-2 text-sm font-bold">Lead, follower, engagement, or traffic goals</div>
-          </div>
-          <div class="card interactive rounded-2xl p-4">
-            <div class="text-[10px] uppercase tracking-[.22em]" style="color:var(--soft)">Metrics</div>
-            <div class="mt-2 text-sm font-bold">All KPIs stay visible for comparison</div>
-          </div>
-          <div class="card interactive rounded-2xl p-4">
-            <div class="text-[10px] uppercase tracking-[.22em]" style="color:var(--soft)">Reporting</div>
-            <div class="mt-2 text-sm font-bold">Clearer signal, less guesswork</div>
-          </div>
+          <button type="button" class="card objective-card interactive rounded-2xl p-4 text-left" data-objective-card="lead_generation">
+            <div class="text-[10px] uppercase tracking-[.22em]" style="color:var(--soft)">Objective</div>
+            <div class="mt-2 text-sm font-bold">Lead Generation</div>
+            <div class="mt-2 text-xs leading-5" style="color:var(--soft)">Best when the ad is meant to create inquiries or booked calls.</div>
+          </button>
+          <button type="button" class="card objective-card interactive rounded-2xl p-4 text-left" data-objective-card="follower_growth">
+            <div class="text-[10px] uppercase tracking-[.22em]" style="color:var(--soft)">Objective</div>
+            <div class="mt-2 text-sm font-bold">Follower Growth</div>
+            <div class="mt-2 text-xs leading-5" style="color:var(--soft)">Best when the ad is meant to convert attention into followers.</div>
+          </button>
+          <button type="button" class="card objective-card interactive rounded-2xl p-4 text-left" data-objective-card="engagement">
+            <div class="text-[10px] uppercase tracking-[.22em]" style="color:var(--soft)">Objective</div>
+            <div class="mt-2 text-sm font-bold">Engagement</div>
+            <div class="mt-2 text-xs leading-5" style="color:var(--soft)">Best when the ad is meant to spark saves, shares, and comments.</div>
+          </button>
         </div>
       </div>
       <div class="card interactive rounded-[32px] p-6 shadow-[0_30px_80px_rgba(0,0,0,.35)]">
         <div class="title text-2xl font-extrabold">Preview</div>
         <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
-          <div class="rounded-2xl border p-4" style="background:#0e1116;border-color:var(--line)"><div class="uppercase tracking-[.22em]" style="color:var(--faint)">Surface</div><div class="mt-2">Dark Gold</div></div>
-          <div class="rounded-2xl border p-4" style="background:#0e1116;border-color:var(--line)"><div class="uppercase tracking-[.22em]" style="color:var(--faint)">Accent</div><div class="mt-2">#c9a169</div></div>
-          <div class="col-span-2 rounded-2xl border p-4" style="background:rgba(255,255,255,.03);border-color:var(--line)">
-            <div class="uppercase tracking-[.22em]" style="color:var(--faint)">Layout</div>
-            <div class="mt-2">Desktop and mobile ready</div>
+          <div class="rounded-2xl border p-4 interactive" data-preview-card style="background:#0e1116;border-color:var(--line)"><div class="uppercase tracking-[.22em]" style="color:var(--faint)">Selected Goal</div><div class="mt-2 font-bold" id="preview-goal">Lead Generation</div></div>
+          <div class="rounded-2xl border p-4 interactive" data-preview-card style="background:#0e1116;border-color:var(--line)"><div class="uppercase tracking-[.22em]" style="color:var(--faint)">Focus Metric</div><div class="mt-2 font-bold" id="preview-metric">Cost per Lead</div></div>
+          <div class="col-span-2 rounded-2xl border p-4 interactive" data-preview-card style="background:rgba(255,255,255,.03);border-color:var(--line)">
+            <div class="uppercase tracking-[.22em]" style="color:var(--faint)">What wins here</div>
+            <div class="mt-2" id="preview-copy">Judge lead volume first, then check efficiency and support metrics.</div>
           </div>
         </div>
       </div>
@@ -222,6 +230,7 @@
     }
 
     $("generate").addEventListener("click", () => {
+      const objective = $("objective").value;
       const views = num("views"), reach = num("reach"), profileVisits = num("profileVisits"), leads = num("leads"), directFollows = num("directFollows"),
             followersBefore = num("followersBefore"), followersAfter = num("followersAfter"), likes = num("likes"), shares = num("shares"),
             comments = num("comments"), saves = num("saves"), adSpend = num("adSpend"), dailyBudget = num("dailyBudget");
@@ -234,6 +243,21 @@
       const costPerFollower = followersGained > 0 ? adSpend / followersGained : 0;
       const cpm = reach > 0 ? adSpend / reach * 1000 : 0;
       renderReport({ views, reach, followersGained, profileVisitRate, followConversionRate, engagementRate, costPerVisit, costPerLead, costPerFollower, cpm, likes, saves });
+      const goal = objective === "lead_generation" ? "Lead Generation" : objective === "follower_growth" ? "Follower Growth" : objective === "engagement" ? "Engagement" : "Traffic";
+      const metric = objective === "lead_generation" ? "Cost per Lead" : objective === "follower_growth" ? "Cost per Follower" : objective === "engagement" ? "Engagement Rate" : "Cost per Visit";
+      const copy = objective === "lead_generation" ? "Judge lead volume first, then check efficiency and support metrics." : objective === "follower_growth" ? "Judge follower gain first, then check visit quality and cost per follower." : objective === "engagement" ? "Judge interactions first, then check save rate and post quality." : "Judge visits first, then check whether the traffic is worth the spend.";
+      $("preview-goal").textContent = goal;
+      $("preview-metric").textContent = metric;
+      $("preview-copy").textContent = copy;
+      document.querySelectorAll("[data-objective-card]").forEach((el) => el.classList.toggle("is-active", el.dataset.objectiveCard === objective));
+    });
+
+    document.querySelectorAll("[data-objective-card]").forEach((card) => {
+      card.addEventListener("click", () => {
+        $("objective").value = card.dataset.objectiveCard;
+        card.classList.add("is-active");
+        window.setTimeout(() => card.classList.remove("is-active"), 180);
+      });
     });
   </script>
 </body>
