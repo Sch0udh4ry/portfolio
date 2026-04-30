@@ -101,12 +101,16 @@ function setupCountUpMetrics() {
         const decimals = Number(el.dataset.countDecimals || 0);
         const prefix = el.dataset.countPrefix || "";
         const suffix = el.dataset.countSuffix || "";
+        const padded = Number(el.dataset.countPadded || 0);
+        const numberText = padded > 0
+            ? String(Math.round(value)).padStart(padded, "0")
+            : value.toLocaleString("en-IN", { maximumFractionDigits: decimals });
         const formatted =
             format === "percent"
                 ? `${prefix}${value.toFixed(decimals)}%${suffix}`
                 : format === "currency"
-                    ? `${prefix}${value.toLocaleString("en-IN", { maximumFractionDigits: decimals })}${suffix}`
-                    : `${prefix}${value.toLocaleString("en-IN", { maximumFractionDigits: decimals })}${suffix}`;
+                    ? `${prefix}${numberText}${suffix}`
+                    : `${prefix}${numberText}${suffix}`;
         el.textContent = formatted;
     };
 
