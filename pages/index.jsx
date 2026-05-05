@@ -1,727 +1,1020 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
 } from "recharts";
 
-const brand = {
-  bg: "#07080b",
-  panel: "#151820",
-  panel2: "#1d212b",
-  line: "rgba(255, 244, 226, 0.12)",
-  text: "#f4ebdd",
-  soft: "#b0a594",
-  faint: "#8f8576",
-  gold: "#c9a169",
-  gold2: "#e0bf8d",
-  goldDeep: "#7d6039",
-  blue: "#8bb6ff",
-  green: "#95d5b2",
-  purple: "#cdb4ff",
-};
-
-const defaultInputs = {
+const initialInputs = {
   objective: "lead_generation",
-  views: "",
-  reach: "",
-  profileVisits: "",
-  directFollows: "",
-  followersBefore: "",
-  followersAfter: "",
-  likes: "",
-  shares: "",
-  comments: "",
-  saves: "",
-  playsThreeSec: "",
-  adSpend: "",
-  dailyBudget: "",
+  views: "50000",
+  reach: "32000",
+  profileVisits: "1400",
+  leads: "120",
+  convertedLeads: "18",
+  totalIncome: "180000",
+  directFollows: "260",
+  followersBefore: "8200",
+  followersAfter: "8520",
+  likes: "980",
+  shares: "84",
+  comments: "43",
+  saves: "126",
+  playsThreeSec: "19000",
+  adSpend: "45000",
+  dailyBudget: "3000",
 };
 
-const objectiveOptions = [
-  { value: "lead_generation", label: "Lead Generation", description: "Measure landing page intent, visits, and leads." },
-  { value: "follower_growth", label: "Follower Growth", description: "Measure profile traffic and follower conversion." },
-  { value: "engagement", label: "Engagement", description: "Measure likes, comments, shares, and saves." },
-  { value: "traffic", label: "Traffic", description: "Measure reach, clicks, and visit efficiency." },
+const objectives = [
+  {
+    value: "lead_generation",
+    label: "Lead Generation",
+    detail: "Score leads, converted leads, income, and ROI.",
+  },
+  {
+    value: "follower_growth",
+    label: "Follower Growth",
+    detail: "Score profile visits, follows, and follower cost.",
+  },
+  {
+    value: "engagement",
+    label: "Engagement",
+    detail: "Score saves, shares, comments, and interaction quality.",
+  },
+  {
+    value: "traffic",
+    label: "Traffic",
+    detail: "Score reach, visits, CPM, and cost per visit.",
+  },
 ];
 
-const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-const n = (value) => Number.parseFloat(value) || 0;
-const formatINR = (value) =>
-  value || value === 0 ? `₹${Number(value).toLocaleString("en-IN", { maximumFractionDigits: 2 })}` : "—";
-const fmtNum = (value) => (value || value === 0 ? Number(value).toLocaleString("en-IN") : "—");
-const fmtPct = (value) => (value || value === 0 ? `${(value * 100).toFixed(2)}%` : "—");
+const toNumber = (value) => Number.parseFloat(value) || 0;
+const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+const formatNumber = (value) => Number(value || 0).toLocaleString("en-IN");
+const formatMoney = (value) =>
+  `INR ${Number(value || 0).toLocaleString("en-IN", { maximumFractionDigits: 0 })}`;
+const formatMoneyPrecise = (value) =>
+  `INR ${Number(value || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
+const formatPercent = (value) => `${((value || 0) * 100).toFixed(2)}%`;
+const formatMultiple = (value) => `${Number(value || 0).toFixed(2)}x`;
 
-function KPI({ label, value, sub, accent = brand.gold2 }) {
-  return (
-    <div className="rounded-2xl border p-5 shadow-[0_20px_50px_rgba(0,0,0,0.28)]" style={{ background: `linear-gradient(180deg, ${brand.panel}, ${brand.panel2})`, borderColor: brand.line }}>
-      <div className="text-[10px] uppercase tracking-[0.24em]" style={{ color: brand.soft }}>
-        {label}
-      </div>
-      <div className="mt-2 text-3xl font-extrabold leading-none" style={{ color: accent }}>
-        {value}
-      </div>
-      {sub ? <div className="mt-2 text-sm" style={{ color: brand.faint }}>{sub}</div> : null}
-    </div>
-  );
+function calculate(inputs) {
+  const views = toNumber(inputs.views);
+  const reach = toNumber(inputs.reach);
+  const profileVisits = toNumber(inputs.profileVisits);
+  const leads = toNumber(inputs.leads);
+  const convertedLeads = leads > 0 ? Math.min(toNumber(inputs.convertedLeads), leads) : toNumber(inputs.convertedLeads);
+  const totalIncome = toNumber(inputs.totalIncome);
+  const directFollows = toNumber(inputs.directFollows);
+  const followersBefore = toNumber(inputs.followersBefore);
+  const followersAfter = toNumber(inputs.followersAfter);
+  const likes = toNumber(inputs.likes);
+  const shares = toNumber(inputs.shares);
+  const comments = toNumber(inputs.comments);
+  const saves = toNumber(inputs.saves);
+  const playsThreeSec = toNumber(inputs.playsThreeSec);
+  const adSpend = toNumber(inputs.adSpend);
+  const dailyBudget = toNumber(inputs.dailyBudget);
+
+  const followersGained = Math.max(0, followersAfter - followersBefore);
+  const engagementTotal = likes + shares + comments + saves;
+  const profileVisitRate = views > 0 ? profileVisits / views : 0;
+  const leadConversionRate = leads > 0 ? convertedLeads / leads : 0;
+  const followConversionRate = profileVisits > 0 ? directFollows / profileVisits : 0;
+  const engagementRate = views > 0 ? engagementTotal / views : 0;
+  const playThroughRate = views > 0 ? playsThreeSec / views : 0;
+  const costPerVisit = profileVisits > 0 ? adSpend / profileVisits : 0;
+  const costPerLead = leads > 0 ? adSpend / leads : 0;
+  const costPerConvertedLead = convertedLeads > 0 ? adSpend / convertedLeads : 0;
+  const costPerFollower = followersGained > 0 ? adSpend / followersGained : 0;
+  const cpm = reach > 0 ? (adSpend / reach) * 1000 : 0;
+  const netReturn = totalIncome - adSpend;
+  const roi = adSpend > 0 ? netReturn / adSpend : 0;
+  const roas = adSpend > 0 ? totalIncome / adSpend : 0;
+  const averageIncomePerConversion = convertedLeads > 0 ? totalIncome / convertedLeads : 0;
+  const breakEvenConversions =
+    averageIncomePerConversion > 0 ? Math.ceil(adSpend / averageIncomePerConversion) : 0;
+
+  return {
+    views,
+    reach,
+    profileVisits,
+    leads,
+    convertedLeads,
+    totalIncome,
+    directFollows,
+    followersBefore,
+    followersAfter,
+    likes,
+    shares,
+    comments,
+    saves,
+    playsThreeSec,
+    adSpend,
+    dailyBudget,
+    followersGained,
+    engagementTotal,
+    profileVisitRate,
+    leadConversionRate,
+    followConversionRate,
+    engagementRate,
+    playThroughRate,
+    costPerVisit,
+    costPerLead,
+    costPerConvertedLead,
+    costPerFollower,
+    cpm,
+    netReturn,
+    roi,
+    roas,
+    averageIncomePerConversion,
+    breakEvenConversions,
+  };
 }
 
-function Field({ label, value, onChange, placeholder = "0" }) {
+function Field({ label, value, onChange, helper }) {
   return (
-    <label className="flex flex-col gap-2">
-      <span className="text-[11px] uppercase tracking-[0.2em]" style={{ color: brand.soft }}>
-        {label}
-      </span>
+    <label className="field">
+      <span>{label}</span>
       <input
         type="number"
         min="0"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="w-full rounded-xl border px-4 py-3 outline-none transition focus:shadow-[0_0_0_4px_rgba(201,161,105,0.14)]"
-        style={{ background: "rgba(255,255,255,0.04)", borderColor: brand.line, color: brand.text }}
+        onChange={(event) => onChange(event.target.value)}
       />
+      {helper ? <small>{helper}</small> : null}
     </label>
   );
 }
 
-const requiredFieldsByObjective = {
-  lead_generation: ["views", "reach", "profileVisits", "directFollows", "adSpend"],
-  follower_growth: ["views", "reach", "profileVisits", "followersBefore", "followersAfter", "adSpend"],
-  engagement: ["views", "reach", "likes", "shares", "comments", "saves", "adSpend"],
-  traffic: ["views", "reach", "profileVisits", "adSpend"],
-};
+function KpiCard({ label, value, detail, tone = "gold" }) {
+  return (
+    <article className={`kpi kpi-${tone}`}>
+      <p>{label}</p>
+      <strong>{value}</strong>
+      {detail ? <span>{detail}</span> : null}
+    </article>
+  );
+}
 
-function ObjectiveCard({ value, label, description, active, onSelect }) {
+function ObjectiveButton({ option, active, onClick }) {
   return (
     <button
       type="button"
-      onClick={() => onSelect(value)}
-      className="rounded-2xl border p-4 text-left transition hover:-translate-y-0.5"
-      style={{
-        background: active
-          ? "linear-gradient(180deg, rgba(201,161,105,0.18), rgba(29,33,43,0.96))"
-          : "linear-gradient(180deg, rgba(21,24,32,0.95), rgba(29,33,43,0.95))",
-        borderColor: active ? "rgba(224,191,141,0.42)" : brand.line,
-      }}
+      className={`objective-button${active ? " active" : ""}`}
+      onClick={onClick}
     >
-      <div className="text-sm font-bold" style={{ color: active ? brand.gold2 : brand.text }}>
-        {label}
-      </div>
-      <div className="mt-1 text-xs leading-5" style={{ color: brand.soft }}>
-        {description}
-      </div>
+      <strong>{option.label}</strong>
+      <span>{option.detail}</span>
     </button>
   );
 }
 
-function Section({ title, icon, children }) {
+function Meter({ label, value, amount, tone = "gold" }) {
   return (
-    <section className="rounded-3xl border p-6 md:p-8" style={{ background: `linear-gradient(180deg, ${brand.panel}, ${brand.panel2})`, borderColor: brand.line }}>
-      <div className="mb-6 flex items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl" style={{ background: "linear-gradient(135deg, rgba(201,161,105,0.22), rgba(125,96,57,0.18))", color: brand.gold2 }}>
-          {icon}
-        </div>
-        <h3 className="text-xl font-bold tracking-tight" style={{ color: brand.text }}>
-          {title}
-        </h3>
+    <div className="meter">
+      <div>
+        <span>{label}</span>
+        <strong>{amount}</strong>
       </div>
-      {children}
-    </section>
+      <div className="meter-track">
+        <i className={`meter-fill ${tone}`} style={{ width: `${clamp(value, 0, 100)}%` }} />
+      </div>
+    </div>
   );
 }
 
-function InsightChip({ type, text }) {
-  const c =
-    type === "good"
-      ? { bg: "rgba(149, 213, 178, 0.12)", border: "rgba(149, 213, 178, 0.28)", text: "#d8f3dc" }
-      : type === "warn"
-      ? { bg: "rgba(224, 191, 141, 0.12)", border: "rgba(224, 191, 141, 0.28)", text: "#f6e7c9" }
-      : { bg: "rgba(139, 182, 255, 0.12)", border: "rgba(139, 182, 255, 0.28)", text: "#dbe8ff" };
-
+function Insight({ tone = "neutral", title, children }) {
   return (
-    <div className="flex gap-3 rounded-2xl border px-4 py-3" style={{ background: c.bg, borderColor: c.border }}>
-      <span className="mt-1 h-2 w-2 shrink-0 rounded-full" style={{ background: c.text }} />
-      <p className="text-sm leading-6" style={{ color: c.text }}>
-        {text}
-      </p>
+    <div className={`insight ${tone}`}>
+      <strong>{title}</strong>
+      <p>{children}</p>
     </div>
   );
 }
 
 function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null;
+
   return (
-    <div className="rounded-xl border px-4 py-3 shadow-2xl" style={{ background: "#11151b", borderColor: brand.line }}>
-      <div className="text-xs" style={{ color: brand.soft }}>{label}</div>
-      {payload.map((item, index) => (
-        <div key={index} className="mt-1 text-sm font-semibold" style={{ color: item.color || brand.gold2 }}>
-          {typeof item.value === "number" ? item.value.toLocaleString("en-IN") : item.value}
-        </div>
-      ))}
+    <div className="chart-tooltip">
+      <span>{label}</span>
+      <strong>{formatNumber(payload[0].value)}</strong>
     </div>
   );
 }
 
-function DownloadModal({ onClose, onConfirm }) {
-  const [email, setEmail] = useState("");
-  const [touched, setTouched] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const valid = isValidEmail(email);
-  const showError = touched && !valid;
+export default function InstagramAdDashboard() {
+  const [inputs, setInputs] = useState(initialInputs);
+  const [showExample, setShowExample] = useState(true);
 
-  const submit = async () => {
-    setTouched(true);
-    if (!valid) return;
-    setLoading(true);
-    await onConfirm(email);
-    setLoading(false);
+  const report = useMemo(() => calculate(inputs), [inputs]);
+  const activeObjective = objectives.find((objective) => objective.value === inputs.objective) || objectives[0];
+
+  const setField = (key) => (value) => {
+    setShowExample(false);
+    setInputs((current) => ({ ...current, [key]: value }));
   };
+
+  const setObjective = (objective) => {
+    setShowExample(false);
+    setInputs((current) => ({ ...current, objective }));
+  };
+
+  const roiTone = report.roi >= 0.5 ? "green" : report.roi >= 0 ? "gold" : "red";
+  const verdict =
+    report.adSpend <= 0
+      ? "Add ad spend to calculate ROI."
+      : report.totalIncome <= 0
+        ? "Add total income to judge whether this ad paid back."
+        : report.roi >= 0.5
+          ? "Worth scaling with control."
+          : report.roi >= 0
+            ? "Profitable, but needs efficiency work."
+            : "Not worth scaling yet.";
+
+  const funnelData = [
+    { name: "Views", value: report.views, fill: "#8bb6ff" },
+    { name: "Visits", value: report.profileVisits, fill: "#e0bf8d" },
+    { name: "Leads", value: report.leads, fill: "#95d5b2" },
+    { name: "Converted", value: report.convertedLeads, fill: "#cdb4ff" },
+  ];
+
+  const engagementData = [
+    { name: "Likes", value: report.likes, fill: "#c9a169" },
+    { name: "Shares", value: report.shares, fill: "#95d5b2" },
+    { name: "Comments", value: report.comments, fill: "#8bb6ff" },
+    { name: "Saves", value: report.saves, fill: "#cdb4ff" },
+  ];
 
   return (
-    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/75 p-4 backdrop-blur-md" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="w-full max-w-md rounded-[28px] border p-8 shadow-[0_30px_80px_rgba(0,0,0,0.6)]" style={{ background: `linear-gradient(180deg, ${brand.panel}, ${brand.panel2})`, borderColor: brand.line }}>
-        <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl" style={{ background: "linear-gradient(135deg, rgba(201,161,105,0.2), rgba(125,96,57,0.16))" }}>
-          📥
-        </div>
-        <h3 className="text-center text-2xl font-extrabold tracking-tight" style={{ color: brand.text }}>
-          Download HD Report
-        </h3>
-        <p className="mt-3 text-center text-sm leading-6" style={{ color: brand.soft }}>
-          Enter your email to generate the PNG export. We’ll keep it simple and send the file directly.
-        </p>
-        <div className="mt-6">
-          <label className="mb-2 block text-[11px] uppercase tracking-[0.2em]" style={{ color: brand.soft }}>
-            Email Address
-          </label>
-          <input
-            type="email"
-            value={email}
-            autoFocus
-            onChange={(e) => setEmail(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && submit()}
-            className="w-full rounded-xl border px-4 py-3 outline-none"
-            style={{ background: "rgba(255,255,255,0.05)", borderColor: showError ? "rgba(224, 191, 141, 0.55)" : brand.line, color: brand.text }}
-            placeholder="you@example.com"
-          />
-          {showError ? <p className="mt-2 text-sm" style={{ color: "#f3d8a8" }}>Please enter a valid email.</p> : null}
-        </div>
-        <button
-          onClick={submit}
-          disabled={loading}
-          className="mt-6 w-full rounded-xl px-5 py-4 font-bold text-black transition hover:brightness-105 disabled:cursor-wait"
-          style={{ background: `linear-gradient(135deg, ${brand.gold2}, ${brand.gold})` }}
-        >
-          {loading ? "Generating..." : "Download HD Report"}
-        </button>
-        <button onClick={onClose} className="mx-auto mt-4 block text-sm" style={{ color: brand.faint }}>
-          Cancel
-        </button>
-      </div>
-    </div>
-  );
-}
-
-export default function HomePage() {
-  const [inputs, setInputs] = useState(defaultInputs);
-  const [report, setReport] = useState(null);
-  const [showDownloadModal, setShowDownloadModal] = useState(false);
-  const [downloadStatus, setDownloadStatus] = useState("idle");
-  const [validationMessage, setValidationMessage] = useState("");
-  const [lead, setLead] = useState({ name: "", email: "", business: "" });
-  const [leadDone, setLeadDone] = useState(false);
-  const inputRef = useRef(null);
-  const dashRef = useRef(null);
-  const canvasRef = useRef(null);
-
-  const setField = (key) => (value) => setInputs((prev) => ({ ...prev, [key]: value }));
-  const setObjective = (objective) => setInputs((prev) => ({ ...prev, objective }));
-
-  const reportData = useMemo(() => {
-    if (!report) return [];
-    return [
-      { name: "Likes", value: report.likes, fill: "#c9a169" },
-      { name: "Comments", value: report.comments, fill: "#e0bf8d" },
-      { name: "Shares", value: report.shares, fill: "#95d5b2" },
-      { name: "Saves", value: report.saves, fill: "#8bb6ff" },
-    ];
-  }, [report]);
-
-  const selectedObjective = inputs.objective || "lead_generation";
-  const requiredFields = requiredFieldsByObjective[selectedObjective] || [];
-  const isFieldRequired = (key) => requiredFields.includes(key);
-
-  const generate = () => {
-    const objective = selectedObjective;
-    const missing = requiredFields.filter((key) => n(inputs[key]) <= 0);
-    if (missing.length > 0) {
-      setValidationMessage("Please fill the required fields for the selected campaign objective before generating the report.");
-      return;
-    }
-    setValidationMessage("");
-    const views = n(inputs.views);
-    const reach = n(inputs.reach);
-    const profileVisits = n(inputs.profileVisits);
-    const directFollows = n(inputs.directFollows);
-    const followersBefore = n(inputs.followersBefore);
-    const followersAfter = n(inputs.followersAfter);
-    const likes = n(inputs.likes);
-    const shares = n(inputs.shares);
-    const comments = n(inputs.comments);
-    const saves = n(inputs.saves);
-    const playsThreeSec = n(inputs.playsThreeSec);
-    const adSpend = n(inputs.adSpend);
-    const dailyBudget = n(inputs.dailyBudget);
-
-    const followersGained = Math.max(0, followersAfter - followersBefore);
-    const profileVisitRate = views > 0 ? profileVisits / views : 0;
-    const followConversionRate = profileVisits > 0 ? directFollows / profileVisits : 0;
-    const engagementRate = views > 0 ? (likes + shares + comments + saves) / views : 0;
-    const costPerVisit = profileVisits > 0 ? adSpend / profileVisits : 0;
-    const costPerLead = directFollows > 0 ? adSpend / directFollows : 0;
-    const costPerFollower = followersGained > 0 ? adSpend / followersGained : 0;
-    const cpm = reach > 0 ? (adSpend / reach) * 1000 : 0;
-    const engagementTotal = likes + shares + comments + saves;
-    const insights = [];
-
-    const objectiveCopy = {
-      lead_generation: {
-        primaryLabel: "Lead Goal",
-        primaryValue: directFollows,
-        primaryHint: "Recorded lead actions",
-        benchmark: profileVisits > 0 ? directFollows / profileVisits : 0.08,
-        benchmarkLabel: "Lead conversion",
-        primaryThreshold: 0.05,
-        successText:
-          directFollows > 0
-            ? `Lead generation is producing ${fmtNum(directFollows)} lead actions with a cost per lead of ${formatINR(costPerLead)}.`
-            : "Lead generation mode is active, but no lead actions were recorded yet.",
-        focusText:
-          "In lead generation mode, profile visits and follower growth are secondary signals. The main question is whether the ad produced qualified inquiries at an acceptable cost.",
-      },
-      follower_growth: {
-        primaryLabel: "Followers Gained",
-        primaryValue: followersGained,
-        primaryHint: "Net new followers",
-        benchmark: profileVisits > 0 ? directFollows / profileVisits : 0.15,
-        benchmarkLabel: "Follow conversion",
-        primaryThreshold: 10,
-        successText:
-          followersGained > 0
-            ? `Follower growth added ${fmtNum(followersGained)} new followers with a cost per follower of ${formatINR(costPerFollower)}.`
-            : "Follower growth mode is active, but the campaign has not added followers yet.",
-        focusText:
-          "In follower growth mode, low lead volume is expected. Judge success by how efficiently the ad turns attention into profile visits and follows.",
-      },
-      engagement: {
-        primaryLabel: "Engagement Total",
-        primaryValue: engagementTotal,
-        primaryHint: "Likes, shares, comments, saves",
-        benchmark: engagementRate,
-        benchmarkLabel: "Engagement rate",
-        primaryThreshold: 50,
-        successText:
-          engagementTotal > 0
-            ? `Engagement mode produced ${fmtNum(engagementTotal)} total interactions at ${fmtPct(engagementRate)} engagement rate.`
-            : "Engagement mode is active, but the post has not generated much interaction yet.",
-        focusText:
-          "In engagement mode, leads and follows are not the core success metric. Look at interaction depth, save rate, and comment quality first.",
-      },
-      traffic: {
-        primaryLabel: "Profile Visits",
-        primaryValue: profileVisits,
-        primaryHint: "Visits driven by the ad",
-        benchmark: profileVisitRate,
-        benchmarkLabel: "Visit rate",
-        primaryThreshold: 25,
-        successText:
-          profileVisits > 0
-            ? `Traffic mode drove ${fmtNum(profileVisits)} visits with a cost per visit of ${formatINR(costPerVisit)}.`
-            : "Traffic mode is active, but the campaign has not driven profile visits yet.",
-        focusText:
-          "In traffic mode, follower growth and leads can stay low. The main job is to move people into the next step efficiently.",
-      },
-    };
-
-    const activeObjective = objectiveCopy[objective];
-
-    if (objective === "lead_generation") {
-      if (directFollows > 0) {
-        insights.push({ type: "good", text: `Lead actions recorded: ${fmtNum(directFollows)}.` });
-      }
-      if (costPerVisit > 0) {
-        insights.push({ type: "tip", text: `Cost per visit is ${formatINR(costPerVisit)}. That matters, but the lead count is the main benchmark here.` });
-      }
-      if (directFollows > 0 && costPerFollower > 0 && costPerFollower < 5) {
-        insights.push({ type: "good", text: `Cost per lead is ${formatINR(costPerLead)} and looks efficient for a lead-focused campaign.` });
-      }
-    } else if (objective === "follower_growth") {
-      if (followersGained > 0) {
-        insights.push({ type: "good", text: `Follower growth added ${fmtNum(followersGained)} new followers.` });
-      }
-      if (followersGained === 0 && profileVisits > 0) {
-        insights.push({ type: "warn", text: `The campaign drove ${fmtNum(profileVisits)} visits but did not convert to follower growth yet.` });
-      }
-    } else if (objective === "engagement") {
-      if (engagementTotal > 0) {
-        insights.push({ type: "good", text: `Engagement total is ${fmtNum(engagementTotal)} across likes, shares, comments, and saves.` });
-      }
-      if (saves > likes * 0.1) insights.push({ type: "good", text: `Save rate is healthy, which is a strong signal for engagement quality.` });
-    } else if (objective === "traffic") {
-      if (profileVisits > 0) {
-        insights.push({ type: "good", text: `Traffic mode drove ${fmtNum(profileVisits)} visits.` });
-      }
-      if (profileVisitRate > 0.006) insights.push({ type: "good", text: `Visit rate is ${fmtPct(profileVisitRate)} and is clearing the 0.6% benchmark.` });
-    }
-
-    if (objective !== "engagement" && engagementRate > 0.03) insights.push({ type: "good", text: `Engagement rate of ${fmtPct(engagementRate)} is above the 3% benchmark.` });
-    else if (engagementRate > 0) insights.push({ type: "tip", text: `Engagement rate is ${fmtPct(engagementRate)}. Use it as a supporting signal, not the only score.` });
-    if (objective !== "lead_generation" && followConversionRate > 0.15) insights.push({ type: "good", text: `Follow conversion is ${fmtPct(followConversionRate)} and the profile is doing strong closing work.` });
-    else if (followConversionRate > 0) insights.push({ type: "tip", text: `Follow conversion is ${fmtPct(followConversionRate)}. Keep it in context with the selected objective.` });
-    if (objective !== "follower_growth" && costPerFollower > 0 && costPerFollower < 3) insights.push({ type: "good", text: `Cost per follower is ${formatINR(costPerFollower)} and looks efficient.` });
-    else if (costPerFollower >= 3) insights.push({ type: "warn", text: `Cost per follower is ${formatINR(costPerFollower)}. Test new creatives or audience segments.` });
-
-    setReport({
-      objective,
-      objectiveLabel: activeObjective.primaryLabel,
-      objectiveHint: activeObjective.primaryHint,
-      objectiveSuccessText: activeObjective.successText,
-      objectiveFocusText: activeObjective.focusText,
-      views,
-      reach,
-      profileVisits,
-      directFollows,
-      followersBefore,
-      followersAfter,
-      likes,
-      shares,
-      comments,
-      saves,
-      playsThreeSec,
-      adSpend,
-      dailyBudget,
-      followersGained,
-      profileVisitRate,
-      followConversionRate,
-      engagementRate,
-      costPerVisit,
-      costPerLead,
-      costPerFollower,
-      cpm,
-      engagementTotal,
-      insights,
-    });
-
-    setDownloadStatus("idle");
-    window.setTimeout(() => dashRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
-  };
-
-  const doDownload = async () => {
-    if (!window.html2canvas) {
-      await new Promise((resolve, reject) => {
-        const script = document.createElement("script");
-        script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-      });
-    }
-
-    const el = canvasRef.current;
-    if (!el) return;
-
-    const canvas = await window.html2canvas(el, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: brand.bg,
-      width: 1400,
-      windowWidth: 1600,
-      logging: false,
-    });
-
-    const link = document.createElement("a");
-    link.download = `sunil-ad-report-${Date.now()}.png`;
-    link.href = canvas.toDataURL("image/png", 1);
-    link.click();
-    setDownloadStatus("success");
-    setShowDownloadModal(false);
-  };
-
-  const chartData = reportData;
-
-  return (
-    <div className="min-h-screen" style={{ background: brand.bg, color: brand.text, fontFamily: "Manrope, sans-serif" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
-        * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { background: ${brand.bg}; }
-      `}</style>
-
-      {showDownloadModal ? <DownloadModal onClose={() => setShowDownloadModal(false)} onConfirm={doDownload} /> : null}
-
-      <header className="sticky top-0 z-50 border-b backdrop-blur-2xl" style={{ background: "rgba(7, 8, 11, 0.9)", borderColor: brand.line }}>
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: "linear-gradient(135deg, #7a5d39, #d1aa74)" }}>⚡</div>
-            <div>
-              <div className="text-lg font-extrabold tracking-tight" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
-                Pure Reach Innovation
-              </div>
-              <div className="text-[11px] uppercase tracking-[0.24em]" style={{ color: brand.soft }}>Instagram Ad Calculator</div>
-            </div>
-          </Link>
-          <nav className="hidden items-center gap-7 md:flex">
-            <a href="https://sunillchoudhary.in" className="text-sm font-medium transition hover:text-white" style={{ color: brand.soft }}>Main Site</a>
-            <a href="#calculator" className="text-sm font-medium transition hover:text-white" style={{ color: brand.soft }}>Calculator</a>
-            <a href="#dashboard" className="text-sm font-medium transition hover:text-white" style={{ color: brand.soft }}>Dashboard</a>
-            <a href="#contact" className="rounded-xl px-4 py-2 text-sm font-bold text-black transition hover:brightness-105" style={{ background: `linear-gradient(135deg, ${brand.gold2}, ${brand.gold})` }}>Get a Quote</a>
-          </nav>
-        </div>
+    <div className="dashboard-shell">
+      <header className="topbar">
+        <Link href="/" className="brand">
+          <span>PRI</span>
+          <div>
+            <strong>Pure Reach</strong>
+            <small>Ad ROI Dashboard</small>
+          </div>
+        </Link>
+        <nav>
+          <a href="#inputs">Inputs</a>
+          <a href="#dashboard">Dashboard</a>
+          <a href="#decision">Decision</a>
+          <a className="nav-cta" href="faq.html#quote-form">Get a Quote</a>
+        </nav>
       </header>
 
       <main>
-        <section className="relative overflow-hidden px-5 pb-20 pt-16 md:px-8 md:pt-24">
-          <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-            <div>
-              <div className="mb-5 inline-flex rounded-full border px-4 py-1.5 text-xs font-bold uppercase tracking-[0.22em]" style={{ background: "rgba(201,161,105,0.10)", borderColor: "rgba(201,161,105,0.24)", color: brand.gold2 }}>
-                Built for sunillchoudhary.in
-              </div>
-              <h1 className="max-w-3xl text-5xl font-extrabold leading-[0.95] tracking-tight md:text-7xl" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
-                Analyze Instagram Ads
-                <span className="block" style={{ color: brand.gold2 }}>with clear ROI signals.</span>
-              </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8" style={{ color: brand.soft }}>
-                Drop in your campaign numbers and get a clean performance snapshot, funnel rates, and exportable report. The look now follows the site’s darker, gold-accented brand system.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-4">
-                <button onClick={() => inputRef.current?.scrollIntoView({ behavior: "smooth" })} className="rounded-2xl px-6 py-4 font-bold text-black transition hover:brightness-105" style={{ background: `linear-gradient(135deg, ${brand.gold2}, ${brand.gold})` }}>
-                  Start Analysis
-                </button>
-                <a href="https://sunillchoudhary.in" className="rounded-2xl border px-6 py-4 font-bold transition hover:bg-white/5" style={{ borderColor: brand.line, color: brand.text }}>
-                  Back to Website
-                </a>
-              </div>
-            </div>
-            <div className="rounded-[32px] border p-5 shadow-[0_30px_80px_rgba(0,0,0,0.35)]" style={{ background: "linear-gradient(180deg, rgba(21,24,32,0.95), rgba(29,33,43,0.95))", borderColor: brand.line }}>
-              <div className="rounded-[26px] border p-5" style={{ background: "rgba(255,255,255,0.03)", borderColor: brand.line }}>
-                <div className="mb-3 text-xs uppercase tracking-[0.24em]" style={{ color: brand.soft }}>Visual Tone</div>
-                <div className="text-2xl font-extrabold leading-tight" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
-                  Dark, premium, and aligned with the rest of the site.
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section ref={inputRef} id="calculator" className="mx-auto max-w-7xl px-5 pb-16 md:px-8">
-          <div className="mb-8">
-            <h2 className="text-3xl font-extrabold tracking-tight" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
-              Enter Campaign Data
-            </h2>
-            <p className="mt-2" style={{ color: brand.soft }}>
-              First choose the campaign objective, then enter the metrics that matter for that campaign.
+        <section className="hero">
+          <div className="hero-copy">
+            <h1>Instagram ad dashboard for leads, conversions, and ROI.</h1>
+            <p>
+              This turns the old calculator into a live decision dashboard. The ad runner can see
+              spend, leads, converted leads, total income, ROI, ROAS, and whether the campaign is
+              worth scaling.
             </p>
+            <div className="hero-actions">
+              <a href="#inputs">Update numbers</a>
+              <a href="#dashboard">View dashboard</a>
+            </div>
           </div>
-          <div className="grid gap-5">
-            <Section title="Campaign Objective" icon="🎯">
-              <div className="grid gap-4 md:grid-cols-2">
-                {objectiveOptions.map((option) => (
-                  <ObjectiveCard
-                    key={option.value}
-                    value={option.value}
-                    label={option.label}
-                    description={option.description}
-                    active={inputs.objective === option.value}
-                    onSelect={setObjective}
-                  />
-                ))}
-              </div>
-            </Section>
-            <Section title="Campaign Data" icon="📊">
-              <div className="grid gap-4 md:grid-cols-2">
-                <Field label={`Views${isFieldRequired("views") ? " *" : ""}`} value={inputs.views} onChange={setField("views")} />
-                <Field label={`Reach${isFieldRequired("reach") ? " *" : ""}`} value={inputs.reach} onChange={setField("reach")} />
-                <Field label={`Profile Visits${isFieldRequired("profileVisits") ? " *" : ""}`} value={inputs.profileVisits} onChange={setField("profileVisits")} />
-                <Field label={`Direct Follows${isFieldRequired("directFollows") ? " *" : ""}`} value={inputs.directFollows} onChange={setField("directFollows")} />
-              </div>
-            </Section>
-            <Section title="Followers" icon="👥">
-              <div className="grid gap-4 md:grid-cols-2">
-                <Field label={`Followers Before${isFieldRequired("followersBefore") ? " *" : ""}`} value={inputs.followersBefore} onChange={setField("followersBefore")} />
-                <Field label={`Followers After${isFieldRequired("followersAfter") ? " *" : ""}`} value={inputs.followersAfter} onChange={setField("followersAfter")} />
-              </div>
-            </Section>
-            <Section title="Engagement" icon="❤️">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                <Field label={`Likes${isFieldRequired("likes") ? " *" : ""}`} value={inputs.likes} onChange={setField("likes")} />
-                <Field label={`Shares${isFieldRequired("shares") ? " *" : ""}`} value={inputs.shares} onChange={setField("shares")} />
-                <Field label={`Comments${isFieldRequired("comments") ? " *" : ""}`} value={inputs.comments} onChange={setField("comments")} />
-                <Field label={`Saves${isFieldRequired("saves") ? " *" : ""}`} value={inputs.saves} onChange={setField("saves")} />
-                <Field label="3-sec Plays" value={inputs.playsThreeSec} onChange={setField("playsThreeSec")} />
-              </div>
-            </Section>
-            <Section title="Cost" icon="💰">
-              <div className="grid gap-4 md:grid-cols-2">
-                <Field label={`Ad Spend (INR)${isFieldRequired("adSpend") ? " *" : ""}`} value={inputs.adSpend} onChange={setField("adSpend")} />
-                <Field label="Daily Budget (INR)" value={inputs.dailyBudget} onChange={setField("dailyBudget")} />
-              </div>
-            </Section>
-          </div>
-          {validationMessage ? <div className="mt-5 rounded-2xl border px-4 py-4 text-sm" style={{ background: "rgba(224,191,141,0.10)", borderColor: "rgba(224,191,141,0.24)", color: brand.gold2 }}>{validationMessage}</div> : null}
-          <button onClick={generate} className="mt-6 w-full rounded-2xl px-6 py-5 text-lg font-extrabold text-black transition hover:brightness-105" style={{ background: `linear-gradient(135deg, ${brand.gold2}, ${brand.gold})`, fontFamily: "Plus Jakarta Sans, sans-serif" }}>
-            Generate My Report
-          </button>
+          <aside className="verdict-panel">
+            <span>Current verdict</span>
+            <strong>{verdict}</strong>
+            <div className={`roi-pill ${roiTone}`}>{formatPercent(report.roi)} ROI</div>
+            <p>
+              {showExample
+                ? "Sample campaign data is loaded so the dashboard is meaningful on first open."
+                : "Dashboard is using your current campaign inputs."}
+            </p>
+          </aside>
         </section>
 
-        {report ? (
-          <section ref={dashRef} id="dashboard" className="mx-auto max-w-7xl px-5 pb-20 md:px-8">
-            <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <div className="inline-flex rounded-full border px-4 py-1.5 text-sm font-bold" style={{ background: "rgba(149,213,178,0.10)", borderColor: "rgba(149,213,178,0.25)", color: "#d8f3dc" }}>
-                  Report generated
-                </div>
-                <h2 className="mt-4 text-3xl font-extrabold tracking-tight" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
-                  Campaign Dashboard
-                </h2>
-                <p className="mt-2 max-w-2xl text-sm leading-6" style={{ color: brand.gold2 }}>
-                  {report.objectiveSuccessText}
-                </p>
-                <p className="mt-2 max-w-2xl text-sm leading-6" style={{ color: brand.soft }}>
-                  {report.objectiveFocusText}
-                </p>
-              </div>
-              <button onClick={() => setShowDownloadModal(true)} className="rounded-2xl border px-5 py-4 text-left transition hover:bg-white/5" style={{ background: "rgba(255,255,255,0.03)", borderColor: brand.line, color: brand.text }}>
-                <div className="text-sm font-bold" style={{ color: brand.gold2 }}>Download HD Report</div>
-                <div className="text-xs" style={{ color: brand.faint }}>PNG export with email gate</div>
-              </button>
+        <section id="inputs" className="input-layout">
+          <div className="panel objective-panel">
+            <div className="section-heading">
+              <span>Campaign Objective</span>
+              <h2>{activeObjective.label}</h2>
+              <p>{activeObjective.detail}</p>
             </div>
+            <div className="objective-grid">
+              {objectives.map((option) => (
+                <ObjectiveButton
+                  key={option.value}
+                  option={option}
+                  active={inputs.objective === option.value}
+                  onClick={() => setObjective(option.value)}
+                />
+              ))}
+            </div>
+          </div>
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              <KPI label={report.objectiveLabel} value={fmtNum(report[report.objective === "lead_generation" ? "directFollows" : report.objective === "follower_growth" ? "followersGained" : report.objective === "engagement" ? "engagementTotal" : "profileVisits"])} sub={report.objectiveHint} accent={brand.gold2} />
-              <KPI label="Views" value={fmtNum(report.views)} sub="Impressions served" accent={brand.blue} />
-              <KPI label="Reach" value={fmtNum(report.reach)} sub="Unique accounts" accent={brand.green} />
-              <KPI label="Cost per Visit" value={formatINR(report.costPerVisit)} sub="Visit cost" accent={brand.purple} />
+          <div className="panel field-panel">
+            <div className="section-heading">
+              <span>Inputs</span>
+              <h2>Campaign Numbers</h2>
+              <p>Lead ROI uses ad spend, leads, converted leads, and total income.</p>
             </div>
-            <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              <KPI label="Profile Visit Rate" value={fmtPct(report.profileVisitRate)} sub="Views to visits" accent="#f0c9dc" />
-              <KPI label="Follow Conv. Rate" value={fmtPct(report.followConversionRate)} sub="Visits to follows" accent="#9ae6b4" />
-              <KPI label="Engagement Rate" value={fmtPct(report.engagementRate)} sub="Of total views" accent="#f3d8a8" />
-              <KPI label="Cost per Lead" value={formatINR(report.costPerLead)} sub="Only when leads were the goal" accent={report.costPerLead > 0 && report.costPerLead < 5 ? brand.green : brand.gold2} />
+            <div className="field-grid">
+              <Field label="Views" value={inputs.views} onChange={setField("views")} />
+              <Field label="Reach" value={inputs.reach} onChange={setField("reach")} />
+              <Field label="Profile Visits" value={inputs.profileVisits} onChange={setField("profileVisits")} />
+              <Field label="Leads" value={inputs.leads} onChange={setField("leads")} helper="Lead forms, calls, or inquiries." />
+              <Field label="Converted Leads" value={inputs.convertedLeads} onChange={setField("convertedLeads")} helper="Leads that became paid customers." />
+              <Field label="Total Income (INR)" value={inputs.totalIncome} onChange={setField("totalIncome")} helper="Revenue from converted leads." />
+              <Field label="Direct Follows" value={inputs.directFollows} onChange={setField("directFollows")} />
+              <Field label="Followers Before" value={inputs.followersBefore} onChange={setField("followersBefore")} />
+              <Field label="Followers After" value={inputs.followersAfter} onChange={setField("followersAfter")} />
+              <Field label="Likes" value={inputs.likes} onChange={setField("likes")} />
+              <Field label="Shares" value={inputs.shares} onChange={setField("shares")} />
+              <Field label="Comments" value={inputs.comments} onChange={setField("comments")} />
+              <Field label="Saves" value={inputs.saves} onChange={setField("saves")} />
+              <Field label="3-sec Plays" value={inputs.playsThreeSec} onChange={setField("playsThreeSec")} />
+              <Field label="Ad Spend (INR)" value={inputs.adSpend} onChange={setField("adSpend")} />
+              <Field label="Daily Budget (INR)" value={inputs.dailyBudget} onChange={setField("dailyBudget")} />
             </div>
-            <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              <KPI label="Cost per Follower" value={formatINR(report.costPerFollower)} sub="Only when followers were the goal" accent={report.costPerFollower > 0 && report.costPerFollower < 3 ? brand.green : brand.gold2} />
-              <KPI label="CPM" value={formatINR(report.cpm)} sub="Cost per thousand impressions" accent={brand.blue} />
-              <KPI label="Total Ad Spend" value={formatINR(report.adSpend)} sub="Budget spent" accent={brand.purple} />
-              <KPI label="Daily Budget" value={formatINR(report.dailyBudget)} sub="Budget setting" accent="#f0c9dc" />
-            </div>
+          </div>
+        </section>
 
-            <div className="mt-5 grid gap-5 lg:grid-cols-2">
-              <div className="rounded-3xl border p-6" style={{ background: `linear-gradient(180deg, ${brand.panel}, ${brand.panel2})`, borderColor: brand.line }}>
-                <h3 className="mb-5 text-lg font-bold" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>Engagement Breakdown</h3>
-                <ResponsiveContainer width="100%" height={240}>
-                  <BarChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
-                    <XAxis dataKey="name" tick={{ fill: brand.soft, fontSize: 12 }} axisLine={false} tickLine={false} />
-                    <YAxis tick={{ fill: brand.soft, fontSize: 11 }} axisLine={false} tickLine={false} />
-                    <Tooltip content={<CustomTooltip />} />
-                    <Bar dataKey="value" radius={[10, 10, 0, 0]}>
-                      {chartData.map((item, index) => <Cell key={index} fill={item.fill} />)}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="rounded-3xl border p-6" style={{ background: `linear-gradient(180deg, ${brand.panel}, ${brand.panel2})`, borderColor: brand.line }}>
-                <h3 className="mb-5 text-lg font-bold" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>Conversion Funnel</h3>
-                <div className="space-y-5">
-                  {[
-                    { label: "Views", val: report.views, pct: 100, color: brand.blue },
-                    { label: "Profile Visits", val: report.profileVisits, pct: report.views > 0 ? (report.profileVisits / report.views) * 100 : 0, color: brand.gold2 },
-                    { label: "Follows", val: report.directFollows, pct: report.views > 0 ? (report.directFollows / report.views) * 100 : 0, color: brand.green },
-                  ].map((item) => (
-                    <div key={item.label}>
-                      <div className="mb-2 flex items-center justify-between">
-                        <span className="text-sm" style={{ color: brand.soft }}>{item.label}</span>
-                        <span className="text-sm font-bold" style={{ color: item.color }}>{fmtNum(item.val)}</span>
-                      </div>
-                      <div className="h-3 rounded-full bg-white/5">
-                        <div className="h-3 rounded-full" style={{ width: `${Math.min(100, item.pct)}%`, background: `linear-gradient(90deg, ${item.color}, ${item.color}99)` }} />
-                      </div>
-                    </div>
+        <section id="dashboard" className="dashboard-grid">
+          <KpiCard label="Total Income" value={formatMoney(report.totalIncome)} detail="Revenue from conversions" tone="green" />
+          <KpiCard label="Net Return" value={formatMoney(report.netReturn)} detail="Income minus ad spend" tone={roiTone} />
+          <KpiCard label="ROI" value={formatPercent(report.roi)} detail="Profitability signal" tone={roiTone} />
+          <KpiCard label="ROAS" value={formatMultiple(report.roas)} detail="Income divided by spend" tone="purple" />
+          <KpiCard label="Cost per Lead" value={formatMoneyPrecise(report.costPerLead)} detail={`${formatNumber(report.leads)} leads`} />
+          <KpiCard label="Cost per Converted Lead" value={formatMoneyPrecise(report.costPerConvertedLead)} detail={`${formatNumber(report.convertedLeads)} converted`} tone="green" />
+          <KpiCard label="Lead Conversion" value={formatPercent(report.leadConversionRate)} detail="Leads to paid customers" tone="blue" />
+          <KpiCard label="Break-even Conversions" value={formatNumber(report.breakEvenConversions)} detail="Needed to recover spend" tone="purple" />
+        </section>
+
+        <section className="analysis-layout">
+          <div className="panel chart-panel">
+            <div className="section-heading">
+              <span>Lead Funnel</span>
+              <h2>Views to Paid Customers</h2>
+            </div>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={funnelData}>
+                <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
+                <XAxis dataKey="name" tick={{ fill: "#b0a594", fontSize: 12 }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: "#8f8576", fontSize: 11 }} axisLine={false} tickLine={false} />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="value" radius={[8, 8, 0, 0]}>
+                  {funnelData.map((entry) => (
+                    <Cell key={entry.name} fill={entry.fill} />
                   ))}
-                </div>
-              </div>
-            </div>
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
 
-            <div className="mt-5 rounded-3xl border p-6 md:p-8" style={{ background: `linear-gradient(180deg, ${brand.panel}, ${brand.panel2})`, borderColor: brand.line }}>
-              <h3 className="text-xl font-bold" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>Campaign Analysis</h3>
-              <div className="mt-5 grid gap-3">
-                {report.insights.length > 0 ? report.insights.map((item, index) => <InsightChip key={index} type={item.type} text={item.text} />) : <InsightChip type="tip" text="Enter more campaign data to unlock personalized insights." />}
-              </div>
-              <div className="mt-6 grid gap-4 rounded-2xl border p-5 md:grid-cols-4" style={{ background: "rgba(255,255,255,0.03)", borderColor: brand.line }}>
-                {[
-                  ["CPM", formatINR(report.cpm)],
-                  ["Engagement Total", fmtNum(report.engagementTotal)],
-                  ["Cost per Visit", formatINR(report.costPerVisit)],
-                  ["Total Ad Spend", formatINR(report.adSpend)],
-                ].map(([label, value]) => (
-                  <div key={label} className="text-center">
-                    <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: brand.faint }}>{label}</div>
-                    <div className="mt-2 text-2xl font-extrabold" style={{ color: brand.text }}>{value}</div>
-                  </div>
-                ))}
-              </div>
+          <div className="panel chart-panel">
+            <div className="section-heading">
+              <span>Engagement Quality</span>
+              <h2>Interaction Mix</h2>
             </div>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={engagementData}>
+                <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
+                <XAxis dataKey="name" tick={{ fill: "#b0a594", fontSize: 12 }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: "#8f8576", fontSize: 11 }} axisLine={false} tickLine={false} />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="value" radius={[8, 8, 0, 0]}>
+                  {engagementData.map((entry) => (
+                    <Cell key={entry.name} fill={entry.fill} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </section>
 
-            <div className="mt-5 rounded-3xl border p-6 md:p-8" style={{ background: "linear-gradient(135deg, rgba(201,161,105,0.09), rgba(125,96,57,0.05))", borderColor: "rgba(201,161,105,0.22)" }}>
-              <h3 className="text-2xl font-extrabold tracking-tight" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>Want help scaling these ads?</h3>
-              <p className="mt-3 max-w-2xl leading-7" style={{ color: brand.soft }}>
-                Use the calculator results as a starting point, then book a strategy call if you want the account audited and optimized for lower costs.
-              </p>
-              {leadDone ? (
-                <div className="mt-5 rounded-2xl border px-4 py-4" style={{ background: "rgba(149,213,178,0.10)", borderColor: "rgba(149,213,178,0.25)", color: "#d8f3dc" }}>
-                  You’re on the list. We’ll reach out soon.
-                </div>
-              ) : (
-                <div id="contact" className="mt-5 grid gap-3 md:grid-cols-3">
-                  <input className="rounded-xl border px-4 py-3 outline-none" style={{ background: "rgba(255,255,255,0.05)", borderColor: brand.line, color: brand.text }} placeholder="Your name" value={lead.name} onChange={(e) => setLead((prev) => ({ ...prev, name: e.target.value }))} />
-                  <input className="rounded-xl border px-4 py-3 outline-none" style={{ background: "rgba(255,255,255,0.05)", borderColor: brand.line, color: brand.text }} placeholder="Email address" value={lead.email} onChange={(e) => setLead((prev) => ({ ...prev, email: e.target.value }))} />
-                  <input className="rounded-xl border px-4 py-3 outline-none" style={{ background: "rgba(255,255,255,0.05)", borderColor: brand.line, color: brand.text }} placeholder="Business name" value={lead.business} onChange={(e) => setLead((prev) => ({ ...prev, business: e.target.value }))} />
-                  <button className="rounded-xl px-5 py-3 font-bold text-black md:col-span-3" style={{ background: `linear-gradient(135deg, ${brand.gold2}, ${brand.gold})` }} onClick={() => lead.name && lead.email && setLeadDone(true)}>
-                    Get My Free Strategy Call
-                  </button>
-                </div>
-              )}
+        <section id="decision" className="decision-layout">
+          <div className="panel decision-panel">
+            <div className="section-heading">
+              <span>Decision View</span>
+              <h2>Was It Worth It?</h2>
+              <p>The answer is based on total income, spend, and how many leads converted.</p>
             </div>
-          </section>
-        ) : null}
+            <div className={`decision-verdict ${roiTone}`}>
+              <strong>{verdict}</strong>
+              <span>{formatMoney(report.netReturn)} net return</span>
+            </div>
+            <div className="meters">
+              <Meter label="Lead conversion" amount={formatPercent(report.leadConversionRate)} value={report.leadConversionRate * 100} tone="green" />
+              <Meter label="Profile visit rate" amount={formatPercent(report.profileVisitRate)} value={report.profileVisitRate * 1000} tone="gold" />
+              <Meter label="Follow conversion" amount={formatPercent(report.followConversionRate)} value={report.followConversionRate * 100} tone="blue" />
+              <Meter label="Engagement rate" amount={formatPercent(report.engagementRate)} value={report.engagementRate * 1000} tone="purple" />
+            </div>
+          </div>
+
+          <div className="panel insight-panel">
+            <div className="section-heading">
+              <span>Operator Notes</span>
+              <h2>What to Do Next</h2>
+            </div>
+            <Insight tone={report.roi >= 0 ? "good" : "bad"} title="ROI reading">
+              {report.totalIncome > 0
+                ? `The campaign produced ${formatMoney(report.totalIncome)} income from ${formatMoney(report.adSpend)} spend, with ${formatPercent(report.roi)} ROI.`
+                : "Income is missing. Without total income, lead volume alone cannot prove that the ad was worth running."}
+            </Insight>
+            <Insight tone="neutral" title="Lead quality">
+              {report.leads > 0
+                ? `${formatNumber(report.convertedLeads)} of ${formatNumber(report.leads)} leads converted. Cost per converted lead is ${formatMoneyPrecise(report.costPerConvertedLead)}.`
+                : "No leads have been entered yet. Add leads and converted leads to evaluate the funnel."}
+            </Insight>
+            <Insight tone="neutral" title="Scaling rule">
+              Scale only when ROAS stays above 1.00x after including real income. If ROI is negative, improve targeting, offer, landing flow, or follow-up before increasing budget.
+            </Insight>
+          </div>
+        </section>
       </main>
 
-      <footer className="border-t px-5 py-10 text-center md:px-8" style={{ borderColor: brand.line }}>
-        <div className="text-sm" style={{ color: brand.soft }}>
-          © 2026 Pure Reach Innovation · Instagram Ad Performance Calculator
-        </div>
-      </footer>
+      <style jsx global>{`
+        @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap");
 
-      {report ? (
-        <div ref={canvasRef} className="pointer-events-none absolute left-[-9999px] top-0 w-[1400px] p-14" style={{ background: brand.bg, color: brand.text }}>
-          <div className="mb-10 flex items-start justify-between">
-            <div>
-              <div className="mb-3 flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl" style={{ background: `linear-gradient(135deg, ${brand.goldDeep}, ${brand.gold})` }}>⚡</div>
-                <div className="text-2xl font-extrabold" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>Pure Reach Innovation</div>
-              </div>
-              <div className="text-4xl font-extrabold" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>Instagram Ad Performance Report</div>
-            </div>
-          </div>
-        </div>
-      ) : null}
+        :root {
+          --bg: #07080b;
+          --panel: #151820;
+          --panel-2: #1d212b;
+          --line: rgba(255, 244, 226, 0.12);
+          --text: #f4ebdd;
+          --soft: #b0a594;
+          --faint: #8f8576;
+          --gold: #c9a169;
+          --gold-2: #e0bf8d;
+          --green: #95d5b2;
+          --blue: #8bb6ff;
+          --purple: #cdb4ff;
+          --red: #ff9a9a;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+
+        html {
+          scroll-behavior: smooth;
+        }
+
+        body {
+          margin: 0;
+          background: var(--bg);
+          color: var(--text);
+          font-family: Manrope, system-ui, sans-serif;
+        }
+
+        a {
+          color: inherit;
+          text-decoration: none;
+        }
+
+        button,
+        input {
+          font: inherit;
+        }
+
+        .dashboard-shell {
+          min-height: 100vh;
+          background:
+            radial-gradient(circle at 10% 0%, rgba(201, 161, 105, 0.14), transparent 32%),
+            radial-gradient(circle at 92% 8%, rgba(139, 182, 255, 0.12), transparent 28%),
+            linear-gradient(180deg, #07080b 0%, #0d1014 52%, #07080b 100%);
+        }
+
+        .topbar {
+          position: sticky;
+          top: 0;
+          z-index: 20;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 24px;
+          padding: 18px clamp(20px, 4vw, 48px);
+          border-bottom: 1px solid var(--line);
+          background: rgba(7, 8, 11, 0.86);
+          backdrop-filter: blur(22px);
+        }
+
+        .brand {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .brand > span {
+          display: grid;
+          width: 42px;
+          height: 42px;
+          place-items: center;
+          border-radius: 12px;
+          background: linear-gradient(135deg, #7a5d39, #d1aa74);
+          color: #101010;
+          font-size: 12px;
+          font-weight: 900;
+          letter-spacing: 0.08em;
+        }
+
+        .brand strong,
+        h1,
+        h2 {
+          font-family: "Plus Jakarta Sans", Manrope, sans-serif;
+          letter-spacing: 0;
+        }
+
+        .brand small {
+          display: block;
+          margin-top: 1px;
+          color: var(--soft);
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+        }
+
+        .topbar nav {
+          display: flex;
+          align-items: center;
+          gap: 22px;
+          color: var(--soft);
+          font-size: 14px;
+          font-weight: 700;
+        }
+
+        .nav-cta {
+          border-radius: 12px;
+          padding: 10px 14px;
+          background: linear-gradient(135deg, var(--gold-2), var(--gold));
+          color: #111;
+        }
+
+        main {
+          width: min(1440px, 100%);
+          margin: 0 auto;
+          padding: 0 clamp(18px, 4vw, 48px) 72px;
+        }
+
+        .hero {
+          display: grid;
+          grid-template-columns: minmax(0, 1.25fr) minmax(340px, 0.75fr);
+          gap: 28px;
+          align-items: stretch;
+          padding: clamp(52px, 8vw, 92px) 0 32px;
+        }
+
+        .hero-copy {
+          min-height: 420px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .hero h1 {
+          max-width: 900px;
+          margin: 0;
+          font-size: clamp(48px, 7vw, 94px);
+          line-height: 0.94;
+        }
+
+        .hero p {
+          max-width: 740px;
+          margin: 24px 0 0;
+          color: var(--soft);
+          font-size: 18px;
+          line-height: 1.75;
+        }
+
+        .hero-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 14px;
+          margin-top: 32px;
+        }
+
+        .hero-actions a {
+          border: 1px solid var(--line);
+          border-radius: 14px;
+          padding: 15px 18px;
+          font-weight: 900;
+        }
+
+        .hero-actions a:first-child {
+          border-color: transparent;
+          background: linear-gradient(135deg, var(--gold-2), var(--gold));
+          color: #111;
+        }
+
+        .verdict-panel,
+        .panel,
+        .kpi {
+          border: 1px solid var(--line);
+          background: linear-gradient(180deg, rgba(21, 24, 32, 0.96), rgba(29, 33, 43, 0.96));
+          box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+        }
+
+        .verdict-panel {
+          display: flex;
+          min-height: 420px;
+          flex-direction: column;
+          justify-content: flex-end;
+          border-radius: 28px;
+          padding: clamp(24px, 4vw, 36px);
+        }
+
+        .verdict-panel > span,
+        .section-heading > span {
+          color: var(--gold-2);
+          font-size: 11px;
+          font-weight: 900;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+        }
+
+        .verdict-panel strong {
+          display: block;
+          margin-top: 16px;
+          font-family: "Plus Jakarta Sans", Manrope, sans-serif;
+          font-size: clamp(34px, 4vw, 54px);
+          line-height: 1;
+        }
+
+        .roi-pill {
+          width: fit-content;
+          margin-top: 26px;
+          border-radius: 999px;
+          padding: 10px 14px;
+          font-weight: 900;
+        }
+
+        .roi-pill.green,
+        .decision-verdict.green {
+          background: rgba(149, 213, 178, 0.14);
+          color: var(--green);
+        }
+
+        .roi-pill.gold,
+        .decision-verdict.gold {
+          background: rgba(224, 191, 141, 0.14);
+          color: var(--gold-2);
+        }
+
+        .roi-pill.red,
+        .decision-verdict.red {
+          background: rgba(255, 154, 154, 0.14);
+          color: var(--red);
+        }
+
+        .input-layout,
+        .analysis-layout,
+        .decision-layout {
+          display: grid;
+          grid-template-columns: minmax(320px, 0.8fr) minmax(0, 1.2fr);
+          gap: 22px;
+          margin-top: 22px;
+        }
+
+        .analysis-layout,
+        .decision-layout {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .panel {
+          border-radius: 24px;
+          padding: clamp(22px, 3vw, 30px);
+        }
+
+        .section-heading {
+          margin-bottom: 22px;
+        }
+
+        .section-heading h2 {
+          margin: 7px 0 0;
+          font-size: clamp(24px, 3vw, 34px);
+          line-height: 1.08;
+        }
+
+        .section-heading p {
+          margin: 9px 0 0;
+          color: var(--soft);
+          line-height: 1.6;
+        }
+
+        .objective-grid {
+          display: grid;
+          gap: 12px;
+        }
+
+        .objective-button {
+          cursor: pointer;
+          border: 1px solid var(--line);
+          border-radius: 16px;
+          padding: 16px;
+          background: rgba(255, 255, 255, 0.03);
+          color: var(--text);
+          text-align: left;
+          transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+        }
+
+        .objective-button:hover {
+          transform: translateY(-2px);
+        }
+
+        .objective-button.active {
+          border-color: rgba(224, 191, 141, 0.52);
+          background: rgba(201, 161, 105, 0.14);
+        }
+
+        .objective-button strong {
+          display: block;
+        }
+
+        .objective-button span {
+          display: block;
+          margin-top: 6px;
+          color: var(--soft);
+          font-size: 13px;
+          line-height: 1.45;
+        }
+
+        .field-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 16px;
+        }
+
+        .field {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .field span {
+          color: var(--soft);
+          font-size: 11px;
+          font-weight: 900;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+        }
+
+        .field input {
+          width: 100%;
+          border: 1px solid var(--line);
+          border-radius: 14px;
+          background: rgba(255, 255, 255, 0.04);
+          color: var(--text);
+          outline: none;
+          padding: 14px 14px;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .field input:focus {
+          border-color: rgba(224, 191, 141, 0.48);
+          box-shadow: 0 0 0 4px rgba(201, 161, 105, 0.13);
+        }
+
+        .field small {
+          color: var(--faint);
+          font-size: 12px;
+          line-height: 1.35;
+        }
+
+        .dashboard-grid {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 16px;
+          margin-top: 22px;
+        }
+
+        .kpi {
+          min-height: 158px;
+          border-radius: 20px;
+          padding: 20px;
+        }
+
+        .kpi p {
+          margin: 0;
+          color: var(--soft);
+          font-size: 11px;
+          font-weight: 900;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+        }
+
+        .kpi strong {
+          display: block;
+          margin-top: 14px;
+          color: var(--gold-2);
+          font-family: "Plus Jakarta Sans", Manrope, sans-serif;
+          font-size: clamp(26px, 3vw, 38px);
+          line-height: 1;
+        }
+
+        .kpi span {
+          display: block;
+          margin-top: 12px;
+          color: var(--faint);
+          font-size: 13px;
+          line-height: 1.45;
+        }
+
+        .kpi-green strong {
+          color: var(--green);
+        }
+
+        .kpi-blue strong {
+          color: var(--blue);
+        }
+
+        .kpi-purple strong {
+          color: var(--purple);
+        }
+
+        .kpi-red strong {
+          color: var(--red);
+        }
+
+        .chart-panel {
+          min-height: 420px;
+        }
+
+        .chart-tooltip {
+          border: 1px solid var(--line);
+          border-radius: 12px;
+          background: #11151b;
+          padding: 12px 14px;
+          box-shadow: 0 18px 44px rgba(0, 0, 0, 0.4);
+        }
+
+        .chart-tooltip span {
+          display: block;
+          color: var(--soft);
+          font-size: 12px;
+        }
+
+        .chart-tooltip strong {
+          display: block;
+          margin-top: 4px;
+          color: var(--gold-2);
+        }
+
+        .decision-panel,
+        .insight-panel {
+          min-height: 520px;
+        }
+
+        .decision-verdict {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 18px;
+          border-radius: 20px;
+          padding: 22px;
+        }
+
+        .decision-verdict strong {
+          font-family: "Plus Jakarta Sans", Manrope, sans-serif;
+          font-size: clamp(28px, 4vw, 46px);
+          line-height: 1;
+        }
+
+        .decision-verdict span {
+          white-space: nowrap;
+          font-weight: 900;
+        }
+
+        .meters {
+          display: grid;
+          gap: 18px;
+          margin-top: 28px;
+        }
+
+        .meter > div:first-child {
+          display: flex;
+          justify-content: space-between;
+          gap: 16px;
+          margin-bottom: 9px;
+          color: var(--soft);
+          font-size: 14px;
+        }
+
+        .meter strong {
+          color: var(--text);
+        }
+
+        .meter-track {
+          overflow: hidden;
+          height: 12px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.06);
+        }
+
+        .meter-fill {
+          display: block;
+          height: 100%;
+          border-radius: inherit;
+        }
+
+        .meter-fill.gold {
+          background: var(--gold-2);
+        }
+
+        .meter-fill.green {
+          background: var(--green);
+        }
+
+        .meter-fill.blue {
+          background: var(--blue);
+        }
+
+        .meter-fill.purple {
+          background: var(--purple);
+        }
+
+        .insight {
+          border: 1px solid var(--line);
+          border-radius: 18px;
+          padding: 18px;
+          background: rgba(255, 255, 255, 0.035);
+        }
+
+        .insight + .insight {
+          margin-top: 14px;
+        }
+
+        .insight.good {
+          border-color: rgba(149, 213, 178, 0.28);
+          background: rgba(149, 213, 178, 0.09);
+        }
+
+        .insight.bad {
+          border-color: rgba(255, 154, 154, 0.28);
+          background: rgba(255, 154, 154, 0.09);
+        }
+
+        .insight strong {
+          color: var(--text);
+        }
+
+        .insight p {
+          margin: 7px 0 0;
+          color: var(--soft);
+          line-height: 1.62;
+        }
+
+        @media (max-width: 1100px) {
+          .hero,
+          .input-layout,
+          .analysis-layout,
+          .decision-layout {
+            grid-template-columns: 1fr;
+          }
+
+          .dashboard-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 740px) {
+          .topbar {
+            align-items: flex-start;
+          }
+
+          .topbar nav {
+            display: none;
+          }
+
+          .hero-copy,
+          .verdict-panel {
+            min-height: auto;
+          }
+
+          .hero h1 {
+            font-size: 44px;
+          }
+
+          .field-grid,
+          .dashboard-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .decision-verdict {
+            display: block;
+          }
+
+          .decision-verdict span {
+            display: block;
+            margin-top: 14px;
+            white-space: normal;
+          }
+        }
+      `}</style>
     </div>
   );
 }
