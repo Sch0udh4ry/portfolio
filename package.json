@@ -1,6 +1,8 @@
 {
   "scripts": {
+    "predev": "node scripts/sync-static.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/sync-static.mjs",
     "build": "next build",
     "start": "next start"
   },
