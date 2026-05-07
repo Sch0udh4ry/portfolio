@@ -218,10 +218,12 @@ function Insight({ tone, children }) {
 export default function InstagramAdDashboard() {
   const [inputs, setInputs] = useState(initialInputs);
   const [edited, setEdited] = useState(false);
+  const [calculatorMode, setCalculatorMode] = useState("leads");
 
   const report = useMemo(() => calculate(inputs), [inputs]);
   const clientName = inputs.clientName.trim() || "Enter Client Name";
   const campaignName = inputs.campaignName.trim() || `${clientName} Instagram Campaign`;
+  const isLeadMode = calculatorMode === "leads";
 
   const setField = (key) => (value) => {
     setEdited(true);
@@ -229,23 +231,37 @@ export default function InstagramAdDashboard() {
   };
 
   const roiTone = report.roi >= 50 ? "green" : report.roi >= 0 ? "gold" : "red";
+  const growthTone = report.costPerFollower > 0 && report.costPerFollower <= report.benchmark.cpl / 4 ? "green" : report.costPerFollower <= report.benchmark.cpl / 2 ? "gold" : "red";
   const verdict =
-    report.adSpend <= 0 || report.leads <= 0
-      ? "Add spend and leads to generate the report."
-      : report.roi >= 100
-        ? "Highly profitable. Scale with control."
-        : report.roi >= 50
-          ? "Profitable. Good candidate for scaling."
-          : report.roi >= 0
-            ? "Positive, but needs efficiency work."
-            : "Loss-making. Optimize before scaling.";
+    isLeadMode
+      ? report.adSpend <= 0 || report.leads <= 0
+        ? "Add spend and leads to generate the report."
+        : report.roi >= 100
+          ? "Highly profitable. Scale with control."
+          : report.roi >= 50
+            ? "Profitable. Good candidate for scaling."
+            : report.roi >= 0
+              ? "Positive, but needs efficiency work."
+              : "Loss-making. Optimize before scaling."
+      : report.adSpend <= 0 || report.views <= 0
+        ? "Add spend and views to calculate growth efficiency."
+        : report.costPerFollower > 0 && report.costPerFollower <= report.benchmark.cpl / 4
+          ? "Follower growth is efficient."
+          : report.profileVisitRate >= 2
+            ? "Strong attention, improve follow conversion."
+            : "Needs stronger creative or targeting.";
 
   const score = Math.min(
     5,
-    (report.roi >= 100 ? 2 : report.roi >= 50 ? 1.5 : report.roi >= 0 ? 1 : 0) +
-      (report.cpl && report.cpl <= report.benchmark.cpl ? 1 : report.cpl <= report.benchmark.cpl * 1.5 ? 0.5 : 0) +
-      (report.conversionRate >= report.benchmark.cvr ? 1 : report.conversionRate >= report.benchmark.cvr * 0.7 ? 0.5 : 0) +
-      (report.roas >= report.benchmark.roas ? 1 : report.roas >= report.benchmark.roas * 0.8 ? 0.5 : 0)
+    isLeadMode
+      ? (report.roi >= 100 ? 2 : report.roi >= 50 ? 1.5 : report.roi >= 0 ? 1 : 0) +
+        (report.cpl && report.cpl <= report.benchmark.cpl ? 1 : report.cpl <= report.benchmark.cpl * 1.5 ? 0.5 : 0) +
+        (report.conversionRate >= report.benchmark.cvr ? 1 : report.conversionRate >= report.benchmark.cvr * 0.7 ? 0.5 : 0) +
+        (report.roas >= report.benchmark.roas ? 1 : report.roas >= report.benchmark.roas * 0.8 ? 0.5 : 0)
+      : (report.profileVisitRate >= 3 ? 1.4 : report.profileVisitRate >= 1.5 ? 0.9 : 0.4) +
+        (report.followConversionRate >= 20 ? 1.4 : report.followConversionRate >= 10 ? 0.9 : 0.4) +
+        (report.engagementRate >= 4 ? 1.2 : report.engagementRate >= 2 ? 0.8 : 0.3) +
+        (report.costPerFollower > 0 && report.costPerFollower <= report.benchmark.cpl / 4 ? 1 : report.costPerFollower <= report.benchmark.cpl / 2 ? 0.6 : 0.2)
   );
 
   const funnelData = [
@@ -272,6 +288,20 @@ export default function InstagramAdDashboard() {
     { name: "CPL / 100", current: report.cpl / 100, benchmark: report.benchmark.cpl / 100 },
     { name: "CVR", current: report.conversionRate, benchmark: report.benchmark.cvr },
     { name: "ROAS", current: report.roas, benchmark: report.benchmark.roas },
+  ];
+
+  const growthData = [
+    { name: "Views", value: report.views, fill: "#8bb6ff" },
+    { name: "Visits", value: report.profileVisits, fill: "#e0bf8d" },
+    { name: "Follows", value: report.directFollows, fill: "#95d5b2" },
+    { name: "Gained", value: report.followersGained, fill: "#cdb4ff" },
+  ];
+
+  const engagementData = [
+    { name: "Likes", value: report.likes, fill: "#c9a169" },
+    { name: "Shares", value: report.shares, fill: "#95d5b2" },
+    { name: "Comments", value: report.comments, fill: "#8bb6ff" },
+    { name: "Saves", value: report.saves, fill: "#cdb4ff" },
   ];
 
   const gaugePercent = clamp((report.roi + 50) / 250, 0, 1);
@@ -306,34 +336,35 @@ export default function InstagramAdDashboard() {
             <strong>Pure Reach</strong>
             <span>by Sunil Choudhary</span>
           </div>
-          <div className="prepared">
-            <small>Report Prepared For</small>
-            <b>{clientName}</b>
+          <div className="mode-switch" aria-label="Choose calculator">
+            <button type="button" className={isLeadMode ? "active" : ""} onClick={() => setCalculatorMode("leads")}>Lead / ROI</button>
+            <button type="button" className={!isLeadMode ? "active" : ""} onClick={() => setCalculatorMode("growth")}>Followers / Views</button>
           </div>
         </section>
 
         <section className="hero">
           <div className="hero-copy">
-            <span>Instagram Campaign Report</span>
-            <h1>Lead cost, conversion value, and ROI in one client-ready dashboard.</h1>
+            <span>{isLeadMode ? "Lead / ROI Calculator" : "Followers / Views Calculator"}</span>
+            <h1>{isLeadMode ? "Lead cost, conversion value, and ROI in one client-ready dashboard." : "Follower cost, profile visits, views, and engagement in one growth dashboard."}</h1>
             <p>
-              Enter campaign data once and see CPL, sales conversion, ROAS, net profit, and a
-              benchmarked verdict for the client.
+              {isLeadMode
+                ? "Use this for campaigns where leads, sales, revenue, and profit are the main goal."
+                : "Use this for campaigns where audience growth, profile visits, follows, and engagement quality are the main goal."}
             </p>
           </div>
           <aside className="verdict-panel">
             <small>Current verdict</small>
             <strong>{verdict}</strong>
-            <div className={`roi-pill ${roiTone}`}>{formatPercent(report.roi)} ROI</div>
+            <div className={`roi-pill ${isLeadMode ? roiTone : growthTone}`}>{isLeadMode ? `${formatPercent(report.roi)} ROI` : `${formatMoneyPrecise(report.costPerFollower)} / follower`}</div>
             <p>{edited ? "Using your current campaign inputs." : "Sample values are loaded so the report is live immediately."}</p>
           </aside>
         </section>
 
         <section id="inputs" className="input-panel">
           <div className="section-heading">
-            <span>Lead Cost Calculator</span>
-            <h2>Campaign Inputs</h2>
-            <p>Replace the client name and numbers to generate a clean performance report.</p>
+            <span>{isLeadMode ? "Lead Cost Calculator" : "Followers / Views Calculator"}</span>
+            <h2>{isLeadMode ? "Lead Campaign Inputs" : "Growth Campaign Inputs"}</h2>
+            <p>Enter the client name here, then fill only the numbers for the calculator you are using.</p>
           </div>
           <div className="field-grid">
             <TextField label="Client Name" value={inputs.clientName} onChange={setField("clientName")} placeholder="Enter Client Name" />
@@ -350,29 +381,36 @@ export default function InstagramAdDashboard() {
             </label>
             <NumberField label="Campaign Duration (Days)" value={inputs.duration} onChange={setField("duration")} />
             <NumberField label="Total Ad Spend" value={inputs.adSpend} onChange={setField("adSpend")} prefix="Rs." />
-            <NumberField label="Views" value={inputs.views} onChange={setField("views")} />
-            <NumberField label="Reach" value={inputs.reach} onChange={setField("reach")} />
-            <NumberField label="Total Impressions" value={inputs.impressions} onChange={setField("impressions")} />
-            <NumberField label="Total Clicks" value={inputs.clicks} onChange={setField("clicks")} />
-            <NumberField label="Profile Visits" value={inputs.profileVisits} onChange={setField("profileVisits")} />
-            <NumberField label="Total Leads Generated" value={inputs.leads} onChange={setField("leads")} />
-            <NumberField label="Leads Converted to Sales" value={inputs.sales} onChange={setField("sales")} />
-            <NumberField label="Direct Follows" value={inputs.directFollows} onChange={setField("directFollows")} />
-            <NumberField label="Followers Before" value={inputs.followersBefore} onChange={setField("followersBefore")} />
-            <NumberField label="Followers After" value={inputs.followersAfter} onChange={setField("followersAfter")} />
-            <NumberField label="Average Order Value" value={inputs.aov} onChange={setField("aov")} prefix="Rs." />
-            <NumberField label="Profit Margin (%)" value={inputs.margin} onChange={setField("margin")} max="100" />
-            <NumberField label="Likes" value={inputs.likes} onChange={setField("likes")} />
-            <NumberField label="Shares" value={inputs.shares} onChange={setField("shares")} />
-            <NumberField label="Comments" value={inputs.comments} onChange={setField("comments")} />
-            <NumberField label="Saves" value={inputs.saves} onChange={setField("saves")} />
-            <NumberField label="3-sec Plays" value={inputs.playsThreeSec} onChange={setField("playsThreeSec")} />
+            {isLeadMode ? (
+              <>
+                <NumberField label="Total Impressions" value={inputs.impressions} onChange={setField("impressions")} />
+                <NumberField label="Total Clicks" value={inputs.clicks} onChange={setField("clicks")} />
+                <NumberField label="Total Leads Generated" value={inputs.leads} onChange={setField("leads")} />
+                <NumberField label="Leads Converted to Sales" value={inputs.sales} onChange={setField("sales")} />
+                <NumberField label="Average Order Value" value={inputs.aov} onChange={setField("aov")} prefix="Rs." />
+                <NumberField label="Profit Margin (%)" value={inputs.margin} onChange={setField("margin")} max="100" />
+              </>
+            ) : (
+              <>
+                <NumberField label="Views" value={inputs.views} onChange={setField("views")} />
+                <NumberField label="Reach" value={inputs.reach} onChange={setField("reach")} />
+                <NumberField label="Profile Visits" value={inputs.profileVisits} onChange={setField("profileVisits")} />
+                <NumberField label="Direct Follows" value={inputs.directFollows} onChange={setField("directFollows")} />
+                <NumberField label="Followers Before" value={inputs.followersBefore} onChange={setField("followersBefore")} />
+                <NumberField label="Followers After" value={inputs.followersAfter} onChange={setField("followersAfter")} />
+                <NumberField label="Likes" value={inputs.likes} onChange={setField("likes")} />
+                <NumberField label="Shares" value={inputs.shares} onChange={setField("shares")} />
+                <NumberField label="Comments" value={inputs.comments} onChange={setField("comments")} />
+                <NumberField label="Saves" value={inputs.saves} onChange={setField("saves")} />
+                <NumberField label="3-sec Plays" value={inputs.playsThreeSec} onChange={setField("playsThreeSec")} />
+              </>
+            )}
           </div>
         </section>
 
         <section id="dashboard" className="dashboard-head">
           <div>
-            <span>Instagram Lead Campaign Report</span>
+            <span>{isLeadMode ? "Instagram Lead Campaign Report" : "Instagram Followers / Views Report"}</span>
             <h2>{campaignName}</h2>
             <p>
               {report.duration}-day campaign · {report.benchmark.label} · Client: {clientName}
@@ -385,21 +423,28 @@ export default function InstagramAdDashboard() {
         </section>
 
         <section className="kpi-grid">
-          <KpiCard label="Total Leads" value={formatNumber(report.leads)} detail={`${formatNumber(Math.round(report.leads / report.duration))}/day`} badge={report.cpl <= report.benchmark.cpl ? "On target" : "High CPL"} />
-          <KpiCard label="Cost per Lead" value={formatMoneyPrecise(report.cpl)} detail={`Benchmark: ${formatMoney(report.benchmark.cpl)}`} tone={report.cpl <= report.benchmark.cpl ? "green" : "gold"} />
-          <KpiCard label="Total Sales" value={formatNumber(report.sales)} detail={`CVR: ${formatPercent(report.conversionRate)}`} tone={report.conversionRate >= report.benchmark.cvr ? "green" : "gold"} />
-          <KpiCard label="Revenue" value={formatMoney(report.revenue)} detail={`ROAS: ${report.roas.toFixed(2)}x`} tone="green" />
-          <KpiCard label="Net Profit" value={formatMoney(report.netProfit)} detail={`${formatMoney(report.dailySpend)}/day spend`} tone={report.netProfit >= 0 ? "green" : "red"} />
-          <KpiCard label="ROI per Rs.1" value={`Rs.${report.profitPerRupee.toFixed(2)}`} detail={`Break-even sales: ${formatNumber(report.breakEvenSales)}`} tone={roiTone} />
-          <KpiCard label="Followers Gained" value={formatNumber(report.followersGained)} detail={`Cost/follower: ${formatMoneyPrecise(report.costPerFollower)}`} tone="blue" />
-          <KpiCard label="Profile Visit Cost" value={formatMoneyPrecise(report.costPerVisit)} detail={`${formatPercent(report.profileVisitRate)} visit rate`} tone="purple" />
-          <KpiCard label="CPM" value={formatMoneyPrecise(report.cpm)} detail={`${formatNumber(report.reach)} reach`} />
-          <KpiCard label="Engagement Rate" value={formatPercent(report.engagementRate)} detail={`${formatNumber(report.engagementTotal)} interactions`} tone="blue" />
-          <KpiCard label="Follow Conversion" value={formatPercent(report.followConversionRate)} detail={`${formatNumber(report.directFollows)} direct follows`} tone="green" />
-          <KpiCard label="3-sec Play Rate" value={formatPercent(report.playThroughRate)} detail={`${formatNumber(report.playsThreeSec)} plays`} tone="purple" />
+          {isLeadMode ? (
+            <>
+              <KpiCard label="Total Leads" value={formatNumber(report.leads)} detail={`${formatNumber(Math.round(report.leads / report.duration))}/day`} badge={report.cpl <= report.benchmark.cpl ? "On target" : "High CPL"} />
+              <KpiCard label="Cost per Lead" value={formatMoneyPrecise(report.cpl)} detail={`Benchmark: ${formatMoney(report.benchmark.cpl)}`} tone={report.cpl <= report.benchmark.cpl ? "green" : "gold"} />
+              <KpiCard label="Total Sales" value={formatNumber(report.sales)} detail={`CVR: ${formatPercent(report.conversionRate)}`} tone={report.conversionRate >= report.benchmark.cvr ? "green" : "gold"} />
+              <KpiCard label="Revenue" value={formatMoney(report.revenue)} detail={`ROAS: ${report.roas.toFixed(2)}x`} tone="green" />
+              <KpiCard label="Net Profit" value={formatMoney(report.netProfit)} detail={`${formatMoney(report.dailySpend)}/day spend`} tone={report.netProfit >= 0 ? "green" : "red"} />
+              <KpiCard label="ROI per Rs.1" value={`Rs.${report.profitPerRupee.toFixed(2)}`} detail={`Break-even sales: ${formatNumber(report.breakEvenSales)}`} tone={roiTone} />
+            </>
+          ) : (
+            <>
+              <KpiCard label="Followers Gained" value={formatNumber(report.followersGained)} detail={`Cost/follower: ${formatMoneyPrecise(report.costPerFollower)}`} tone="blue" />
+              <KpiCard label="Direct Follows" value={formatNumber(report.directFollows)} detail={`${formatPercent(report.followConversionRate)} visit-to-follow`} tone="green" />
+              <KpiCard label="Profile Visit Cost" value={formatMoneyPrecise(report.costPerVisit)} detail={`${formatPercent(report.profileVisitRate)} visit rate`} tone="purple" />
+              <KpiCard label="CPM" value={formatMoneyPrecise(report.cpm)} detail={`${formatNumber(report.reach)} reach`} />
+              <KpiCard label="Engagement Rate" value={formatPercent(report.engagementRate)} detail={`${formatNumber(report.engagementTotal)} interactions`} tone="blue" />
+              <KpiCard label="3-sec Play Rate" value={formatPercent(report.playThroughRate)} detail={`${formatNumber(report.playsThreeSec)} plays`} tone="purple" />
+            </>
+          )}
         </section>
 
-        <section className="roi-card">
+        {isLeadMode ? <section className="roi-card">
           <div className="section-title">Return on Investment</div>
           <div className="roi-content">
             <svg width="180" height="120" viewBox="0 0 180 120" role="img" aria-label="ROI gauge">
@@ -433,58 +478,69 @@ export default function InstagramAdDashboard() {
               </div>
             </div>
           </div>
-        </section>
+        </section> : null}
 
         <section className="chart-grid">
           <div className="panel">
-            <div className="chart-title">Revenue vs Spend</div>
+            <div className="chart-title">{isLeadMode ? "Revenue vs Spend" : "Views to Follows"}</div>
             <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={financeData}>
+              <BarChart data={isLeadMode ? financeData : growthData} layout={isLeadMode ? "horizontal" : "vertical"}>
                 <CartesianGrid stroke="rgba(255,255,255,.06)" vertical={false} />
-                <XAxis dataKey="name" tick={{ fill: "#b0a594", fontSize: 11 }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: "#8f8576", fontSize: 11 }} axisLine={false} tickLine={false} />
+                {isLeadMode ? <XAxis dataKey="name" tick={{ fill: "#b0a594", fontSize: 11 }} axisLine={false} tickLine={false} /> : <XAxis type="number" hide />}
+                {isLeadMode ? <YAxis tick={{ fill: "#8f8576", fontSize: 11 }} axisLine={false} tickLine={false} /> : <YAxis dataKey="name" type="category" tick={{ fill: "#b0a594", fontSize: 12 }} axisLine={false} tickLine={false} width={88} />}
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="value" radius={[8, 8, 0, 0]}>
-                  {financeData.map((entry) => <Cell key={entry.name} fill={entry.fill} />)}
+                <Bar dataKey="value" radius={isLeadMode ? [8, 8, 0, 0] : [0, 8, 8, 0]}>
+                  {(isLeadMode ? financeData : growthData).map((entry) => <Cell key={entry.name} fill={entry.fill} />)}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
           <div className="panel">
-            <div className="chart-title">Conversion Funnel</div>
+            <div className="chart-title">{isLeadMode ? "Conversion Funnel" : "Engagement Mix"}</div>
             <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={funnelData} layout="vertical">
+              <BarChart data={isLeadMode ? funnelData : engagementData} layout="vertical">
                 <CartesianGrid stroke="rgba(255,255,255,.06)" horizontal={false} />
                 <XAxis type="number" hide />
                 <YAxis dataKey="name" type="category" tick={{ fill: "#b0a594", fontSize: 12 }} axisLine={false} tickLine={false} width={92} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="value" radius={[0, 8, 8, 0]}>
-                  {funnelData.map((entry) => <Cell key={entry.name} fill={entry.fill} />)}
+                  {(isLeadMode ? funnelData : engagementData).map((entry) => <Cell key={entry.name} fill={entry.fill} />)}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
           <div className="panel">
-            <div className="chart-title">Budget Efficiency</div>
+            <div className="chart-title">{isLeadMode ? "Budget Efficiency" : "Growth Cost Split"}</div>
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
-                <Pie data={budgetData.length ? budgetData : [{ name: "No spend", value: 1, fill: "#3a3830" }]} dataKey="value" nameKey="name" innerRadius={58} outerRadius={88} paddingAngle={4}>
-                  {(budgetData.length ? budgetData : [{ name: "No spend", fill: "#3a3830" }]).map((entry) => <Cell key={entry.name} fill={entry.fill} />)}
+                <Pie data={isLeadMode ? (budgetData.length ? budgetData : [{ name: "No spend", value: 1, fill: "#3a3830" }]) : [
+                  { name: "Profile visits", value: report.profileVisits ? report.costPerVisit * report.profileVisits : 0, fill: "#8bb6ff" },
+                  { name: "Followers", value: report.followersGained ? report.costPerFollower * report.followersGained : 0, fill: "#95d5b2" },
+                ]} dataKey="value" nameKey="name" innerRadius={58} outerRadius={88} paddingAngle={4}>
+                  {(isLeadMode ? (budgetData.length ? budgetData : [{ name: "No spend", fill: "#3a3830" }]) : [
+                    { name: "Profile visits", fill: "#8bb6ff" },
+                    { name: "Followers", fill: "#95d5b2" },
+                  ]).map((entry) => <Cell key={entry.name} fill={entry.fill} />)}
                 </Pie>
                 <Tooltip content={<CustomTooltip />} />
               </PieChart>
             </ResponsiveContainer>
           </div>
           <div className="panel">
-            <div className="chart-title">KPI vs Benchmark</div>
+            <div className="chart-title">{isLeadMode ? "KPI vs Benchmark" : "Growth Rates"}</div>
             <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={benchmarkData}>
+              <BarChart data={isLeadMode ? benchmarkData : [
+                { name: "Visit Rate", current: report.profileVisitRate },
+                { name: "Follow CVR", current: report.followConversionRate },
+                { name: "Engagement", current: report.engagementRate },
+                { name: "Play Rate", current: report.playThroughRate },
+              ]}>
                 <CartesianGrid stroke="rgba(255,255,255,.06)" vertical={false} />
                 <XAxis dataKey="name" tick={{ fill: "#b0a594", fontSize: 11 }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fill: "#8f8576", fontSize: 11 }} axisLine={false} tickLine={false} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="current" name="Current" fill="#c9a169" radius={[8, 8, 0, 0]} />
-                <Bar dataKey="benchmark" name="Benchmark" fill="rgba(224,191,141,.24)" radius={[8, 8, 0, 0]} />
+                {isLeadMode ? <Bar dataKey="benchmark" name="Benchmark" fill="rgba(224,191,141,.24)" radius={[8, 8, 0, 0]} /> : null}
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -493,9 +549,9 @@ export default function InstagramAdDashboard() {
         <section id="decision" className="summary-card">
           <div className="summary-head">
             <div>
-              <span>Campaign Verdict</span>
+              <span>{isLeadMode ? "Campaign Verdict" : "Growth Verdict"}</span>
               <h2>{verdict}</h2>
-              <p>Analyzed by Pure Reach · Industry-benchmarked performance rating</p>
+              <p>Analyzed by Pure Reach · {isLeadMode ? "Industry-benchmarked performance rating" : "Follower and view efficiency rating"}</p>
             </div>
             <div>
               <RatingStars score={score} />
@@ -503,24 +559,37 @@ export default function InstagramAdDashboard() {
             </div>
           </div>
           <div className="verdict-copy">
-            <strong>{campaignName}</strong> is producing <strong>{formatPercent(report.roi)} ROI</strong> for{" "}
-            <strong>{clientName}</strong>. CPL is <strong>{formatMoneyPrecise(report.cpl)}</strong> against a{" "}
-            <strong>{formatMoney(report.benchmark.cpl)}</strong> benchmark, and ROAS is{" "}
-            <strong>{report.roas.toFixed(2)}x</strong>.
+            {isLeadMode ? (
+              <>
+                <strong>{campaignName}</strong> is producing <strong>{formatPercent(report.roi)} ROI</strong> for{" "}
+                <strong>{clientName}</strong>. CPL is <strong>{formatMoneyPrecise(report.cpl)}</strong> against a{" "}
+                <strong>{formatMoney(report.benchmark.cpl)}</strong> benchmark, and ROAS is{" "}
+                <strong>{report.roas.toFixed(2)}x</strong>.
+              </>
+            ) : (
+              <>
+                <strong>{campaignName}</strong> generated <strong>{formatNumber(report.followersGained)} followers</strong> for{" "}
+                <strong>{clientName}</strong> at <strong>{formatMoneyPrecise(report.costPerFollower)}</strong> per follower, with{" "}
+                <strong>{formatPercent(report.profileVisitRate)}</strong> profile visit rate and <strong>{formatPercent(report.engagementRate)}</strong> engagement rate.
+              </>
+            )}
           </div>
           <div className="insight-grid">
-            <Insight tone={report.cpl <= report.benchmark.cpl ? "good" : "warn"}>
-              CPL is {report.cpl <= report.benchmark.cpl ? "within" : "above"} the industry benchmark.
-            </Insight>
-            <Insight tone={report.conversionRate >= report.benchmark.cvr ? "good" : "warn"}>
-              Lead-to-sale conversion is {formatPercent(report.conversionRate)} vs {report.benchmark.cvr}% benchmark.
-            </Insight>
-            <Insight tone={report.roas >= report.benchmark.roas ? "good" : "warn"}>
-              ROAS is {report.roas.toFixed(2)}x vs {report.benchmark.roas}x benchmark.
-            </Insight>
-            <Insight tone={report.netProfit >= 0 ? "good" : "bad"}>
-              Net {report.netProfit >= 0 ? "profit" : "loss"} is {formatMoney(Math.abs(report.netProfit))}.
-            </Insight>
+            {isLeadMode ? (
+              <>
+                <Insight tone={report.cpl <= report.benchmark.cpl ? "good" : "warn"}>CPL is {report.cpl <= report.benchmark.cpl ? "within" : "above"} the industry benchmark.</Insight>
+                <Insight tone={report.conversionRate >= report.benchmark.cvr ? "good" : "warn"}>Lead-to-sale conversion is {formatPercent(report.conversionRate)} vs {report.benchmark.cvr}% benchmark.</Insight>
+                <Insight tone={report.roas >= report.benchmark.roas ? "good" : "warn"}>ROAS is {report.roas.toFixed(2)}x vs {report.benchmark.roas}x benchmark.</Insight>
+                <Insight tone={report.netProfit >= 0 ? "good" : "bad"}>Net {report.netProfit >= 0 ? "profit" : "loss"} is {formatMoney(Math.abs(report.netProfit))}.</Insight>
+              </>
+            ) : (
+              <>
+                <Insight tone={report.costPerFollower <= report.benchmark.cpl / 4 ? "good" : "warn"}>Cost per follower is {formatMoneyPrecise(report.costPerFollower)}.</Insight>
+                <Insight tone={report.profileVisitRate >= 2 ? "good" : "warn"}>Profile visit rate is {formatPercent(report.profileVisitRate)} from views.</Insight>
+                <Insight tone={report.followConversionRate >= 10 ? "good" : "warn"}>Visit-to-follow conversion is {formatPercent(report.followConversionRate)}.</Insight>
+                <Insight tone={report.engagementRate >= 2 ? "good" : "warn"}>Engagement rate is {formatPercent(report.engagementRate)} from {formatNumber(report.engagementTotal)} interactions.</Insight>
+              </>
+            )}
           </div>
         </section>
       </main>
@@ -661,6 +730,29 @@ export default function InstagramAdDashboard() {
           margin-top: 4px;
           color: var(--gold-2);
           font-size: 22px;
+        }
+
+        .mode-switch {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-left: auto;
+        }
+
+        .mode-switch button {
+          cursor: pointer;
+          border: 1px solid var(--line);
+          border-radius: 999px;
+          background: rgba(255, 255, 255, .04);
+          color: var(--soft);
+          padding: 11px 14px;
+          font-weight: 900;
+        }
+
+        .mode-switch button.active {
+          border-color: transparent;
+          background: linear-gradient(135deg, var(--gold-2), var(--gold));
+          color: #111;
         }
 
         .hero {
@@ -991,6 +1083,7 @@ export default function InstagramAdDashboard() {
         @media (max-width: 740px) {
           .topbar nav { display: none; }
           .report-brand, .dashboard-head, .summary-head, .roi-content { display: block; }
+          .mode-switch { margin: 16px 0 0; }
           .prepared { margin: 14px 0 0; text-align: left; }
           .hero-copy, .verdict-panel { min-height: auto; }
           .hero h1 { font-size: 42px; }
