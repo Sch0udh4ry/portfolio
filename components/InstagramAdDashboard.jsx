@@ -311,11 +311,8 @@ export default function InstagramAdDashboard() {
     <div className="dashboard-shell">
       <header className="topbar">
         <Link href="/" className="brand">
-          <span>PR</span>
-          <div>
-            <strong>Pure Reach</strong>
-            <small>Instagram Lead Cost Calculator</small>
-          </div>
+          <img src="/assets/Logo.png" alt="Pure Reach" />
+          <small>{isLeadMode ? "Lead / ROI Calculator" : "Followers / Views Calculator"}</small>
         </Link>
         <nav>
           <Link href="/">Home</Link>
@@ -331,11 +328,7 @@ export default function InstagramAdDashboard() {
 
       <main>
         <section className="report-brand">
-          <div className="brand-mark">PR</div>
-          <div>
-            <strong>Pure Reach</strong>
-            <span>by Sunil Choudhary</span>
-          </div>
+          <img src="/assets/Logo.png" alt="Pure Reach" className="report-logo" />
           <div className="mode-switch" aria-label="Choose calculator">
             <button type="button" className={isLeadMode ? "active" : ""} onClick={() => setCalculatorMode("leads")}>Lead / ROI</button>
             <button type="button" className={!isLeadMode ? "active" : ""} onClick={() => setCalculatorMode("growth")}>Followers / Views</button>
@@ -647,25 +640,26 @@ export default function InstagramAdDashboard() {
           gap: 12px;
         }
 
-        .brand > span, .brand-mark {
-          display: grid;
-          place-items: center;
-          width: 42px;
-          height: 42px;
-          border-radius: 12px;
-          background: linear-gradient(135deg, #7a5d39, #d1aa74);
-          color: #101010;
-          font-size: 12px;
-          font-weight: 900;
-          letter-spacing: .08em;
+        .brand img {
+          display: block;
+          width: auto;
+          height: 54px;
+          object-fit: contain;
         }
 
-        h1, h2, .brand strong, .report-brand strong {
+        .report-logo {
+          display: block;
+          width: auto;
+          height: 64px;
+          object-fit: contain;
+        }
+
+        h1, h2 {
           font-family: "Plus Jakarta Sans", Manrope, sans-serif;
           letter-spacing: 0;
         }
 
-        .brand small, .report-brand span {
+        .brand small {
           display: block;
           margin-top: 1px;
           color: var(--soft);
