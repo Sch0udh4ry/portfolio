@@ -312,7 +312,10 @@ export default function InstagramAdDashboard() {
               {report.duration}-day campaign · {report.benchmark.label} · Client: {clientName}
             </p>
           </div>
-          <button type="button" onClick={() => setInputs(initialInputs)}>Reset Report</button>
+          <div className="report-actions">
+            <button type="button" className="secondary-action" onClick={() => setInputs(initialInputs)}>Reset Report</button>
+            <button type="button" onClick={() => window.print()}>Print / Save PDF</button>
+          </div>
         </section>
 
         <section className="kpi-grid">
@@ -723,6 +726,19 @@ export default function InstagramAdDashboard() {
           gap: 18px;
         }
 
+        .report-actions {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+          gap: 10px;
+        }
+
+        .dashboard-head .secondary-action {
+          border: 1px solid var(--line);
+          background: rgba(255, 255, 255, .04);
+          color: var(--text);
+        }
+
         .kpi-grid {
           display: grid;
           grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -905,6 +921,91 @@ export default function InstagramAdDashboard() {
           .hero-copy, .verdict-panel { min-height: auto; }
           .hero h1 { font-size: 42px; }
           .field-grid, .kpi-grid, .insight-grid { grid-template-columns: 1fr; }
+        }
+
+        @media print {
+          @page {
+            size: A4;
+            margin: 12mm;
+          }
+
+          * {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+          }
+
+          body {
+            background: #07080b !important;
+          }
+
+          .topbar,
+          .hero,
+          .input-panel,
+          .report-actions {
+            display: none !important;
+          }
+
+          main {
+            width: 100%;
+            padding: 0;
+          }
+
+          .dashboard-shell {
+            min-height: auto;
+            background: #07080b !important;
+          }
+
+          .report-brand,
+          .dashboard-head,
+          .roi-card,
+          .summary-card,
+          .panel,
+          .kpi {
+            break-inside: avoid;
+            box-shadow: none;
+          }
+
+          .report-brand,
+          .dashboard-head,
+          .roi-card,
+          .summary-card,
+          .panel {
+            margin-top: 10px;
+            padding: 16px;
+          }
+
+          .dashboard-head {
+            display: block;
+          }
+
+          .kpi-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+          }
+
+          .kpi {
+            min-height: 128px;
+            padding: 14px;
+          }
+
+          .kpi strong {
+            font-size: 22px;
+          }
+
+          .chart-grid,
+          .insight-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+          }
+
+          .recharts-responsive-container {
+            height: 210px !important;
+          }
+
+          .summary-card {
+            page-break-before: auto;
+          }
         }
       `}</style>
     </div>
