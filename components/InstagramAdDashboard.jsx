@@ -5,197 +5,135 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
+  Pie,
+  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
 
-const initialInputs = {
-  objective: "lead_generation",
-  views: "50000",
-  reach: "32000",
-  profileVisits: "1400",
-  leads: "120",
-  convertedLeads: "18",
-  totalIncome: "180000",
-  directFollows: "260",
-  followersBefore: "8200",
-  followersAfter: "8520",
-  likes: "980",
-  shares: "84",
-  comments: "43",
-  saves: "126",
-  playsThreeSec: "19000",
-  adSpend: "45000",
-  dailyBudget: "3000",
+const benchmarks = {
+  ecommerce: { label: "E-commerce / Retail", ctr: 1.2, cpl: 180, cvr: 12, roas: 4 },
+  fashion: { label: "Fashion / Apparel", ctr: 1.4, cpl: 160, cvr: 13, roas: 4.5 },
+  saas: { label: "SaaS / Software", ctr: 0.9, cpl: 400, cvr: 8, roas: 3 },
+  realestate: { label: "Real Estate", ctr: 0.8, cpl: 600, cvr: 5, roas: 5 },
+  education: { label: "Education / Ed-Tech", ctr: 1.1, cpl: 220, cvr: 10, roas: 3.5 },
+  health: { label: "Health / Wellness", ctr: 1.5, cpl: 150, cvr: 14, roas: 4.5 },
+  finance: { label: "Finance / BFSI", ctr: 0.7, cpl: 500, cvr: 6, roas: 3 },
+  food: { label: "Food & Beverage", ctr: 1.8, cpl: 120, cvr: 18, roas: 5 },
+  other: { label: "Other", ctr: 1, cpl: 250, cvr: 10, roas: 3.5 },
 };
 
-const objectives = [
-  {
-    value: "lead_generation",
-    label: "Lead Generation",
-    detail: "Score leads, converted leads, income, and ROI.",
-  },
-  {
-    value: "follower_growth",
-    label: "Follower Growth",
-    detail: "Score profile visits, follows, and follower cost.",
-  },
-  {
-    value: "engagement",
-    label: "Engagement",
-    detail: "Score saves, shares, comments, and interaction quality.",
-  },
-  {
-    value: "traffic",
-    label: "Traffic",
-    detail: "Score reach, visits, CPM, and cost per visit.",
-  },
-];
+const initialInputs = {
+  clientName: "",
+  campaignName: "",
+  industry: "ecommerce",
+  adSpend: "50000",
+  duration: "30",
+  impressions: "500000",
+  clicks: "12000",
+  leads: "800",
+  sales: "120",
+  aov: "3500",
+  margin: "40",
+};
 
 const toNumber = (value) => Number.parseFloat(value) || 0;
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 const formatNumber = (value) => Number(value || 0).toLocaleString("en-IN");
-const formatMoney = (value) =>
-  `INR ${Number(value || 0).toLocaleString("en-IN", { maximumFractionDigits: 0 })}`;
+const formatMoney = (value) => `Rs.${Number(value || 0).toLocaleString("en-IN", { maximumFractionDigits: 0 })}`;
 const formatMoneyPrecise = (value) =>
-  `INR ${Number(value || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
-const formatPercent = (value) => `${((value || 0) * 100).toFixed(2)}%`;
-const formatMultiple = (value) => `${Number(value || 0).toFixed(2)}x`;
+  `Rs.${Number(value || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
+const formatPercent = (value) => `${Number(value || 0).toFixed(1)}%`;
 
 function calculate(inputs) {
-  const views = toNumber(inputs.views);
-  const reach = toNumber(inputs.reach);
-  const profileVisits = toNumber(inputs.profileVisits);
-  const leads = toNumber(inputs.leads);
-  const convertedLeads = leads > 0 ? Math.min(toNumber(inputs.convertedLeads), leads) : toNumber(inputs.convertedLeads);
-  const totalIncome = toNumber(inputs.totalIncome);
-  const directFollows = toNumber(inputs.directFollows);
-  const followersBefore = toNumber(inputs.followersBefore);
-  const followersAfter = toNumber(inputs.followersAfter);
-  const likes = toNumber(inputs.likes);
-  const shares = toNumber(inputs.shares);
-  const comments = toNumber(inputs.comments);
-  const saves = toNumber(inputs.saves);
-  const playsThreeSec = toNumber(inputs.playsThreeSec);
   const adSpend = toNumber(inputs.adSpend);
-  const dailyBudget = toNumber(inputs.dailyBudget);
+  const duration = toNumber(inputs.duration) || 1;
+  const impressions = toNumber(inputs.impressions);
+  const clicks = toNumber(inputs.clicks);
+  const leads = toNumber(inputs.leads);
+  const sales = leads > 0 ? Math.min(toNumber(inputs.sales), leads) : toNumber(inputs.sales);
+  const aov = toNumber(inputs.aov);
+  const margin = clamp(toNumber(inputs.margin), 0, 100);
+  const benchmark = benchmarks[inputs.industry] || benchmarks.other;
 
-  const followersGained = Math.max(0, followersAfter - followersBefore);
-  const engagementTotal = likes + shares + comments + saves;
-  const profileVisitRate = views > 0 ? profileVisits / views : 0;
-  const leadConversionRate = leads > 0 ? convertedLeads / leads : 0;
-  const followConversionRate = profileVisits > 0 ? directFollows / profileVisits : 0;
-  const engagementRate = views > 0 ? engagementTotal / views : 0;
-  const playThroughRate = views > 0 ? playsThreeSec / views : 0;
-  const costPerVisit = profileVisits > 0 ? adSpend / profileVisits : 0;
-  const costPerLead = leads > 0 ? adSpend / leads : 0;
-  const costPerConvertedLead = convertedLeads > 0 ? adSpend / convertedLeads : 0;
-  const costPerFollower = followersGained > 0 ? adSpend / followersGained : 0;
-  const cpm = reach > 0 ? (adSpend / reach) * 1000 : 0;
-  const netReturn = totalIncome - adSpend;
-  const roi = adSpend > 0 ? netReturn / adSpend : 0;
-  const roas = adSpend > 0 ? totalIncome / adSpend : 0;
-  const averageIncomePerConversion = convertedLeads > 0 ? totalIncome / convertedLeads : 0;
-  const breakEvenConversions =
-    averageIncomePerConversion > 0 ? Math.ceil(adSpend / averageIncomePerConversion) : 0;
+  const ctr = impressions > 0 ? (clicks / impressions) * 100 : 0;
+  const cpl = leads > 0 ? adSpend / leads : 0;
+  const conversionRate = leads > 0 ? (sales / leads) * 100 : 0;
+  const revenue = sales * aov;
+  const grossProfit = revenue * (margin / 100);
+  const netProfit = grossProfit - adSpend;
+  const roi = adSpend > 0 ? (netProfit / adSpend) * 100 : 0;
+  const roas = adSpend > 0 ? revenue / adSpend : 0;
+  const profitPerRupee = adSpend > 0 ? netProfit / adSpend : 0;
+  const dailySpend = duration > 0 ? adSpend / duration : adSpend;
+  const costPerSale = sales > 0 ? adSpend / sales : 0;
+  const breakEvenSales = aov > 0 && margin > 0 ? Math.ceil(adSpend / (aov * (margin / 100))) : 0;
 
   return {
-    views,
-    reach,
-    profileVisits,
-    leads,
-    convertedLeads,
-    totalIncome,
-    directFollows,
-    followersBefore,
-    followersAfter,
-    likes,
-    shares,
-    comments,
-    saves,
-    playsThreeSec,
     adSpend,
-    dailyBudget,
-    followersGained,
-    engagementTotal,
-    profileVisitRate,
-    leadConversionRate,
-    followConversionRate,
-    engagementRate,
-    playThroughRate,
-    costPerVisit,
-    costPerLead,
-    costPerConvertedLead,
-    costPerFollower,
-    cpm,
-    netReturn,
+    duration,
+    impressions,
+    clicks,
+    leads,
+    sales,
+    aov,
+    margin,
+    benchmark,
+    ctr,
+    cpl,
+    conversionRate,
+    revenue,
+    grossProfit,
+    netProfit,
     roi,
     roas,
-    averageIncomePerConversion,
-    breakEvenConversions,
+    profitPerRupee,
+    dailySpend,
+    costPerSale,
+    breakEvenSales,
   };
 }
 
-function Field({ label, value, onChange, helper }) {
+function TextField({ label, value, onChange, placeholder }) {
   return (
-    <label className="field">
+    <label className="field text-field">
       <span>{label}</span>
-      <input
-        type="number"
-        min="0"
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-      />
-      {helper ? <small>{helper}</small> : null}
+      <input value={value} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} />
     </label>
   );
 }
 
-function KpiCard({ label, value, detail, tone = "gold" }) {
+function NumberField({ label, value, onChange, prefix, max }) {
+  return (
+    <label className="field">
+      <span>{label}</span>
+      <div className={prefix ? "input-prefix" : ""}>
+        {prefix ? <i>{prefix}</i> : null}
+        <input
+          type="number"
+          min="0"
+          max={max}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+        />
+      </div>
+    </label>
+  );
+}
+
+function KpiCard({ label, value, detail, tone = "gold", badge }) {
   return (
     <article className={`kpi kpi-${tone}`}>
-      <p>{label}</p>
-      <strong>{value}</strong>
-      {detail ? <span>{detail}</span> : null}
-    </article>
-  );
-}
-
-function ObjectiveButton({ option, active, onClick }) {
-  return (
-    <button
-      type="button"
-      className={`objective-button${active ? " active" : ""}`}
-      onClick={onClick}
-    >
-      <strong>{option.label}</strong>
-      <span>{option.detail}</span>
-    </button>
-  );
-}
-
-function Meter({ label, value, amount, tone = "gold" }) {
-  return (
-    <div className="meter">
-      <div>
+      <div className="kpi-row">
+        <i />
         <span>{label}</span>
-        <strong>{amount}</strong>
       </div>
-      <div className="meter-track">
-        <i className={`meter-fill ${tone}`} style={{ width: `${clamp(value, 0, 100)}%` }} />
-      </div>
-    </div>
-  );
-}
-
-function Insight({ tone = "neutral", title, children }) {
-  return (
-    <div className={`insight ${tone}`}>
-      <strong>{title}</strong>
-      <p>{children}</p>
-    </div>
+      <strong>{value}</strong>
+      <p>{detail}</p>
+      {badge ? <b>{badge}</b> : null}
+    </article>
   );
 }
 
@@ -204,234 +142,309 @@ function CustomTooltip({ active, payload, label }) {
 
   return (
     <div className="chart-tooltip">
-      <span>{label}</span>
-      <strong>{formatNumber(payload[0].value)}</strong>
+      <span>{label || payload[0].name}</span>
+      <strong>{typeof payload[0].value === "number" ? formatNumber(payload[0].value) : payload[0].value}</strong>
     </div>
   );
 }
 
+function RatingStars({ score }) {
+  return (
+    <div className="stars" aria-label={`${score.toFixed(1)} out of 5 campaign score`}>
+      {[1, 2, 3, 4, 5].map((index) => (
+        <span key={index} className={score >= index ? "full" : score >= index - 0.5 ? "half" : ""}>
+          ★
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function Insight({ tone, children }) {
+  return <div className={`insight ${tone}`}>{children}</div>;
+}
+
 export default function InstagramAdDashboard() {
   const [inputs, setInputs] = useState(initialInputs);
-  const [showExample, setShowExample] = useState(true);
+  const [edited, setEdited] = useState(false);
 
   const report = useMemo(() => calculate(inputs), [inputs]);
-  const activeObjective = objectives.find((objective) => objective.value === inputs.objective) || objectives[0];
+  const clientName = inputs.clientName.trim() || "Enter Client Name";
+  const campaignName = inputs.campaignName.trim() || `${clientName} Instagram Campaign`;
 
   const setField = (key) => (value) => {
-    setShowExample(false);
+    setEdited(true);
     setInputs((current) => ({ ...current, [key]: value }));
   };
 
-  const setObjective = (objective) => {
-    setShowExample(false);
-    setInputs((current) => ({ ...current, objective }));
-  };
-
-  const roiTone = report.roi >= 0.5 ? "green" : report.roi >= 0 ? "gold" : "red";
+  const roiTone = report.roi >= 50 ? "green" : report.roi >= 0 ? "gold" : "red";
   const verdict =
-    report.adSpend <= 0
-      ? "Add ad spend to calculate ROI."
-      : report.totalIncome <= 0
-        ? "Add total income to judge whether this ad paid back."
-        : report.roi >= 0.5
-          ? "Worth scaling with control."
+    report.adSpend <= 0 || report.leads <= 0
+      ? "Add spend and leads to generate the report."
+      : report.roi >= 100
+        ? "Highly profitable. Scale with control."
+        : report.roi >= 50
+          ? "Profitable. Good candidate for scaling."
           : report.roi >= 0
-            ? "Profitable, but needs efficiency work."
-            : "Not worth scaling yet.";
+            ? "Positive, but needs efficiency work."
+            : "Loss-making. Optimize before scaling.";
+
+  const score = Math.min(
+    5,
+    (report.roi >= 100 ? 2 : report.roi >= 50 ? 1.5 : report.roi >= 0 ? 1 : 0) +
+      (report.cpl && report.cpl <= report.benchmark.cpl ? 1 : report.cpl <= report.benchmark.cpl * 1.5 ? 0.5 : 0) +
+      (report.conversionRate >= report.benchmark.cvr ? 1 : report.conversionRate >= report.benchmark.cvr * 0.7 ? 0.5 : 0) +
+      (report.roas >= report.benchmark.roas ? 1 : report.roas >= report.benchmark.roas * 0.8 ? 0.5 : 0)
+  );
 
   const funnelData = [
-    { name: "Views", value: report.views, fill: "#8bb6ff" },
-    { name: "Visits", value: report.profileVisits, fill: "#e0bf8d" },
+    { name: "Impressions", value: report.impressions, fill: "#8bb6ff" },
+    { name: "Clicks", value: report.clicks, fill: "#e0bf8d" },
     { name: "Leads", value: report.leads, fill: "#95d5b2" },
-    { name: "Converted", value: report.convertedLeads, fill: "#cdb4ff" },
+    { name: "Sales", value: report.sales, fill: "#cdb4ff" },
   ];
 
-  const engagementData = [
-    { name: "Likes", value: report.likes, fill: "#c9a169" },
-    { name: "Shares", value: report.shares, fill: "#95d5b2" },
-    { name: "Comments", value: report.comments, fill: "#8bb6ff" },
-    { name: "Saves", value: report.saves, fill: "#cdb4ff" },
+  const financeData = [
+    { name: "Ad Spend", value: report.adSpend, fill: "#c9a169" },
+    { name: "Revenue", value: report.revenue, fill: "#95d5b2" },
+    { name: "Gross Profit", value: report.grossProfit, fill: "#8bb6ff" },
+    { name: "Net Profit", value: report.netProfit, fill: report.netProfit >= 0 ? "#e0bf8d" : "#ff9a9a" },
   ];
+
+  const budgetData = [
+    { name: "Efficient spend", value: Math.min(report.adSpend, report.sales * report.benchmark.cpl), fill: "#c9a169" },
+    { name: "Optimization gap", value: Math.max(0, report.adSpend - report.sales * report.benchmark.cpl), fill: "#ff9a9a" },
+  ].filter((item) => item.value > 0);
+
+  const benchmarkData = [
+    { name: "CTR", current: report.ctr, benchmark: report.benchmark.ctr },
+    { name: "CPL / 100", current: report.cpl / 100, benchmark: report.benchmark.cpl / 100 },
+    { name: "CVR", current: report.conversionRate, benchmark: report.benchmark.cvr },
+    { name: "ROAS", current: report.roas, benchmark: report.benchmark.roas },
+  ];
+
+  const gaugePercent = clamp((report.roi + 50) / 250, 0, 1);
+  const needleAngle = -90 + 180 * gaugePercent;
 
   return (
     <div className="dashboard-shell">
       <header className="topbar">
         <Link href="/" className="brand">
-          <span>PRI</span>
+          <span>PR</span>
           <div>
             <strong>Pure Reach</strong>
-            <small>Ad ROI Dashboard</small>
+            <small>Instagram Lead Cost Calculator</small>
           </div>
         </Link>
         <nav>
           <a href="#inputs">Inputs</a>
-          <a href="#dashboard">Dashboard</a>
-          <a href="#decision">Decision</a>
-          <a className="nav-cta" href="faq.html#quote-form">Get a Quote</a>
+          <a href="#dashboard">Report</a>
+          <a href="#decision">Verdict</a>
+          <a className="nav-cta" href="/faq#quote-form">Get a Quote</a>
         </nav>
       </header>
 
       <main>
+        <section className="report-brand">
+          <div className="brand-mark">PR</div>
+          <div>
+            <strong>Pure Reach</strong>
+            <span>by Sunil Choudhary</span>
+          </div>
+          <div className="prepared">
+            <small>Report Prepared For</small>
+            <b>{clientName}</b>
+          </div>
+        </section>
+
         <section className="hero">
           <div className="hero-copy">
-            <h1>Instagram ad dashboard for leads, conversions, and ROI.</h1>
+            <span>Instagram Campaign Report</span>
+            <h1>Lead cost, conversion value, and ROI in one client-ready dashboard.</h1>
             <p>
-              This turns the old calculator into a live decision dashboard. The ad runner can see
-              spend, leads, converted leads, total income, ROI, ROAS, and whether the campaign is
-              worth scaling.
+              Enter campaign data once and see CPL, sales conversion, ROAS, net profit, and a
+              benchmarked verdict for the client.
             </p>
-            <div className="hero-actions">
-              <a href="#inputs">Update numbers</a>
-              <a href="#dashboard">View dashboard</a>
-            </div>
           </div>
           <aside className="verdict-panel">
-            <span>Current verdict</span>
+            <small>Current verdict</small>
             <strong>{verdict}</strong>
             <div className={`roi-pill ${roiTone}`}>{formatPercent(report.roi)} ROI</div>
-            <p>
-              {showExample
-                ? "Sample campaign data is loaded so the dashboard is meaningful on first open."
-                : "Dashboard is using your current campaign inputs."}
-            </p>
+            <p>{edited ? "Using your current campaign inputs." : "Sample values are loaded so the report is live immediately."}</p>
           </aside>
         </section>
 
-        <section id="inputs" className="input-layout">
-          <div className="panel objective-panel">
-            <div className="section-heading">
-              <span>Campaign Objective</span>
-              <h2>{activeObjective.label}</h2>
-              <p>{activeObjective.detail}</p>
-            </div>
-            <div className="objective-grid">
-              {objectives.map((option) => (
-                <ObjectiveButton
-                  key={option.value}
-                  option={option}
-                  active={inputs.objective === option.value}
-                  onClick={() => setObjective(option.value)}
-                />
-              ))}
-            </div>
+        <section id="inputs" className="input-panel">
+          <div className="section-heading">
+            <span>Lead Cost Calculator</span>
+            <h2>Campaign Inputs</h2>
+            <p>Replace the client name and numbers to generate a clean performance report.</p>
           </div>
+          <div className="field-grid">
+            <TextField label="Client Name" value={inputs.clientName} onChange={setField("clientName")} placeholder="Enter Client Name" />
+            <TextField label="Campaign Name" value={inputs.campaignName} onChange={setField("campaignName")} placeholder="Instagram Lead Campaign" />
+            <label className="field">
+              <span>Industry</span>
+              <select value={inputs.industry} onChange={(event) => setField("industry")(event.target.value)}>
+                {Object.entries(benchmarks).map(([value, benchmark]) => (
+                  <option key={value} value={value}>
+                    {benchmark.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <NumberField label="Campaign Duration (Days)" value={inputs.duration} onChange={setField("duration")} />
+            <NumberField label="Total Ad Spend" value={inputs.adSpend} onChange={setField("adSpend")} prefix="Rs." />
+            <NumberField label="Total Impressions" value={inputs.impressions} onChange={setField("impressions")} />
+            <NumberField label="Total Clicks" value={inputs.clicks} onChange={setField("clicks")} />
+            <NumberField label="Total Leads Generated" value={inputs.leads} onChange={setField("leads")} />
+            <NumberField label="Leads Converted to Sales" value={inputs.sales} onChange={setField("sales")} />
+            <NumberField label="Average Order Value" value={inputs.aov} onChange={setField("aov")} prefix="Rs." />
+            <NumberField label="Profit Margin (%)" value={inputs.margin} onChange={setField("margin")} max="100" />
+          </div>
+        </section>
 
-          <div className="panel field-panel">
-            <div className="section-heading">
-              <span>Inputs</span>
-              <h2>Campaign Numbers</h2>
-              <p>Lead ROI uses ad spend, leads, converted leads, and total income.</p>
-            </div>
-            <div className="field-grid">
-              <Field label="Views" value={inputs.views} onChange={setField("views")} />
-              <Field label="Reach" value={inputs.reach} onChange={setField("reach")} />
-              <Field label="Profile Visits" value={inputs.profileVisits} onChange={setField("profileVisits")} />
-              <Field label="Leads" value={inputs.leads} onChange={setField("leads")} helper="Lead forms, calls, or inquiries." />
-              <Field label="Converted Leads" value={inputs.convertedLeads} onChange={setField("convertedLeads")} helper="Leads that became paid customers." />
-              <Field label="Total Income (INR)" value={inputs.totalIncome} onChange={setField("totalIncome")} helper="Revenue from converted leads." />
-              <Field label="Direct Follows" value={inputs.directFollows} onChange={setField("directFollows")} />
-              <Field label="Followers Before" value={inputs.followersBefore} onChange={setField("followersBefore")} />
-              <Field label="Followers After" value={inputs.followersAfter} onChange={setField("followersAfter")} />
-              <Field label="Likes" value={inputs.likes} onChange={setField("likes")} />
-              <Field label="Shares" value={inputs.shares} onChange={setField("shares")} />
-              <Field label="Comments" value={inputs.comments} onChange={setField("comments")} />
-              <Field label="Saves" value={inputs.saves} onChange={setField("saves")} />
-              <Field label="3-sec Plays" value={inputs.playsThreeSec} onChange={setField("playsThreeSec")} />
-              <Field label="Ad Spend (INR)" value={inputs.adSpend} onChange={setField("adSpend")} />
-              <Field label="Daily Budget (INR)" value={inputs.dailyBudget} onChange={setField("dailyBudget")} />
+        <section id="dashboard" className="dashboard-head">
+          <div>
+            <span>Instagram Lead Campaign Report</span>
+            <h2>{campaignName}</h2>
+            <p>
+              {report.duration}-day campaign · {report.benchmark.label} · Client: {clientName}
+            </p>
+          </div>
+          <button type="button" onClick={() => setInputs(initialInputs)}>Reset Report</button>
+        </section>
+
+        <section className="kpi-grid">
+          <KpiCard label="Total Leads" value={formatNumber(report.leads)} detail={`${formatNumber(Math.round(report.leads / report.duration))}/day`} badge={report.cpl <= report.benchmark.cpl ? "On target" : "High CPL"} />
+          <KpiCard label="Cost per Lead" value={formatMoneyPrecise(report.cpl)} detail={`Benchmark: ${formatMoney(report.benchmark.cpl)}`} tone={report.cpl <= report.benchmark.cpl ? "green" : "gold"} />
+          <KpiCard label="Total Sales" value={formatNumber(report.sales)} detail={`CVR: ${formatPercent(report.conversionRate)}`} tone={report.conversionRate >= report.benchmark.cvr ? "green" : "gold"} />
+          <KpiCard label="Revenue" value={formatMoney(report.revenue)} detail={`ROAS: ${report.roas.toFixed(2)}x`} tone="green" />
+          <KpiCard label="Net Profit" value={formatMoney(report.netProfit)} detail={`${formatMoney(report.dailySpend)}/day spend`} tone={report.netProfit >= 0 ? "green" : "red"} />
+          <KpiCard label="ROI per Rs.1" value={`Rs.${report.profitPerRupee.toFixed(2)}`} detail={`Break-even sales: ${formatNumber(report.breakEvenSales)}`} tone={roiTone} />
+        </section>
+
+        <section className="roi-card">
+          <div className="section-title">Return on Investment</div>
+          <div className="roi-content">
+            <svg width="180" height="120" viewBox="0 0 180 120" role="img" aria-label="ROI gauge">
+              <path d="M 25 100 A 65 65 0 0 1 155 100" fill="none" stroke="rgba(224,191,141,.13)" strokeWidth="12" strokeLinecap="round" />
+              <path
+                d="M 25 100 A 65 65 0 0 1 155 100"
+                fill="none"
+                stroke="#e0bf8d"
+                strokeWidth="12"
+                strokeLinecap="round"
+                strokeDasharray="204"
+                strokeDashoffset={204 - 204 * gaugePercent}
+              />
+              <line x1="90" y1="100" x2="90" y2="42" stroke="#f4ebdd" strokeWidth="3" strokeLinecap="round" transform={`rotate(${needleAngle} 90 100)`} />
+              <circle cx="90" cy="100" r="6" fill="#c9a169" />
+              <text x="75" y="34" fill="#e0bf8d" fontSize="13" fontWeight="800">{formatPercent(report.roi)}</text>
+            </svg>
+            <div>
+              <h2>Campaign ROI Overview</h2>
+              <p>
+                {report.roi >= 50
+                  ? "The campaign is profitable and has enough signal for controlled scaling."
+                  : report.roi >= 0
+                    ? "The campaign is positive, but CPL or conversion rate needs refinement before aggressive scaling."
+                    : "The campaign is not paying back yet. Review targeting, creative, offer, and follow-up before increasing spend."}
+              </p>
+              <div className="roi-stats">
+                <span><small>Revenue</small><b>{formatMoney(report.revenue)}</b></span>
+                <span><small>Gross Profit</small><b>{formatMoney(report.grossProfit)}</b></span>
+                <span><small>Cost / Sale</small><b>{formatMoneyPrecise(report.costPerSale)}</b></span>
+              </div>
             </div>
           </div>
         </section>
 
-        <section id="dashboard" className="dashboard-grid">
-          <KpiCard label="Total Income" value={formatMoney(report.totalIncome)} detail="Revenue from conversions" tone="green" />
-          <KpiCard label="Net Return" value={formatMoney(report.netReturn)} detail="Income minus ad spend" tone={roiTone} />
-          <KpiCard label="ROI" value={formatPercent(report.roi)} detail="Profitability signal" tone={roiTone} />
-          <KpiCard label="ROAS" value={formatMultiple(report.roas)} detail="Income divided by spend" tone="purple" />
-          <KpiCard label="Cost per Lead" value={formatMoneyPrecise(report.costPerLead)} detail={`${formatNumber(report.leads)} leads`} />
-          <KpiCard label="Cost per Converted Lead" value={formatMoneyPrecise(report.costPerConvertedLead)} detail={`${formatNumber(report.convertedLeads)} converted`} tone="green" />
-          <KpiCard label="Lead Conversion" value={formatPercent(report.leadConversionRate)} detail="Leads to paid customers" tone="blue" />
-          <KpiCard label="Break-even Conversions" value={formatNumber(report.breakEvenConversions)} detail="Needed to recover spend" tone="purple" />
-        </section>
-
-        <section className="analysis-layout">
-          <div className="panel chart-panel">
-            <div className="section-heading">
-              <span>Lead Funnel</span>
-              <h2>Views to Paid Customers</h2>
-            </div>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={funnelData}>
-                <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-                <XAxis dataKey="name" tick={{ fill: "#b0a594", fontSize: 12 }} axisLine={false} tickLine={false} />
+        <section className="chart-grid">
+          <div className="panel">
+            <div className="chart-title">Revenue vs Spend</div>
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={financeData}>
+                <CartesianGrid stroke="rgba(255,255,255,.06)" vertical={false} />
+                <XAxis dataKey="name" tick={{ fill: "#b0a594", fontSize: 11 }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fill: "#8f8576", fontSize: 11 }} axisLine={false} tickLine={false} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="value" radius={[8, 8, 0, 0]}>
-                  {funnelData.map((entry) => (
-                    <Cell key={entry.name} fill={entry.fill} />
-                  ))}
+                  {financeData.map((entry) => <Cell key={entry.name} fill={entry.fill} />)}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
-
-          <div className="panel chart-panel">
-            <div className="section-heading">
-              <span>Engagement Quality</span>
-              <h2>Interaction Mix</h2>
-            </div>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={engagementData}>
-                <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-                <XAxis dataKey="name" tick={{ fill: "#b0a594", fontSize: 12 }} axisLine={false} tickLine={false} />
+          <div className="panel">
+            <div className="chart-title">Conversion Funnel</div>
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={funnelData} layout="vertical">
+                <CartesianGrid stroke="rgba(255,255,255,.06)" horizontal={false} />
+                <XAxis type="number" hide />
+                <YAxis dataKey="name" type="category" tick={{ fill: "#b0a594", fontSize: 12 }} axisLine={false} tickLine={false} width={92} />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="value" radius={[0, 8, 8, 0]}>
+                  {funnelData.map((entry) => <Cell key={entry.name} fill={entry.fill} />)}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="panel">
+            <div className="chart-title">Budget Efficiency</div>
+            <ResponsiveContainer width="100%" height={250}>
+              <PieChart>
+                <Pie data={budgetData.length ? budgetData : [{ name: "No spend", value: 1, fill: "#3a3830" }]} dataKey="value" nameKey="name" innerRadius={58} outerRadius={88} paddingAngle={4}>
+                  {(budgetData.length ? budgetData : [{ name: "No spend", fill: "#3a3830" }]).map((entry) => <Cell key={entry.name} fill={entry.fill} />)}
+                </Pie>
+                <Tooltip content={<CustomTooltip />} />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="panel">
+            <div className="chart-title">KPI vs Benchmark</div>
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={benchmarkData}>
+                <CartesianGrid stroke="rgba(255,255,255,.06)" vertical={false} />
+                <XAxis dataKey="name" tick={{ fill: "#b0a594", fontSize: 11 }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fill: "#8f8576", fontSize: 11 }} axisLine={false} tickLine={false} />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="value" radius={[8, 8, 0, 0]}>
-                  {engagementData.map((entry) => (
-                    <Cell key={entry.name} fill={entry.fill} />
-                  ))}
-                </Bar>
+                <Bar dataKey="current" name="Current" fill="#c9a169" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="benchmark" name="Benchmark" fill="rgba(224,191,141,.24)" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </section>
 
-        <section id="decision" className="decision-layout">
-          <div className="panel decision-panel">
-            <div className="section-heading">
-              <span>Decision View</span>
-              <h2>Was It Worth It?</h2>
-              <p>The answer is based on total income, spend, and how many leads converted.</p>
+        <section id="decision" className="summary-card">
+          <div className="summary-head">
+            <div>
+              <span>Campaign Verdict</span>
+              <h2>{verdict}</h2>
+              <p>Analyzed by Pure Reach · Industry-benchmarked performance rating</p>
             </div>
-            <div className={`decision-verdict ${roiTone}`}>
-              <strong>{verdict}</strong>
-              <span>{formatMoney(report.netReturn)} net return</span>
-            </div>
-            <div className="meters">
-              <Meter label="Lead conversion" amount={formatPercent(report.leadConversionRate)} value={report.leadConversionRate * 100} tone="green" />
-              <Meter label="Profile visit rate" amount={formatPercent(report.profileVisitRate)} value={report.profileVisitRate * 1000} tone="gold" />
-              <Meter label="Follow conversion" amount={formatPercent(report.followConversionRate)} value={report.followConversionRate * 100} tone="blue" />
-              <Meter label="Engagement rate" amount={formatPercent(report.engagementRate)} value={report.engagementRate * 1000} tone="purple" />
+            <div>
+              <RatingStars score={score} />
+              <small>{score.toFixed(1)}/5 campaign score</small>
             </div>
           </div>
-
-          <div className="panel insight-panel">
-            <div className="section-heading">
-              <span>Operator Notes</span>
-              <h2>What to Do Next</h2>
-            </div>
-            <Insight tone={report.roi >= 0 ? "good" : "bad"} title="ROI reading">
-              {report.totalIncome > 0
-                ? `The campaign produced ${formatMoney(report.totalIncome)} income from ${formatMoney(report.adSpend)} spend, with ${formatPercent(report.roi)} ROI.`
-                : "Income is missing. Without total income, lead volume alone cannot prove that the ad was worth running."}
+          <div className="verdict-copy">
+            <strong>{campaignName}</strong> is producing <strong>{formatPercent(report.roi)} ROI</strong> for{" "}
+            <strong>{clientName}</strong>. CPL is <strong>{formatMoneyPrecise(report.cpl)}</strong> against a{" "}
+            <strong>{formatMoney(report.benchmark.cpl)}</strong> benchmark, and ROAS is{" "}
+            <strong>{report.roas.toFixed(2)}x</strong>.
+          </div>
+          <div className="insight-grid">
+            <Insight tone={report.cpl <= report.benchmark.cpl ? "good" : "warn"}>
+              CPL is {report.cpl <= report.benchmark.cpl ? "within" : "above"} the industry benchmark.
             </Insight>
-            <Insight tone="neutral" title="Lead quality">
-              {report.leads > 0
-                ? `${formatNumber(report.convertedLeads)} of ${formatNumber(report.leads)} leads converted. Cost per converted lead is ${formatMoneyPrecise(report.costPerConvertedLead)}.`
-                : "No leads have been entered yet. Add leads and converted leads to evaluate the funnel."}
+            <Insight tone={report.conversionRate >= report.benchmark.cvr ? "good" : "warn"}>
+              Lead-to-sale conversion is {formatPercent(report.conversionRate)} vs {report.benchmark.cvr}% benchmark.
             </Insight>
-            <Insight tone="neutral" title="Scaling rule">
-              Scale only when ROAS stays above 1.00x after including real income. If ROI is negative, improve targeting, offer, landing flow, or follow-up before increasing budget.
+            <Insight tone={report.roas >= report.benchmark.roas ? "good" : "warn"}>
+              ROAS is {report.roas.toFixed(2)}x vs {report.benchmark.roas}x benchmark.
+            </Insight>
+            <Insight tone={report.netProfit >= 0 ? "good" : "bad"}>
+              Net {report.netProfit >= 0 ? "profit" : "loss"} is {formatMoney(Math.abs(report.netProfit))}.
             </Insight>
           </div>
         </section>
@@ -456,37 +469,18 @@ export default function InstagramAdDashboard() {
           --red: #ff9a9a;
         }
 
-        * {
-          box-sizing: border-box;
-        }
-
-        html {
-          scroll-behavior: smooth;
-        }
-
-        body {
-          margin: 0;
-          background: var(--bg);
-          color: var(--text);
-          font-family: Manrope, system-ui, sans-serif;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        button,
-        input {
-          font: inherit;
-        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { margin: 0; background: var(--bg); color: var(--text); font-family: Manrope, system-ui, sans-serif; }
+        a { color: inherit; text-decoration: none; }
+        button, input, select { font: inherit; }
 
         .dashboard-shell {
           min-height: 100vh;
           background:
-            radial-gradient(circle at 10% 0%, rgba(201, 161, 105, 0.14), transparent 32%),
-            radial-gradient(circle at 92% 8%, rgba(139, 182, 255, 0.12), transparent 28%),
-            linear-gradient(180deg, #07080b 0%, #0d1014 52%, #07080b 100%);
+            radial-gradient(circle at 12% 0%, rgba(201, 161, 105, 0.13), transparent 28%),
+            radial-gradient(circle at 90% 4%, rgba(139, 182, 255, 0.1), transparent 26%),
+            linear-gradient(180deg, #07080b 0%, #0d1014 56%, #07080b 100%);
         }
 
         .topbar {
@@ -494,8 +488,8 @@ export default function InstagramAdDashboard() {
           top: 0;
           z-index: 20;
           display: flex;
-          align-items: center;
           justify-content: space-between;
+          align-items: center;
           gap: 24px;
           padding: 18px clamp(20px, 4vw, 48px);
           border-bottom: 1px solid var(--line);
@@ -503,39 +497,37 @@ export default function InstagramAdDashboard() {
           backdrop-filter: blur(22px);
         }
 
-        .brand {
+        .brand, .report-brand {
           display: flex;
           align-items: center;
           gap: 12px;
         }
 
-        .brand > span {
+        .brand > span, .brand-mark {
           display: grid;
+          place-items: center;
           width: 42px;
           height: 42px;
-          place-items: center;
           border-radius: 12px;
           background: linear-gradient(135deg, #7a5d39, #d1aa74);
           color: #101010;
           font-size: 12px;
           font-weight: 900;
-          letter-spacing: 0.08em;
+          letter-spacing: .08em;
         }
 
-        .brand strong,
-        h1,
-        h2 {
+        h1, h2, .brand strong, .report-brand strong {
           font-family: "Plus Jakarta Sans", Manrope, sans-serif;
           letter-spacing: 0;
         }
 
-        .brand small {
+        .brand small, .report-brand span {
           display: block;
           margin-top: 1px;
           color: var(--soft);
           font-size: 11px;
           font-weight: 800;
-          letter-spacing: 0.18em;
+          letter-spacing: .18em;
           text-transform: uppercase;
         }
 
@@ -545,208 +537,135 @@ export default function InstagramAdDashboard() {
           gap: 22px;
           color: var(--soft);
           font-size: 14px;
-          font-weight: 700;
+          font-weight: 800;
         }
 
-        .nav-cta {
+        .nav-cta, .dashboard-head button {
+          border: 0;
           border-radius: 12px;
           padding: 10px 14px;
           background: linear-gradient(135deg, var(--gold-2), var(--gold));
           color: #111;
+          font-weight: 900;
+          cursor: pointer;
         }
 
         main {
           width: min(1440px, 100%);
           margin: 0 auto;
-          padding: 0 clamp(18px, 4vw, 48px) 72px;
+          padding: 24px clamp(18px, 4vw, 48px) 72px;
+        }
+
+        .report-brand, .input-panel, .dashboard-head, .panel, .kpi, .roi-card, .summary-card, .verdict-panel {
+          border: 1px solid var(--line);
+          background: linear-gradient(180deg, rgba(21, 24, 32, .96), rgba(29, 33, 43, .96));
+          box-shadow: 0 28px 70px rgba(0, 0, 0, .28);
+        }
+
+        .report-brand {
+          justify-content: space-between;
+          border-radius: 18px;
+          padding: 18px 22px;
+        }
+
+        .prepared {
+          margin-left: auto;
+          text-align: right;
+        }
+
+        .prepared small, .verdict-panel small, .hero-copy > span, .section-heading > span, .dashboard-head span, .section-title, .chart-title, .summary-head span {
+          color: var(--gold-2);
+          font-size: 11px;
+          font-weight: 900;
+          letter-spacing: .2em;
+          text-transform: uppercase;
+        }
+
+        .prepared b {
+          display: block;
+          margin-top: 4px;
+          color: var(--gold-2);
+          font-size: 22px;
         }
 
         .hero {
           display: grid;
-          grid-template-columns: minmax(0, 1.25fr) minmax(340px, 0.75fr);
+          grid-template-columns: minmax(0, 1.25fr) minmax(340px, .75fr);
           gap: 28px;
-          align-items: stretch;
-          padding: clamp(52px, 8vw, 92px) 0 32px;
+          padding: clamp(46px, 7vw, 82px) 0 26px;
         }
 
         .hero-copy {
-          min-height: 420px;
+          min-height: 390px;
           display: flex;
           flex-direction: column;
           justify-content: center;
         }
 
         .hero h1 {
-          max-width: 900px;
-          margin: 0;
-          font-size: clamp(48px, 7vw, 94px);
-          line-height: 0.94;
+          max-width: 960px;
+          margin: 12px 0 0;
+          font-size: clamp(44px, 6.8vw, 88px);
+          line-height: .95;
+        }
+
+        .hero p, .section-heading p, .dashboard-head p, .summary-head p, .roi-card p {
+          color: var(--soft);
+          line-height: 1.7;
         }
 
         .hero p {
-          max-width: 740px;
-          margin: 24px 0 0;
-          color: var(--soft);
+          max-width: 720px;
+          margin: 22px 0 0;
           font-size: 18px;
-          line-height: 1.75;
-        }
-
-        .hero-actions {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 14px;
-          margin-top: 32px;
-        }
-
-        .hero-actions a {
-          border: 1px solid var(--line);
-          border-radius: 14px;
-          padding: 15px 18px;
-          font-weight: 900;
-        }
-
-        .hero-actions a:first-child {
-          border-color: transparent;
-          background: linear-gradient(135deg, var(--gold-2), var(--gold));
-          color: #111;
-        }
-
-        .verdict-panel,
-        .panel,
-        .kpi {
-          border: 1px solid var(--line);
-          background: linear-gradient(180deg, rgba(21, 24, 32, 0.96), rgba(29, 33, 43, 0.96));
-          box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
         }
 
         .verdict-panel {
           display: flex;
-          min-height: 420px;
+          min-height: 390px;
           flex-direction: column;
           justify-content: flex-end;
-          border-radius: 28px;
+          border-radius: 26px;
           padding: clamp(24px, 4vw, 36px);
-        }
-
-        .verdict-panel > span,
-        .section-heading > span {
-          color: var(--gold-2);
-          font-size: 11px;
-          font-weight: 900;
-          letter-spacing: 0.22em;
-          text-transform: uppercase;
         }
 
         .verdict-panel strong {
           display: block;
           margin-top: 16px;
           font-family: "Plus Jakarta Sans", Manrope, sans-serif;
-          font-size: clamp(34px, 4vw, 54px);
+          font-size: clamp(32px, 4vw, 52px);
           line-height: 1;
         }
 
         .roi-pill {
           width: fit-content;
-          margin-top: 26px;
+          margin-top: 24px;
           border-radius: 999px;
           padding: 10px 14px;
           font-weight: 900;
         }
 
-        .roi-pill.green,
-        .decision-verdict.green {
-          background: rgba(149, 213, 178, 0.14);
-          color: var(--green);
-        }
+        .roi-pill.green, .kpi-green b, .insight.good { background: rgba(149, 213, 178, .13); color: var(--green); }
+        .roi-pill.gold, .kpi-gold b, .insight.warn { background: rgba(224, 191, 141, .13); color: var(--gold-2); }
+        .roi-pill.red, .kpi-red b, .insight.bad { background: rgba(255, 154, 154, .13); color: var(--red); }
 
-        .roi-pill.gold,
-        .decision-verdict.gold {
-          background: rgba(224, 191, 141, 0.14);
-          color: var(--gold-2);
-        }
-
-        .roi-pill.red,
-        .decision-verdict.red {
-          background: rgba(255, 154, 154, 0.14);
-          color: var(--red);
-        }
-
-        .input-layout,
-        .analysis-layout,
-        .decision-layout {
-          display: grid;
-          grid-template-columns: minmax(320px, 0.8fr) minmax(0, 1.2fr);
-          gap: 22px;
+        .input-panel, .dashboard-head, .roi-card, .summary-card, .panel {
+          border-radius: 22px;
+          padding: clamp(22px, 3vw, 30px);
           margin-top: 22px;
         }
 
-        .analysis-layout,
-        .decision-layout {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .panel {
-          border-radius: 24px;
-          padding: clamp(22px, 3vw, 30px);
-        }
-
-        .section-heading {
-          margin-bottom: 22px;
-        }
-
-        .section-heading h2 {
+        .section-heading { margin-bottom: 22px; }
+        .section-heading h2, .dashboard-head h2, .roi-card h2, .summary-head h2 {
           margin: 7px 0 0;
-          font-size: clamp(24px, 3vw, 34px);
-          line-height: 1.08;
-        }
-
-        .section-heading p {
-          margin: 9px 0 0;
-          color: var(--soft);
-          line-height: 1.6;
-        }
-
-        .objective-grid {
-          display: grid;
-          gap: 12px;
-        }
-
-        .objective-button {
-          cursor: pointer;
-          border: 1px solid var(--line);
-          border-radius: 16px;
-          padding: 16px;
-          background: rgba(255, 255, 255, 0.03);
-          color: var(--text);
-          text-align: left;
-          transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-        }
-
-        .objective-button:hover {
-          transform: translateY(-2px);
-        }
-
-        .objective-button.active {
-          border-color: rgba(224, 191, 141, 0.52);
-          background: rgba(201, 161, 105, 0.14);
-        }
-
-        .objective-button strong {
-          display: block;
-        }
-
-        .objective-button span {
-          display: block;
-          margin-top: 6px;
-          color: var(--soft);
-          font-size: 13px;
-          line-height: 1.45;
+          font-size: clamp(26px, 3.4vw, 40px);
+          line-height: 1.06;
         }
 
         .field-grid {
           display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 16px;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 15px;
         }
 
         .field {
@@ -756,55 +675,94 @@ export default function InstagramAdDashboard() {
         }
 
         .field span {
-          color: var(--soft);
-          font-size: 11px;
+          color: var(--gold-2);
+          font-size: 10px;
           font-weight: 900;
-          letter-spacing: 0.18em;
+          letter-spacing: .16em;
           text-transform: uppercase;
         }
 
-        .field input {
+        .field input, .field select {
           width: 100%;
+          min-height: 48px;
           border: 1px solid var(--line);
-          border-radius: 14px;
-          background: rgba(255, 255, 255, 0.04);
+          border-radius: 13px;
+          background: rgba(255, 255, 255, .04);
           color: var(--text);
           outline: none;
-          padding: 14px 14px;
-          transition: border-color 0.2s ease, box-shadow 0.2s ease;
+          padding: 13px 14px;
         }
 
-        .field input:focus {
-          border-color: rgba(224, 191, 141, 0.48);
-          box-shadow: 0 0 0 4px rgba(201, 161, 105, 0.13);
+        .field select option { background: #151820; color: var(--text); }
+        .field input:focus, .field select:focus {
+          border-color: rgba(224, 191, 141, .5);
+          box-shadow: 0 0 0 4px rgba(201, 161, 105, .12);
         }
 
-        .field small {
-          color: var(--faint);
-          font-size: 12px;
-          line-height: 1.35;
+        .input-prefix {
+          position: relative;
         }
 
-        .dashboard-grid {
+        .input-prefix i {
+          position: absolute;
+          left: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--gold-2);
+          font-style: normal;
+          font-size: 13px;
+          pointer-events: none;
+        }
+
+        .input-prefix input { padding-left: 40px; }
+
+        .dashboard-head {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 18px;
+        }
+
+        .kpi-grid {
           display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-          gap: 16px;
+          grid-template-columns: repeat(6, minmax(0, 1fr));
+          gap: 14px;
           margin-top: 22px;
         }
 
         .kpi {
-          min-height: 158px;
-          border-radius: 20px;
-          padding: 20px;
+          min-height: 168px;
+          border-radius: 18px;
+          padding: 18px;
+          overflow: hidden;
+          position: relative;
         }
 
-        .kpi p {
-          margin: 0;
+        .kpi::before {
+          content: "";
+          position: absolute;
+          inset: 0 0 auto;
+          height: 2px;
+          background: var(--gold);
+          opacity: .7;
+        }
+
+        .kpi-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
           color: var(--soft);
-          font-size: 11px;
+          font-size: 10px;
           font-weight: 900;
-          letter-spacing: 0.18em;
+          letter-spacing: .12em;
           text-transform: uppercase;
+        }
+
+        .kpi-row i {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: var(--gold);
         }
 
         .kpi strong {
@@ -812,207 +770,141 @@ export default function InstagramAdDashboard() {
           margin-top: 14px;
           color: var(--gold-2);
           font-family: "Plus Jakarta Sans", Manrope, sans-serif;
-          font-size: clamp(26px, 3vw, 38px);
+          font-size: clamp(22px, 2.4vw, 32px);
           line-height: 1;
         }
 
-        .kpi span {
-          display: block;
-          margin-top: 12px;
+        .kpi-green strong { color: var(--green); }
+        .kpi-red strong { color: var(--red); }
+        .kpi p {
+          margin: 10px 0 0;
           color: var(--faint);
-          font-size: 13px;
+          font-size: 12px;
           line-height: 1.45;
         }
 
-        .kpi-green strong {
-          color: var(--green);
+        .kpi b {
+          display: inline-block;
+          margin-top: 10px;
+          border-radius: 999px;
+          padding: 4px 9px;
+          font-size: 10px;
+          text-transform: uppercase;
+          letter-spacing: .08em;
         }
 
-        .kpi-blue strong {
-          color: var(--blue);
+        .roi-content {
+          display: flex;
+          align-items: center;
+          gap: 32px;
+          margin-top: 16px;
         }
 
-        .kpi-purple strong {
-          color: var(--purple);
+        .roi-stats {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 18px;
+          margin-top: 18px;
         }
 
-        .kpi-red strong {
-          color: var(--red);
+        .roi-stats span {
+          min-width: 140px;
         }
 
-        .chart-panel {
-          min-height: 420px;
+        .roi-stats small {
+          display: block;
+          color: var(--faint);
+          text-transform: uppercase;
+          letter-spacing: .12em;
+          font-size: 10px;
         }
+
+        .roi-stats b {
+          display: block;
+          margin-top: 4px;
+          color: var(--gold-2);
+          font-size: 18px;
+        }
+
+        .chart-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 18px;
+        }
+
+        .chart-title { margin-bottom: 16px; }
 
         .chart-tooltip {
           border: 1px solid var(--line);
           border-radius: 12px;
           background: #11151b;
           padding: 12px 14px;
-          box-shadow: 0 18px 44px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 18px 44px rgba(0, 0, 0, .4);
         }
 
-        .chart-tooltip span {
-          display: block;
-          color: var(--soft);
-          font-size: 12px;
-        }
+        .chart-tooltip span { color: var(--soft); font-size: 12px; }
+        .chart-tooltip strong { display: block; margin-top: 4px; color: var(--gold-2); }
 
-        .chart-tooltip strong {
-          display: block;
-          margin-top: 4px;
-          color: var(--gold-2);
-        }
-
-        .decision-panel,
-        .insight-panel {
-          min-height: 520px;
-        }
-
-        .decision-verdict {
-          display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-          gap: 18px;
-          border-radius: 20px;
-          padding: 22px;
-        }
-
-        .decision-verdict strong {
-          font-family: "Plus Jakarta Sans", Manrope, sans-serif;
-          font-size: clamp(28px, 4vw, 46px);
-          line-height: 1;
-        }
-
-        .decision-verdict span {
-          white-space: nowrap;
-          font-weight: 900;
-        }
-
-        .meters {
-          display: grid;
-          gap: 18px;
-          margin-top: 28px;
-        }
-
-        .meter > div:first-child {
-          display: flex;
-          justify-content: space-between;
-          gap: 16px;
-          margin-bottom: 9px;
-          color: var(--soft);
-          font-size: 14px;
-        }
-
-        .meter strong {
-          color: var(--text);
-        }
-
-        .meter-track {
+        .summary-card {
           overflow: hidden;
-          height: 12px;
-          border-radius: 999px;
-          background: rgba(255, 255, 255, 0.06);
+          position: relative;
         }
 
-        .meter-fill {
-          display: block;
-          height: 100%;
-          border-radius: inherit;
+        .summary-head {
+          display: flex;
+          justify-content: space-between;
+          gap: 24px;
+          margin-bottom: 20px;
         }
 
-        .meter-fill.gold {
-          background: var(--gold-2);
+        .stars {
+          color: rgba(255, 255, 255, .14);
+          font-size: 24px;
+          white-space: nowrap;
         }
 
-        .meter-fill.green {
-          background: var(--green);
+        .stars .full, .stars .half { color: var(--gold-2); }
+        .stars .half { opacity: .62; }
+
+        .verdict-copy {
+          border: 1px solid rgba(224, 191, 141, .16);
+          border-radius: 16px;
+          background: rgba(224, 191, 141, .06);
+          padding: 20px;
+          color: var(--soft);
+          line-height: 1.8;
         }
 
-        .meter-fill.blue {
-          background: var(--blue);
-        }
+        .verdict-copy strong { color: var(--gold-2); }
 
-        .meter-fill.purple {
-          background: var(--purple);
+        .insight-grid {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 12px;
+          margin-top: 16px;
         }
 
         .insight {
-          border: 1px solid var(--line);
-          border-radius: 18px;
-          padding: 18px;
-          background: rgba(255, 255, 255, 0.035);
+          border: 1px solid currentColor;
+          border-radius: 14px;
+          padding: 14px;
+          font-size: 13px;
+          line-height: 1.55;
         }
 
-        .insight + .insight {
-          margin-top: 14px;
-        }
-
-        .insight.good {
-          border-color: rgba(149, 213, 178, 0.28);
-          background: rgba(149, 213, 178, 0.09);
-        }
-
-        .insight.bad {
-          border-color: rgba(255, 154, 154, 0.28);
-          background: rgba(255, 154, 154, 0.09);
-        }
-
-        .insight strong {
-          color: var(--text);
-        }
-
-        .insight p {
-          margin: 7px 0 0;
-          color: var(--soft);
-          line-height: 1.62;
-        }
-
-        @media (max-width: 1100px) {
-          .hero,
-          .input-layout,
-          .analysis-layout,
-          .decision-layout {
-            grid-template-columns: 1fr;
-          }
-
-          .dashboard-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
+        @media (max-width: 1180px) {
+          .hero, .chart-grid { grid-template-columns: 1fr; }
+          .field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+          .kpi-grid, .insight-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
 
         @media (max-width: 740px) {
-          .topbar {
-            align-items: flex-start;
-          }
-
-          .topbar nav {
-            display: none;
-          }
-
-          .hero-copy,
-          .verdict-panel {
-            min-height: auto;
-          }
-
-          .hero h1 {
-            font-size: 44px;
-          }
-
-          .field-grid,
-          .dashboard-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .decision-verdict {
-            display: block;
-          }
-
-          .decision-verdict span {
-            display: block;
-            margin-top: 14px;
-            white-space: normal;
-          }
+          .topbar nav { display: none; }
+          .report-brand, .dashboard-head, .summary-head, .roi-content { display: block; }
+          .prepared { margin: 14px 0 0; text-align: left; }
+          .hero-copy, .verdict-panel { min-height: auto; }
+          .hero h1 { font-size: 42px; }
+          .field-grid, .kpi-grid, .insight-grid { grid-template-columns: 1fr; }
         }
       `}</style>
     </div>

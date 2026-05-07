@@ -30,12 +30,17 @@ export async function getStaticPaths() {
     .filter((entry) => entry.isFile() && entry.name.endsWith(".html") && !PAGE_EXCLUDES.has(entry.name))
     .map((entry) => entry.name);
 
-  const paths = htmlFiles.map((fileName) => {
+  const paths = htmlFiles.flatMap((fileName) => {
     if (fileName === "index.html") {
-      return { params: { slug: [] } };
+      return [{ params: { slug: [] } }];
     }
 
-    return { params: { slug: [fileName] } };
+    const extensionlessFileName = fileName.replace(/\.html$/i, "");
+
+    return [
+      { params: { slug: [extensionlessFileName] } },
+      { params: { slug: [fileName] } },
+    ];
   });
 
   return {

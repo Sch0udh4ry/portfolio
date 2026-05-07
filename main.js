@@ -508,7 +508,7 @@ function setupDynamicForms() {
 }
 
 function setupAuthNavigation() {
-    const authLinks = Array.from(document.querySelectorAll('a[href="login.html"]'));
+    const authLinks = Array.from(document.querySelectorAll('a[href="login"]'));
     if (!authLinks.length) return;
 
     fetch('/api/client-portal')
@@ -531,7 +531,7 @@ function setupAuthNavigation() {
                 }
 
                 link.textContent = 'Client Portal';
-                link.href = 'client-portal.html';
+                link.href = '/client-portal';
                 delete link.dataset.authAction;
                 link.onclick = null;
             });
@@ -662,7 +662,7 @@ function setupPortalLogin() {
             setPortalStatus(statusNode, 'success', 'Login successful. Opening your client portal...');
 
             window.setTimeout(() => {
-                window.location.href = 'client-portal.html';
+                window.location.href = '/client-portal';
             }, 450);
         } catch (error) {
             setPortalStatus(statusNode, 'error', error.message || 'We could not sign you in right now.');
@@ -706,7 +706,7 @@ function setupClientPortal() {
             setPortalStatus(statusNode, 'error', error.message || 'Please log in to view the client portal.');
 
             window.setTimeout(() => {
-                window.location.href = 'login.html';
+                window.location.href = '/login';
             }, 700);
         });
 }
@@ -822,7 +822,7 @@ async function logoutClientSession(redirect = true) {
         await fetch('/api/client-logout', { method: 'POST' });
     } finally {
         if (redirect) {
-            window.location.href = 'login.html';
+            window.location.href = 'login';
         }
     }
 }
@@ -1078,14 +1078,14 @@ function setupGlobalCTAs() {
             text.includes('talk to operations') ||
             text.includes('initialize setup')
         ) {
-            target = 'contact.html';
+            target = '/contact';
         } else if (
             text.includes('explore solutions') ||
             text.includes('view capabilities')
         ) {
-            target = 'services.html';
+            target = '/services';
         } else if (text.includes('view demo')) {
-            target = 'support.html';
+            target = '/support';
         }
 
         if (target && (btn.tagName === 'BUTTON' || btn.getAttribute('href') === '#' || btn.getAttribute('href') === '')) {
