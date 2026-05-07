@@ -29,6 +29,17 @@ const initialInputs = {
   clientName: "",
   campaignName: "",
   industry: "ecommerce",
+  views: "50000",
+  reach: "32000",
+  profileVisits: "1400",
+  directFollows: "260",
+  followersBefore: "8200",
+  followersAfter: "8520",
+  likes: "980",
+  shares: "84",
+  comments: "43",
+  saves: "126",
+  playsThreeSec: "19000",
   adSpend: "50000",
   duration: "30",
   impressions: "500000",
@@ -50,6 +61,17 @@ const formatPercent = (value) => `${Number(value || 0).toFixed(1)}%`;
 function calculate(inputs) {
   const adSpend = toNumber(inputs.adSpend);
   const duration = toNumber(inputs.duration) || 1;
+  const views = toNumber(inputs.views);
+  const reach = toNumber(inputs.reach);
+  const profileVisits = toNumber(inputs.profileVisits);
+  const directFollows = toNumber(inputs.directFollows);
+  const followersBefore = toNumber(inputs.followersBefore);
+  const followersAfter = toNumber(inputs.followersAfter);
+  const likes = toNumber(inputs.likes);
+  const shares = toNumber(inputs.shares);
+  const comments = toNumber(inputs.comments);
+  const saves = toNumber(inputs.saves);
+  const playsThreeSec = toNumber(inputs.playsThreeSec);
   const impressions = toNumber(inputs.impressions);
   const clicks = toNumber(inputs.clicks);
   const leads = toNumber(inputs.leads);
@@ -58,6 +80,15 @@ function calculate(inputs) {
   const margin = clamp(toNumber(inputs.margin), 0, 100);
   const benchmark = benchmarks[inputs.industry] || benchmarks.other;
 
+  const followersGained = Math.max(0, followersAfter - followersBefore);
+  const engagementTotal = likes + shares + comments + saves;
+  const profileVisitRate = views > 0 ? (profileVisits / views) * 100 : 0;
+  const followConversionRate = profileVisits > 0 ? (directFollows / profileVisits) * 100 : 0;
+  const engagementRate = views > 0 ? (engagementTotal / views) * 100 : 0;
+  const playThroughRate = views > 0 ? (playsThreeSec / views) * 100 : 0;
+  const costPerVisit = profileVisits > 0 ? adSpend / profileVisits : 0;
+  const costPerFollower = followersGained > 0 ? adSpend / followersGained : 0;
+  const cpm = reach > 0 ? (adSpend / reach) * 1000 : 0;
   const ctr = impressions > 0 ? (clicks / impressions) * 100 : 0;
   const cpl = leads > 0 ? adSpend / leads : 0;
   const conversionRate = leads > 0 ? (sales / leads) * 100 : 0;
@@ -74,6 +105,26 @@ function calculate(inputs) {
   return {
     adSpend,
     duration,
+    views,
+    reach,
+    profileVisits,
+    directFollows,
+    followersBefore,
+    followersAfter,
+    followersGained,
+    likes,
+    shares,
+    comments,
+    saves,
+    playsThreeSec,
+    engagementTotal,
+    profileVisitRate,
+    followConversionRate,
+    engagementRate,
+    playThroughRate,
+    costPerVisit,
+    costPerFollower,
+    cpm,
     impressions,
     clicks,
     leads,
@@ -237,9 +288,13 @@ export default function InstagramAdDashboard() {
           </div>
         </Link>
         <nav>
-          <a href="#inputs">Inputs</a>
+          <Link href="/">Home</Link>
+          <Link href="/services">Services</Link>
+          <Link href="/blog">Blog</Link>
+          <Link href="/ecommerce">E-commerce</Link>
+          <Link href="/support">Support</Link>
+          <Link href="/resources">Training</Link>
           <a href="#dashboard">Report</a>
-          <a href="#decision">Verdict</a>
           <a className="nav-cta" href="/faq#quote-form">Get a Quote</a>
         </nav>
       </header>
@@ -295,12 +350,23 @@ export default function InstagramAdDashboard() {
             </label>
             <NumberField label="Campaign Duration (Days)" value={inputs.duration} onChange={setField("duration")} />
             <NumberField label="Total Ad Spend" value={inputs.adSpend} onChange={setField("adSpend")} prefix="Rs." />
+            <NumberField label="Views" value={inputs.views} onChange={setField("views")} />
+            <NumberField label="Reach" value={inputs.reach} onChange={setField("reach")} />
             <NumberField label="Total Impressions" value={inputs.impressions} onChange={setField("impressions")} />
             <NumberField label="Total Clicks" value={inputs.clicks} onChange={setField("clicks")} />
+            <NumberField label="Profile Visits" value={inputs.profileVisits} onChange={setField("profileVisits")} />
             <NumberField label="Total Leads Generated" value={inputs.leads} onChange={setField("leads")} />
             <NumberField label="Leads Converted to Sales" value={inputs.sales} onChange={setField("sales")} />
+            <NumberField label="Direct Follows" value={inputs.directFollows} onChange={setField("directFollows")} />
+            <NumberField label="Followers Before" value={inputs.followersBefore} onChange={setField("followersBefore")} />
+            <NumberField label="Followers After" value={inputs.followersAfter} onChange={setField("followersAfter")} />
             <NumberField label="Average Order Value" value={inputs.aov} onChange={setField("aov")} prefix="Rs." />
             <NumberField label="Profit Margin (%)" value={inputs.margin} onChange={setField("margin")} max="100" />
+            <NumberField label="Likes" value={inputs.likes} onChange={setField("likes")} />
+            <NumberField label="Shares" value={inputs.shares} onChange={setField("shares")} />
+            <NumberField label="Comments" value={inputs.comments} onChange={setField("comments")} />
+            <NumberField label="Saves" value={inputs.saves} onChange={setField("saves")} />
+            <NumberField label="3-sec Plays" value={inputs.playsThreeSec} onChange={setField("playsThreeSec")} />
           </div>
         </section>
 
@@ -325,6 +391,12 @@ export default function InstagramAdDashboard() {
           <KpiCard label="Revenue" value={formatMoney(report.revenue)} detail={`ROAS: ${report.roas.toFixed(2)}x`} tone="green" />
           <KpiCard label="Net Profit" value={formatMoney(report.netProfit)} detail={`${formatMoney(report.dailySpend)}/day spend`} tone={report.netProfit >= 0 ? "green" : "red"} />
           <KpiCard label="ROI per Rs.1" value={`Rs.${report.profitPerRupee.toFixed(2)}`} detail={`Break-even sales: ${formatNumber(report.breakEvenSales)}`} tone={roiTone} />
+          <KpiCard label="Followers Gained" value={formatNumber(report.followersGained)} detail={`Cost/follower: ${formatMoneyPrecise(report.costPerFollower)}`} tone="blue" />
+          <KpiCard label="Profile Visit Cost" value={formatMoneyPrecise(report.costPerVisit)} detail={`${formatPercent(report.profileVisitRate)} visit rate`} tone="purple" />
+          <KpiCard label="CPM" value={formatMoneyPrecise(report.cpm)} detail={`${formatNumber(report.reach)} reach`} />
+          <KpiCard label="Engagement Rate" value={formatPercent(report.engagementRate)} detail={`${formatNumber(report.engagementTotal)} interactions`} tone="blue" />
+          <KpiCard label="Follow Conversion" value={formatPercent(report.followConversionRate)} detail={`${formatNumber(report.directFollows)} direct follows`} tone="green" />
+          <KpiCard label="3-sec Play Rate" value={formatPercent(report.playThroughRate)} detail={`${formatNumber(report.playsThreeSec)} plays`} tone="purple" />
         </section>
 
         <section className="roi-card">
@@ -791,6 +863,8 @@ export default function InstagramAdDashboard() {
         }
 
         .kpi-green strong { color: var(--green); }
+        .kpi-blue strong { color: var(--blue); }
+        .kpi-purple strong { color: var(--purple); }
         .kpi-red strong { color: var(--red); }
         .kpi p {
           margin: 10px 0 0;
