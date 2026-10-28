@@ -34,7 +34,7 @@ async function initSite() {
 function setupNavbar() {
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
-    
+
     if (menuBtn && mobileMenu) {
         menuBtn.onclick = (e) => {
             e.preventDefault();
@@ -43,6 +43,13 @@ function setupNavbar() {
             if(icon) icon.textContent = mobileMenu.classList.contains('hidden') ? 'menu' : 'close';
         };
     }
+
+    mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        menuBtn?.setAttribute('aria-expanded', 'false');
+        const icon = menuBtn?.querySelector('.material-symbols-outlined');
+        if (icon) icon.textContent = 'menu';
+    }));
 
     const currentPage = window.location.pathname.split("/").pop() || "index.html";
     document.querySelectorAll('.nav-link').forEach(link => {
